@@ -1,0 +1,19 @@
+# SPDX-FileCopyrightText: 2025 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+# only allow key-based authentication
+PasswordAuthentication no
+ChallengeResponseAuthentication no
+GSSAPIAuthentication no
+
+# disable superfluous features
+UseDNS no
+X11Forwarding no
+
+# increase user security
+PermitRootLogin no
+PermitEmptyPasswords no
+
+# change default ssh port
+Port {{ karo_ssh_port | default(22) }}

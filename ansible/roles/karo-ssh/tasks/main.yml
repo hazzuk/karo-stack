@@ -1,0 +1,25 @@
+# SPDX-FileCopyrightText: 2025 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+---
+
+- name: Install openssh server
+  ansible.builtin.apt:
+    name: openssh-server
+    state: present
+
+- name: Enable service
+  ansible.builtin.service:
+    name: sshd
+    enabled: true
+    state: started
+
+- name: Configure daemon
+  ansible.builtin.template:
+    src: karo.conf.j2
+    dest: /etc/ssh/sshd_config.d/karo.conf
+    mode: "0644"
+  notify:
+    - Restart sshd
+    - Reload systemd
