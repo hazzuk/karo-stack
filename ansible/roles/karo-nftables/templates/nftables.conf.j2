@@ -1,0 +1,44 @@
+#!/usr/sbin/nft -f
+
+# SPDX-FileCopyrightText: 2025 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+# https://wiki.nftables.org/wiki-nftables/index.php/
+
+
+# avoid flushing docker rules
+# flush ruleset 
+
+table inet filter {
+        chain input {
+                # by default, drop incoming traffic unless it meets a filter
+                # criteria specified by the rules that follow below
+                type filter hook input priority filter; policy drop;
+
+                # allow loopback traffic
+                iifname "lo" accept
+
+                # allow traffic from established and related packets, drop invalid
+                ct state established,related accept
+                ct state invalid drop
+
+                # allow new or established ssh connections
+                tcp dport {{ karo_ssh_port | default(22) }} ct state new,established accept
+
+{% if 'server' in group_names %}
+                # allow new or established http/https/http3 connections
+                tcp dport { 80, 443 } ct state new,established accept
+                udp dport 443 ct state new,established accept 
+{% endif %}
+
+                # uncomment to enable logging of denied inbound traffic
+                # log prefix "[nftables] Inbound Denied: " counter drop
+        }
+        chain forward {
+                type filter hook forward priority filter; policy drop;
+        }
+        chain output {
+                type filter hook output priority filter; policy accept;
+        }
+}
