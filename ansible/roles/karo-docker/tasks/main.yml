@@ -1,0 +1,70 @@
+# SPDX-FileCopyrightText: 2025 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+# https://docs.docker.com/engine/install/debian/
+# https://docs.docker.com/engine/logging/configure/
+
+---
+
+- name: Install docker
+  block:
+    - name: Install docker prerequisite packages
+      ansible.builtin.apt:
+        cache_valid_time: 86400
+        name:
+          - curl
+          - ca-certificates
+          - python3-debian
+          - uidmap
+        state: present
+
+    - name: Add docker repository
+      ansible.builtin.deb822_repository:
+        name: "docker"
+        types: deb
+        uris: "{{ item.url }}"
+        suites: "{{ ansible_facts.distribution_release }}"
+        components: "stable"
+        signed_by: "{{ item.url }}/gpg"
+        state: "present"
+      with_items:
+        - url: https://download.docker.com/linux/debian
+
+    - name: Install docker packages
+      ansible.builtin.apt:
+        update_cache: true
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
+        allow_downgrade: true
+        state: present
+
+# - name: Setup rootful docker
+#   when: not karo_docker_rootless_enabled
+#   block:
+#     - name: Enable rootful docker service
+#       ansible.builtin.service:
+#         name: docker
+#         enabled: true
+#         state: started
+
+#     - name: Configure rootful docker daemon
+#       ansible.builtin.copy:
+#         src: daemon.json
+#         dest: /etc/docker/daemon.json
+#         mode: "0644"
+#       notify: Restart rootful docker
+
+#     - name: Add user to docker group
+#       ansible.builtin.user:
+#         name: "{{ ansible_user }}"
+#         groups: docker
+#         append: true
+#         state: present
+
+- name: Setup rootless docker
+  ansible.builtin.include_tasks: rootless.yml

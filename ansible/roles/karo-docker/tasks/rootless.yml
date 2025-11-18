@@ -1,0 +1,114 @@
+# SPDX-FileCopyrightText: 2025 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+---
+
+- name: Create rootless docker user
+  block:
+    - name: Create dockeruser group
+      ansible.builtin.group:
+        name: dockeruser
+        state: present
+
+    - name: Create rootless docker user
+      ansible.builtin.user:
+        name: dockeruser
+        group: dockeruser
+        shell: /bin/bash
+        create_home: true
+        state: present
+
+    - name: Create dockeruser home directories
+      ansible.builtin.file:
+        path: "/home/dockeruser/{{ item.dir }}"
+        mode: "{{ item.mode }}"
+        owner: dockeruser
+        group: dockeruser
+        state: directory
+      loop:
+        - dir: .ansible/tmp
+          mode: "0700"
+        - dir: .ssh
+          mode: "0755"
+        - dir: .config/docker
+          mode: "0700"
+
+    - name: Copy authorized_keys for dockeruser
+      ansible.builtin.copy:
+        src: /home/karo/.ssh/authorized_keys
+        remote_src: true
+        dest: /home/dockeruser/.ssh/authorized_keys
+        mode: "0644"
+        owner: dockeruser
+        group: dockeruser
+
+    - name: Set bash profile for dockeruser
+      ansible.builtin.template:
+        src: bash_profile.j2
+        dest: /home/dockeruser/.profile
+        mode: "0644"
+        owner: dockeruser
+        group: dockeruser
+
+    - name: Enable dockeruser lingering
+      ansible.builtin.command:
+        argv:
+          - /usr/bin/loginctl
+          - enable-linger
+          - dockeruser
+        creates: /var/lib/systemd/linger/dockeruser
+
+- name: Prepare rootless docker installation
+  block:
+    - name: Disable rootful docker services
+      ansible.builtin.service:
+        name: "{{ item }}"
+        enabled: false
+        state: stopped
+      loop:
+        - docker.service
+        - docker.socket
+        - containerd.service
+
+    - name: Remove rootful docker socket
+      ansible.builtin.file:
+        path: /var/run/docker.sock
+        state: absent
+
+    - name: Configure rootless docker daemon
+      ansible.builtin.copy:
+        src: daemon.json
+        dest: /home/dockeruser/.config/docker/daemon.json
+        mode: "0644"
+        owner: dockeruser
+        group: dockeruser
+
+- name: Install rootless docker
+  become: true
+  become_user: dockeruser
+  environment:
+    XDG_RUNTIME_DIR: /run/user/1001
+    PATH: "/home/dockeruser/bin:{{ ansible_facts.env.PATH }}"
+  ansible.builtin.command:
+    argv:
+      - /usr/bin/dockerd-rootless-setuptool.sh
+      - install
+    creates: /run/user/1001/docker.sock
+
+- name: Enable rootless docker service
+  become: true
+  become_user: dockeruser
+  ansible.builtin.systemd_service:
+    name: docker.service
+    scope: user
+    enabled: true
+    state: started
+    daemon_reload: true
+
+- name: Allow rootless exposing privileged ports
+  community.general.capabilities:
+    capability: cap_net_bind_service=ep
+    path: /usr/bin/rootlesskit
+    state: present
+  notify: Restart rootless docker

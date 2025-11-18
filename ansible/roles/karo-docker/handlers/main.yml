@@ -1,0 +1,18 @@
+# SPDX-FileCopyrightText: 2025 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+---
+
+# - name: Restart rootful docker
+#   ansible.builtin.service:
+#     name: docker
+#     state: restarted
+
+- name: Restart rootless docker
+  become: true
+  become_user: dockeruser
+  ansible.builtin.systemd_service:
+    name: docker
+    scope: user
+    state: restarted
