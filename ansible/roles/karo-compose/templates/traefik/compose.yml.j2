@@ -1,0 +1,79 @@
+# SPDX-FileCopyrightText: 2025 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+---
+name: traefik
+services:
+
+  traefik:
+    # https://github.com/traefik/traefik
+    # https://hub.docker.com/_/traefik
+    image: docker.io/traefik:v3.6.1@sha256:fd5932c796f7e2db9fd6bff485ef693d53797f0ee8ad03dc68aa424ea6f21958
+    container_name: traefik
+    restart: {{ karo_compose_restart_policy }}
+    ports:
+      - "0.0.0.0:80:80/tcp"
+      - "0.0.0.0:443:443/tcp"
+      - "0.0.0.0:443:443/udp"
+      - "0.0.0.0:8080:8080/tcp"
+    networks:
+      - socketproxy_traefik
+      - egress_traefik
+      - frontend
+    volumes:
+      - type: bind
+        source: ./traefik.yml
+        target: /etc/traefik/traefik.yml
+        read_only: true
+    depends_on:
+      - cetusguard
+
+  cetusguard:
+    # https://github.com/hectorm/cetusguard
+    # https://hub.docker.com/r/hectorm/cetusguard
+    image: hectorm/cetusguard:v1.1.2@sha256:692496ba976990a14416cc5bed844a72df6a4d75d677932c7d75934492312ef3
+    container_name: cetusguard
+    restart: {{ karo_compose_restart_policy }}
+    read_only: true
+    networks:
+      - socketproxy_traefik
+    volumes:
+      - type: bind
+        source: /run/user/1001/docker.sock
+        target: /var/run/docker.sock
+        read_only: true
+    environment:
+      CETUSGUARD_BACKEND_ADDR: "unix:///var/run/docker.sock"
+      CETUSGUARD_FRONTEND_ADDR: "tcp://:2375"
+      CETUSGUARD_RULES: |
+        ! monitor events
+        GET %API_PREFIX_EVENTS%
+        ! list containers
+        GET %API_PREFIX_CONTAINERS%/json
+        ! inspect a container
+        GET %API_PREFIX_CONTAINERS%/%CONTAINER_ID_OR_NAME%/json
+      CETUSGUARD_LOG_LEVEL: "7"
+
+networks:
+  socketproxy_traefik:
+    name: socketproxy_traefik
+    driver: bridge
+    internal: true
+  egress_traefik:
+    name: egress_traefik
+    driver: bridge
+    internal: false
+    ipam:
+      config:
+        - subnet: 172.19.0.0/24
+          gateway: 172.19.0.1
+          ip_range: 172.19.0.253/32
+  frontend:
+    name: frontend
+    driver: bridge
+    internal: true
+    ipam:
+      config:
+        - subnet: 172.18.0.0/24
+          gateway: 172.18.0.1

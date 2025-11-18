@@ -1,0 +1,20 @@
+# SPDX-FileCopyrightText: 2025 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+---
+
+- name: Create docker compose directory
+  ansible.builtin.file:
+    path: /srv/docker
+    mode: "0774"
+    owner: dockeruser
+    group: dockeruser
+    state: directory
+
+- name: Deploy compose stacks
+  ansible.builtin.include_tasks: stacks.yml
+  loop: "{{ karo_compose_stacks_list }}"
+  loop_control:
+    loop_var: stack
+  when: lookup('vars', "karo_compose_" ~ stack ~ "_enabled") | default(false)

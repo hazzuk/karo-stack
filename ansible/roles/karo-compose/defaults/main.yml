@@ -1,0 +1,23 @@
+# SPDX-FileCopyrightText: 2025 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+---
+
+karo_compose_traefik_enabled: true
+karo_compose_whoami_enabled: true
+# karo_compose_planka_enabled: true
+# karo_compose_ghost_enabled: true
+
+karo_compose_stacks_list:
+  - traefik
+  - whoami
+  - planka
+  - ghost
+
+karo_compose_traefik_acme_email: cert@example.com
+karo_compose_traefik_acme_provider: cloudflare
+
+karo_compose_restart_policy: unless-stopped
+
+karo_compose_private_domain: localhost
