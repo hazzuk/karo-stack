@@ -22,12 +22,12 @@
     allow_downgrade: true
     upgrade: true
 
-- name: Enable ip forwarding
-  ansible.posix.sysctl:
-    name: net.ipv4.ip_forward
-    value: 1
-    reload: true
-    state: present
+- name: Configure kernel parameters
+  ansible.builtin.copy:
+    src: sysctl_karo.conf
+    dest: /etc/sysctl.d/karo.conf
+    mode: "0644"
+  notify: Reload sysctl config
 
 - name: Set motd
   ansible.builtin.copy:
