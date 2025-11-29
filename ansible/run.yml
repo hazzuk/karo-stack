@@ -7,9 +7,16 @@
 - name: Provision karo-stack debian server
   hosts: server
   become: true
+  tags: setup
   roles:
     - karo-nftables
     - karo-system
     - karo-ssh
     - karo-docker
+
+- name: Manage karo-stack docker compose
+  hosts: server
+  become: true
+  tags: compose
+  roles:
     - karo-compose

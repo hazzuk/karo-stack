@@ -2,8 +2,17 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-only
 
+# https://docs.ansible.com/projects/ansible/latest/collections/community/docker/docker_compose_v2_module.html
+
 ---
 
+- name: Stop docker compose stacks
+  ansible.builtin.include_tasks: stop.yml
+  loop: "{{ karo_compose_stacks_list | reverse }}"
+  loop_control:
+    loop_var: stack
+  when: lookup('vars', "karo_compose_" ~ stack ~ "_enabled") | default(false)
+  tags: stop
 
 - name: Deploy compose stacks
   ansible.builtin.include_tasks: deploy.yml
@@ -11,3 +20,11 @@
   loop_control:
     loop_var: stack
   when: lookup('vars', "karo_compose_" ~ stack ~ "_enabled") | default(false)
+
+- name: Start docker compose stacks
+  ansible.builtin.include_tasks: start.yml
+  loop: "{{ karo_compose_stacks_list }}"
+  loop_control:
+    loop_var: stack
+  when: lookup('vars', "karo_compose_" ~ stack ~ "_enabled") | default(false)
+  tags: start
