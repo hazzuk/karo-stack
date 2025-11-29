@@ -112,3 +112,11 @@
     path: /usr/bin/rootlesskit
     state: present
   notify: Restart rootless docker
+
+- name: Create docker compose directory
+  ansible.builtin.file:
+    path: /srv/docker
+    mode: "0774"
+    owner: dockeruser
+    group: dockeruser
+    state: directory

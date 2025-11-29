@@ -4,13 +4,6 @@
 
 ---
 
-- name: Create docker compose directory
-  ansible.builtin.file:
-    path: /srv/docker
-    mode: "0774"
-    owner: dockeruser
-    group: dockeruser
-    state: directory
 
 - name: Deploy compose stacks
   ansible.builtin.include_tasks: deploy.yml
