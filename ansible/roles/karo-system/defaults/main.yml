@@ -8,6 +8,7 @@ karo_system_packages:
   - chrony
   - acl
   - python3-debian
+  - just
   - micro
   - git
   - curl
