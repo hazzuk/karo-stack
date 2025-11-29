@@ -12,27 +12,43 @@ services:
     image: docker.io/traefik:v3.6.1@sha256:fd5932c796f7e2db9fd6bff485ef693d53797f0ee8ad03dc68aa424ea6f21958
     container_name: traefik
     restart: {{ karo_compose_restart_policy }}
+    security_opt:
+      - no-new-privileges:true
     ports:
       - "0.0.0.0:80:80/tcp"
       - "0.0.0.0:443:443/tcp"
       - "0.0.0.0:443:443/udp"
-      - "0.0.0.0:8080:8080/tcp"
     networks:
       - socketproxy_traefik
       - egress_traefik
       - frontend
     volumes:
       - type: bind
-        source: ./traefik.yml
+        source: /srv/docker/traefik/traefik.yml
         target: /etc/traefik/traefik.yml
         read_only: true
+      - type: volume
+        source: acme
+        target: /etc/traefik/acme
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.dashboard.rule=Host(`traefik.{{ karo_compose_private_domain }}`)
+      - traefik.http.routers.dashboard.service=api@internal
+      - traefik.http.services.dashboard.loadbalancer.server.port=8080
+    environment:
+      - CF_ZONE_API_TOKEN_FILE=/run/secrets/karo_compose_traefik_acme_zone_api_token
+      - CF_DNS_API_TOKEN_FILE=/run/secrets/karo_compose_traefik_acme_dns_api_token
+      - CLOUDFLARE_POLLING_INTERVAL=10
+    secrets:
+      - karo_compose_traefik_acme_zone_api_token
+      - karo_compose_traefik_acme_dns_api_token
     depends_on:
       - cetusguard
 
   cetusguard:
     # https://github.com/hectorm/cetusguard
     # https://hub.docker.com/r/hectorm/cetusguard
-    image: hectorm/cetusguard:v1.1.2@sha256:692496ba976990a14416cc5bed844a72df6a4d75d677932c7d75934492312ef3
+    image: docker.io/hectorm/cetusguard:v1.1.2@sha256:692496ba976990a14416cc5bed844a72df6a4d75d677932c7d75934492312ef3
     container_name: cetusguard
     restart: {{ karo_compose_restart_policy }}
     read_only: true
@@ -77,3 +93,12 @@ networks:
       config:
         - subnet: 172.18.0.0/24
           gateway: 172.18.0.1
+
+volumes:
+  acme:
+
+secrets:
+  karo_compose_traefik_acme_zone_api_token:
+    environment: karo_compose_traefik_acme_zone_api_token
+  karo_compose_traefik_acme_dns_api_token:
+    environment: karo_compose_traefik_acme_dns_api_token
