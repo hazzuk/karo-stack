@@ -4,14 +4,14 @@
 
 ---
 
-- name: Create rootless docker user
+- name: Setup rootless docker user
   block:
     - name: Create dockeruser group
       ansible.builtin.group:
         name: dockeruser
         state: present
 
-    - name: Create rootless docker user
+    - name: Create dockeruser user
       ansible.builtin.user:
         name: dockeruser
         group: dockeruser
