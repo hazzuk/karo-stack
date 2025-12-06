@@ -10,6 +10,10 @@ help:
 
 # server
 
+# Hosts the Debian preseed.cfg file for use over a local network
+preseed-server:
+    python -m http.server 8000 --bind 0.0.0.0 --directory ./debian/server
+
 # Runs ansible-playbook to provision the debian server
 setup-server: set-password
     ansible-playbook run.yml --tags setup
