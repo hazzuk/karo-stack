@@ -4,40 +4,40 @@
 
 # help
 
-# Prints help
+# Print help
 help:
     @{{ just_executable() }} --list --justfile "{{ justfile() }}"
 
 # server
 
-# Hosts the Debian preseed.cfg file for use over a local network
+# Host the Debian preseed.cfg file for use over a local network
 preseed-server:
     python -m http.server 8000 --bind 0.0.0.0 --directory ./debian/server
 
-# Runs ansible-playbook to provision the debian server
 setup-server: set-password
+# Run ansible-playbook to provision the Debian server
     ansible-playbook run.yml --tags setup
 
 # compose
 
-# Runs ansible-playbook to deploy docker compose stacks
 setup-compose: set-password
+# Run ansible-playbook to deploy Docker compose stacks
     ansible-playbook run.yml --tags compose --skip-tags stop
 
-# Runs ansible-playbook to stop docker compose stacks
 stop-compose: set-password
+# Run ansible-playbook to stop Docker compose stacks
     ansible-playbook run.yml --tags compose --skip-tags start
 
-# Runs ansible-playbook to start docker compose stacks
 start-compose: set-password
+# Run ansible-playbook to start Docker compose stacks
     ansible-playbook run.yml --tags compose
 
 # misc
 
-# Creates ansible-vault password file
+# (Internal use) Create an ansible-vault password file
 set-password:
     @export P="/run/user/1000/karo/vault_password"; [ -e "$P" ] || micro -mkparents true "$P"
 
-# Opens the ansible-vault password file
+# Open the ansible-vault password file
 edit-password:
     @micro -mkparents true "/run/user/1000/karo/vault_password"
