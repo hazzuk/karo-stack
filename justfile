@@ -8,11 +8,29 @@
 help:
     @{{ just_executable() }} --list --unsorted --list-prefix "  - " --justfile "{{ justfile() }}"
 
-# server
+# preseed
 
 # Host the Debian preseed.cfg file for use over a local network
-preseed-server:
-    python -m http.server 8000 --bind 0.0.0.0 --directory ./debian/server
+@preseed-server:
+    # check user key file exists
+    [ -e "inventory/key.txt" ] || { echo "error: inventory/key.txt not found!" >&2; exit 1; }
+    # insert public ssh key into preseed file
+    just _set-preseed-key "$(cat inventory/key.txt)" server
+    # run webserver
+    -just _host-preseed server
+    -# revert change to preseed file
+    -just _set-preseed-key "<key>" server
+
+# (Internal use) Write the authorized SSH key to the Debian preseed file
+_set-preseed-key value platform:
+    @sed -i "s|echo '.*'|echo '{{value}}'|" debian/{{platform}}/d-i/trixie/preseed.cfg
+
+# (Internal use) Run a Python HTTP server to host the preseed file
+_host-preseed platform:
+    @echo "info: Press 'Ctrl + C' to exit"
+    -python -m http.server 8000 --bind 0.0.0.0 --directory ./debian/{{platform}}
+
+# server
 
 # Run ansible-playbook to provision the Debian server
 setup-server: _set-password
