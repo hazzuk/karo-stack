@@ -44,8 +44,8 @@
         group: dockeruser
 
     - name: Set bash profile for dockeruser
-      ansible.builtin.template:
-        src: bash_profile.j2
+      ansible.builtin.copy:
+        src: profile
         dest: /home/dockeruser/.profile
         mode: "0644"
         owner: dockeruser
