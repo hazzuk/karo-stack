@@ -28,7 +28,7 @@ _set-preseed-key value platform:
 # (Internal use) Run a Python HTTP server to host the preseed file
 _host-preseed platform:
     @echo "info: Press 'Ctrl + C' to exit"
-    -python -m http.server 8000 --bind 0.0.0.0 --directory ./debian/{{platform}}
+    -python3 -m http.server 8000 --bind 0.0.0.0 --directory ./debian/{{platform}}
 
 # server
 
