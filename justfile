@@ -33,29 +33,31 @@ _host-preseed platform:
 # server
 
 # Run ansible-playbook to provision the Debian server
-setup-server: _set-password
+setup-server: _check-password
     ansible-playbook run.yml --tags setup
 
 # compose
 
 # Run ansible-playbook to deploy Docker compose stacks
-setup-compose: _set-password
+setup-compose: _check-password
     ansible-playbook run.yml --tags compose --skip-tags stop
 
 # Run ansible-playbook to stop Docker compose stacks
-stop-compose: _set-password
+stop-compose: _check-password
     ansible-playbook run.yml --tags compose --skip-tags start
 
 # Run ansible-playbook to start Docker compose stacks
-start-compose: _set-password
+start-compose: _check-password
     ansible-playbook run.yml --tags compose
 
-# misc
+# vault
 
-# (Internal use) Create an ansible-vault password file
-_set-password:
-    @export P="/run/user/1000/karo/vault_password"; [ -e "$P" ] || micro -mkparents true "$P"
+password := "/run/user/1000/karo/vault_password"
 
-# Open the ansible-vault password file
-edit-password:
-    @micro -mkparents true "/run/user/1000/karo/vault_password"
+# (Internal use) Create the Ansible vault password file when missing
+_check-password:
+    @[ -e "{{password}}" ] || micro -mkparents true "{{password}}"
+
+# Edit the Ansible vault password file
+setup-password:
+    @micro -mkparents true "{{password}}"
