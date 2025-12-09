@@ -15,14 +15,14 @@ help:
     # check user key file exists
     [ -e "inventory/key.txt" ] || { echo "error: inventory/key.txt not found!" >&2; exit 1; }
     # insert public ssh key into preseed file
-    just _set-preseed-key "$(cat inventory/key.txt)" server
+    just _insert-preseed-key "$(cat inventory/key.txt)" server
     # run webserver
     -just _host-preseed server
     -# revert change to preseed file
-    -just _set-preseed-key "<key>" server
+    -just _insert-preseed-key "<key>" server
 
 # (Internal use) Write the authorized SSH key to the Debian preseed file
-_set-preseed-key value platform:
+_insert-preseed-key value platform:
     @sed -i "s|echo '.*'|echo '{{value}}'|" debian/{{platform}}/d-i/trixie/preseed.cfg
 
 # (Internal use) Run a Python HTTP server to host the preseed file
@@ -32,21 +32,21 @@ _host-preseed platform:
 
 # server
 
-# Run ansible-playbook to provision the Debian server
+# Run Ansible to provision the Debian server
 setup-server: _check-password
     ansible-playbook run.yml --tags setup
 
 # compose
 
-# Run ansible-playbook to deploy Docker compose stacks
+# Run Ansible to deploy Docker compose stacks
 setup-compose: _check-password
     ansible-playbook run.yml --tags compose --skip-tags stop
 
-# Run ansible-playbook to stop Docker compose stacks
+# Run Ansible to stop Docker compose stacks
 stop-compose: _check-password
     ansible-playbook run.yml --tags compose --skip-tags start
 
-# Run ansible-playbook to start Docker compose stacks
+# Run Ansible to start Docker compose stacks
 start-compose: _check-password
     ansible-playbook run.yml --tags compose
 
