@@ -54,6 +54,25 @@ start-compose: _check-password
 
 password := "/run/user/1000/karo/vault_password"
 
+# Manage an Ansible vault
+setup-vault hostname:
+    #!/bin/bash
+    # check password file exists
+    if [ -e "{{password}}" ]; then
+        # check vault file exists
+        export vault="inventory/host_vars/{{hostname}}/vault.yml"; echo $vault
+        if [ -e "$vault" ]; then
+            # edit existing vault
+            ansible-vault edit "$vault"
+        else
+            # create new vault
+            ansible-vault create "$vault"
+        fi
+    else
+        echo "error: {{password}} not found! Run 'just setup-password'" >&2
+        exit 1
+    fi
+
 # (Internal use) Create the Ansible vault password file when missing
 _check-password:
     @[ -e "{{password}}" ] || micro -mkparents true "{{password}}"
