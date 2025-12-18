@@ -18,6 +18,7 @@ karo_compose_stacks_list:
   - gluetun
 
 karo_compose_restart_policy: unless-stopped
+karo_compose_timezone: "Europe/London"
 
 karo_compose_public_domain: localhost
 karo_compose_private_domain: example.localhost

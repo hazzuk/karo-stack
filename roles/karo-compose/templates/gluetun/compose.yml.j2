@@ -22,6 +22,7 @@ services:
     environment:
       - VPN_SERVICE_PROVIDER=custom
       - VPN_TYPE=wireguard
+      - TZ={{ karo_compose_timezone }}
       - FIREWALL_VPN_INPUT_PORTS={{ karo_compose_gluetun_firewall_vpn_input_ports }}
       - WIREGUARD_CONF_SECRETFILE=/run/secrets/karo_compose_gluetun_wireguard_config_raw
     secrets:
