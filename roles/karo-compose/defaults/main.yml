@@ -8,6 +8,7 @@ karo_compose_traefik_enabled: true
 karo_compose_whoami_enabled: true
 karo_compose_godns_enabled: true
 karo_compose_gluetun_enabled: true
+karo_compose_qbittorrent_enabled: true
 
 # docker will start stacks in this order
 # docker will stop stacks in reverse order
@@ -16,6 +17,7 @@ karo_compose_stacks_list:
   - whoami
   - godns
   - gluetun
+  - qbittorrent
 
 karo_compose_restart_policy: unless-stopped
 karo_compose_timezone: "Europe/London"
@@ -42,3 +44,11 @@ karo_compose_gluetun_wireguard_config_raw: | # secret
   # wireguard config
 
 karo_compose_gluetun_firewall_vpn_input_ports: ""
+
+# qbittorrent
+
+karo_compose_qbittorrent_downloads_path: "./downloads"
+
+karo_compose_qbittorrent_webui_enabled: true
+
+karo_compose_qbittorrent_qui_session_secret: "" # secret

@@ -1,0 +1,67 @@
+# SPDX-FileCopyrightText: 2025 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+---
+name: qbittorrent
+services:
+
+  qbittorrent:
+    # https://github.com/qbittorrent/docker-qbittorrent-nox
+    # https://hub.docker.com/r/qbittorrentofficial/qbittorrent-nox
+    image: docker.io/qbittorrentofficial/qbittorrent-nox:5.1.4-1@sha256:41888f4e05646ace98aeaff01a7bbec714e2e6082ab273fd4af0d1210352ea2c
+    container_name: qbittorrent
+    restart: {{ karo_compose_restart_policy }}
+    stop_grace_period: 30m
+    read_only: false
+    tty: true
+    network_mode: "container:gluetun"
+    volumes:
+      - type: bind
+        source: {{ karo_compose_qbittorrent_downloads_path }}
+        target: /downloads
+      - type: volume
+        source: qbittorrent_data
+        target: /config
+    tmpfs:
+      - /tmp
+    labels:
+      - traefik.enable={{ karo_compose_qbittorrent_webui_enabled | lower }}
+      - traefik.http.routers.qbittorrent.rule=Host(`qbittorrent.{{ karo_compose_private_domain }}`)
+      - traefik.http.services.qbittorrent.loadbalancer.server.port=9814
+    environment:
+      - QBT_LEGAL_NOTICE=confirm
+      - QBT_WEBUI_PORT=9814
+      - TZ={{ karo_compose_timezone }}
+      - PUID=0
+      - PGID=0
+  
+  qui:
+    # https://github.com/autobrr/qui
+    # https://github.com/autobrr/qui/pkgs/container/qui
+    image: ghcr.io/autobrr/qui:v1.11.0@sha256:5c7c08d5e8d4c4fe966106b58d3705f19921a69606b3dc4f237009a6c25a0ac7
+    container_name: qui
+    restart: {{ karo_compose_restart_policy }}
+    network_mode: "container:gluetun"
+    volumes:
+      - type: volume
+        source: qui_data
+        target: /config
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.qui.rule=Host(`qui.{{ karo_compose_private_domain }}`)
+      - traefik.http.services.qui.loadbalancer.server.port=7476
+    environment:
+      - QUI__SESSION_SECRET_FILE=/run/secrets/karo_compose_qbittorrent_qui_session_secret
+    secrets:
+      - karo_compose_qbittorrent_qui_session_secret
+
+volumes:
+  qbittorrent_data:
+    name: qbittorrent_data
+  qui_data:
+    name: qui_data
+
+secrets:
+  karo_compose_qbittorrent_qui_session_secret:
+    environment: karo_compose_qbittorrent_qui_session_secret
