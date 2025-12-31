@@ -20,6 +20,7 @@
   loop_control:
     loop_var: stack
   when: lookup('vars', "karo_compose_" ~ stack ~ "_enabled") | default(false)
+  tags: deploy
 
 - name: Up docker compose stacks
   ansible.builtin.include_tasks: up.yml
