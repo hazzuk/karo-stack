@@ -15,6 +15,7 @@ karo_compose_pocketid_enabled: true
 karo_compose_prowlarr_enabled: true
 karo_compose_servarr_enabled: true
 karo_compose_seerr_enabled: true
+karo_compose_jellyfin_enabled: true
 
 # docker will start stacks in this order
 # docker will stop stacks in reverse order
@@ -28,6 +29,7 @@ karo_compose_stacks_list:
   - prowlarr
   - servarr
   - seerr
+  - jellyfin
 
 karo_compose_restart_policy: unless-stopped
 karo_compose_timezone: "Europe/London"
@@ -109,3 +111,8 @@ karo_compose_servarr_data_path: "" # e.g. /media/drive1/data
 # seerr
 
 karo_compose_seerr_log_level: info
+
+# jellyfin
+
+karo_compose_jellyfin_movies_media_path: "" # e.g. /media/drive1/data/media/movies
+karo_compose_jellyfin_series_media_path: "" # e.g. /media/drive1/data/media/series
