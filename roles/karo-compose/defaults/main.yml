@@ -47,8 +47,8 @@ karo_compose_gluetun_firewall_vpn_input_ports: ""
 
 # qbittorrent
 
-karo_compose_qbittorrent_downloads_path: "./downloads"
+karo_compose_qbittorrent_downloads_path: "" # e.g. /media/drive1/data/torrents
 
 karo_compose_qbittorrent_webui_enabled: true
 
-karo_compose_qbittorrent_qui_session_secret: "" # secret
+karo_compose_qbittorrent_qui_session_secret: "" # secret (`openssl rand -hex 16`)

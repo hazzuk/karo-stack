@@ -19,7 +19,7 @@ services:
     volumes:
       - type: bind
         source: {{ karo_compose_qbittorrent_downloads_path }}
-        target: /downloads
+        target: /data/torrents
       - type: volume
         source: qbittorrent_data
         target: /config
@@ -35,7 +35,7 @@ services:
       - TZ={{ karo_compose_timezone }}
       - PUID=0
       - PGID=0
-  
+
   qui:
     # https://github.com/autobrr/qui
     # https://github.com/autobrr/qui/pkgs/container/qui
