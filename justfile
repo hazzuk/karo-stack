@@ -39,13 +39,12 @@ setup-server: _check-password
 # compose
 
 # Run Ansible to deploy Docker compose stacks
-setup-compose: _check-password
-    ansible-playbook run.yml --tags compose --skip-tags stop
+setup-compose stack='all': _check-password
+    ansible-playbook run.yml --extra-vars "karo_compose_justfile_stack={{stack}}" --tags compose --skip-tags down
 
-# Run Ansible to stop Docker compose stacks
-stop-compose: _check-password
-    ansible-playbook run.yml --tags compose --skip-tags start
-
+# Run Ansible to down Docker compose stacks
+down-compose stack='all': _check-password
+    ansible-playbook run.yml --extra-vars "karo_compose_justfile_stack={{stack}}" --tags compose --skip-tags deploy,up
 
 # vault
 

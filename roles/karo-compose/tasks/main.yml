@@ -13,6 +13,7 @@
     loop_var: stack
   when:
     - lookup('vars', "karo_compose_" ~ stack ~ "_enabled") | default(false)
+    - stack == karo_compose_justfile_stack or karo_compose_justfile_stack == 'all'
   tags: down
 
 - name: Deploy compose stacks
@@ -22,6 +23,7 @@
     loop_var: stack
   when:
     - lookup('vars', "karo_compose_" ~ stack ~ "_enabled") | default(false)
+    - stack == karo_compose_justfile_stack or karo_compose_justfile_stack == 'all'
   tags: deploy
 
 - name: Up docker compose stacks
@@ -31,4 +33,5 @@
     loop_var: stack
   when:
     - lookup('vars', "karo_compose_" ~ stack ~ "_enabled") | default(false)
+    - stack == karo_compose_justfile_stack or karo_compose_justfile_stack == 'all'
   tags: up
