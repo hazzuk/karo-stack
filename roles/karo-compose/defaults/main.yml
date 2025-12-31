@@ -12,6 +12,7 @@ karo_compose_godns_enabled: true
 karo_compose_gluetun_enabled: true
 karo_compose_qbittorrent_enabled: true
 karo_compose_pocketid_enabled: true
+karo_compose_prowlarr_enabled: true
 
 # docker will start stacks in this order
 # docker will stop stacks in reverse order
@@ -22,6 +23,7 @@ karo_compose_stacks_list:
   - gluetun
   - qbittorrent
   - pocketid
+  - prowlarr
 
 karo_compose_restart_policy: unless-stopped
 karo_compose_timezone: "Europe/London"
