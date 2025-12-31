@@ -19,9 +19,10 @@ services:
       - "0.0.0.0:443:443/tcp"
       - "0.0.0.0:443:443/udp"
     networks:
-      - socketproxy_traefik
-      - egress_traefik
-      - frontend
+      socketproxy_traefik:
+      egress_traefik:
+      frontend:
+        ipv4_address: 172.18.0.254
     volumes:
       - type: bind
         source: /srv/docker/traefik/traefik.yml
