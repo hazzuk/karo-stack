@@ -28,7 +28,7 @@ services:
         target: /etc/traefik/traefik.yml
         read_only: true
       - type: volume
-        source: acme
+        source: traefik_acme
         target: /etc/traefik/acme
     labels:
       - traefik.enable=true
@@ -96,7 +96,8 @@ networks:
           gateway: 172.18.0.1
 
 volumes:
-  acme:
+  traefik_acme:
+    name: traefik_acme
 
 secrets:
   karo_compose_traefik_acme_zone_api_token:
