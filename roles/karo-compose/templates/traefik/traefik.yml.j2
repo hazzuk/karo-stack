@@ -35,6 +35,7 @@ entryPoints:
       tls:
         certResolver: cloudflare
         domains:
+          - main: "*.{{ karo_compose_public_domain }}"
           - main: "*.{{ karo_compose_private_domain }}"
 
 # https://doc.traefik.io/traefik/reference/install-configuration/tls/certificate-resolvers/acme/
