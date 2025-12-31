@@ -19,6 +19,8 @@ services:
     networks:
       - egress_gluetun
       - frontend
+    extra_hosts:
+      - "{{ karo_compose_oidc_domain }}:172.18.0.254"
     environment:
       - VPN_SERVICE_PROVIDER=custom
       - VPN_TYPE=wireguard

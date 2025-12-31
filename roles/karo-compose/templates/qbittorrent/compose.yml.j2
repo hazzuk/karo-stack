@@ -53,6 +53,12 @@ services:
       - traefik.http.services.qui.loadbalancer.server.port=7476
     environment:
       - QUI__SESSION_SECRET_FILE=/run/secrets/karo_compose_qbittorrent_qui_session_secret
+      - QUI__OIDC_ENABLED=true
+      - QUI__OIDC_ISSUER={{ karo_compose_oidc_url }}
+      - QUI__OIDC_CLIENT_ID={{ karo_compose_qbittorrent_qui_oidc_client_id }}
+      - QUI__OIDC_CLIENT_SECRET={{ karo_compose_qbittorrent_qui_oidc_client_secret }}
+      - QUI__OIDC_REDIRECT_URL=https://qui.{{ karo_compose_private_domain }}/api/auth/oidc/callback
+      - QUI__OIDC_DISABLE_BUILT_IN_LOGIN=true
     secrets:
       - karo_compose_qbittorrent_qui_session_secret
 

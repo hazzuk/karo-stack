@@ -16,6 +16,8 @@
     karo_compose_godns_dns_api_token: "{{ karo_compose_godns_dns_api_token if stack == 'godns' else '' }}"
     karo_compose_gluetun_wireguard_config_raw: "{{ karo_compose_gluetun_wireguard_config_raw if stack == 'gluetun' else '' }}"
     karo_compose_qbittorrent_qui_session_secret: "{{ karo_compose_qbittorrent_qui_session_secret if stack == 'qbittorrent' else '' }}"
+    karo_compose_pocketid_encryption_key: "{{ karo_compose_pocketid_encryption_key if stack == 'pocketid' else '' }}"
+    karo_compose_pocketid_maxmind_license_key: "{{ karo_compose_pocketid_maxmind_license_key if stack == 'pocketid' else '' }}"
   community.docker.docker_compose_v2:
     docker_host: unix:///run/user/1001/docker.sock
     project_src: "/srv/docker/{{ stack }}"
