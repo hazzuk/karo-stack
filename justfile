@@ -46,9 +46,6 @@ setup-compose: _check-password
 stop-compose: _check-password
     ansible-playbook run.yml --tags compose --skip-tags start
 
-# Run Ansible to start Docker compose stacks
-start-compose: _check-password
-    ansible-playbook run.yml --tags compose
 
 # vault
 
