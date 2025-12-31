@@ -11,7 +11,8 @@
   loop: "{{ karo_compose_stacks_list | reverse }}"
   loop_control:
     loop_var: stack
-  when: lookup('vars', "karo_compose_" ~ stack ~ "_enabled") | default(false)
+  when:
+    - lookup('vars', "karo_compose_" ~ stack ~ "_enabled") | default(false)
   tags: down
 
 - name: Deploy compose stacks
@@ -19,7 +20,8 @@
   loop: "{{ karo_compose_stacks_list }}"
   loop_control:
     loop_var: stack
-  when: lookup('vars', "karo_compose_" ~ stack ~ "_enabled") | default(false)
+  when:
+    - lookup('vars', "karo_compose_" ~ stack ~ "_enabled") | default(false)
   tags: deploy
 
 - name: Up docker compose stacks
@@ -27,5 +29,6 @@
   loop: "{{ karo_compose_stacks_list }}"
   loop_control:
     loop_var: stack
-  when: lookup('vars', "karo_compose_" ~ stack ~ "_enabled") | default(false)
+  when:
+    - lookup('vars', "karo_compose_" ~ stack ~ "_enabled") | default(false)
   tags: up
