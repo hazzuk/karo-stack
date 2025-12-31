@@ -13,6 +13,7 @@ karo_compose_gluetun_enabled: true
 karo_compose_qbittorrent_enabled: true
 karo_compose_pocketid_enabled: true
 karo_compose_prowlarr_enabled: true
+karo_compose_servarr_enabled: true
 
 # docker will start stacks in this order
 # docker will stop stacks in reverse order
@@ -24,6 +25,7 @@ karo_compose_stacks_list:
   - qbittorrent
   - pocketid
   - prowlarr
+  - servarr
 
 karo_compose_restart_policy: unless-stopped
 karo_compose_timezone: "Europe/London"
@@ -97,3 +99,7 @@ karo_compose_qbittorrent_qui_oidc_client_secret: ""
 karo_compose_pocketid_encryption_key: "" # secret (`openssl rand -base64 32`)
 
 karo_compose_pocketid_maxmind_license_key: "" # secret
+
+# servarr
+
+karo_compose_servarr_data_path: "" # e.g. /media/drive1/data
