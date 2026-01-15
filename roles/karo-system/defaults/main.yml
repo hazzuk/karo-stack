@@ -9,8 +9,9 @@ karo_system_packages:
   - acl
   - python3-debian
   - just
+  - parted
+  - rsync
   - micro
-  - git
   - curl
   - wget
   - btop
