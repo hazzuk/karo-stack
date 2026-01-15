@@ -29,13 +29,16 @@
     mode: "0644"
   notify: Reload sysctl config
 
-- name: Set bash logout for karo
+- name: Set bash configuration for karo
   ansible.builtin.copy:
-    src: bash_logout
-    dest: /home/karo/.bash_logout
+    src: "{{ item }}"
+    dest: "/home/karo/.{{ item }}"
     mode: "0644"
     owner: karo
     group: karo
+  loop:
+    - bash_logout
+    - profile
 
 - name: Set motd
   ansible.builtin.copy:
