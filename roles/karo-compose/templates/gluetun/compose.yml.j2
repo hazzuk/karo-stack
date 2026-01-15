@@ -1,0 +1,41 @@
+# SPDX-FileCopyrightText: 2025 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+---
+name: gluetun
+services:
+
+  gluetun:
+    # https://github.com/qdm12/gluetun
+    # https://hub.docker.com/r/qmcgaw/gluetun
+    image: docker.io/qmcgaw/gluetun:v3.40.3@sha256:ef4a44819a60469682c7b5e69183e6401171891feaa60186652d292c59e41b30
+    container_name: gluetun
+    restart: {{ karo_compose_restart_policy }}
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    networks:
+      - egress_gluetun
+      - frontend
+    environment:
+      - VPN_SERVICE_PROVIDER=custom
+      - VPN_TYPE=wireguard
+      - TZ={{ karo_compose_timezone }}
+      - FIREWALL_VPN_INPUT_PORTS={{ karo_compose_gluetun_firewall_vpn_input_ports }}
+      - WIREGUARD_CONF_SECRETFILE=/run/secrets/karo_compose_gluetun_wireguard_config_raw
+    secrets:
+      - karo_compose_gluetun_wireguard_config_raw
+
+networks:
+  egress_gluetun:
+    name: egress_gluetun
+    driver: bridge
+    internal: false
+  frontend:
+    external: true
+
+secrets:
+  karo_compose_gluetun_wireguard_config_raw:
+    environment: karo_compose_gluetun_wireguard_config_raw

@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: 2025 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+---
+
+# tcp ports 22, 80, 443 are allowed by default (80/443 server only)
+karo_nftables_accepted_tcp_ports: "" # e.g. "53, 465, 587"
+
+# udp port 443 is allowed by default (server only)
+karo_nftables_accepted_udp_ports: "" # e.g. "7777, 25565"

@@ -1,0 +1,22 @@
+# SPDX-FileCopyrightText: 2025 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+---
+
+- name: Start compose stack {{ stack }}
+  become: true
+  become_user: dockeruser
+  no_log: true
+  tags: start
+  environment:
+    # docker secrets
+    karo_compose_traefik_acme_zone_api_token: "{{ karo_compose_traefik_acme_zone_api_token if stack == 'traefik' else '' }}"
+    karo_compose_traefik_acme_dns_api_token: "{{ karo_compose_traefik_acme_dns_api_token if stack == 'traefik' else '' }}"
+    karo_compose_godns_dns_api_token: "{{ karo_compose_godns_dns_api_token if stack == 'godns' else '' }}"
+    karo_compose_gluetun_wireguard_config_raw: "{{ karo_compose_gluetun_wireguard_config_raw if stack == 'gluetun' else '' }}"
+    karo_compose_qbittorrent_qui_session_secret: "{{ karo_compose_qbittorrent_qui_session_secret if stack == 'qbittorrent' else '' }}"
+  community.docker.docker_compose_v2:
+    docker_host: unix:///run/user/1001/docker.sock
+    project_src: "/srv/docker/{{ stack }}"
+    state: present # docker compose up

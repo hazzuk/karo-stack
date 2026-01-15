@@ -1,0 +1,23 @@
+# SPDX-FileCopyrightText: 2025 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+---
+
+- name: Provision karo-stack debian server
+  hosts: server
+  become: true
+  tags: setup
+  roles:
+    - karo-nftables
+    - karo-system
+    - karo-ssh
+    - karo-git
+    - karo-docker
+
+- name: Manage karo-stack docker compose
+  hosts: server
+  become: true
+  tags: compose
+  roles:
+    - karo-compose
