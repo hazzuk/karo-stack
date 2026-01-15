@@ -39,6 +39,7 @@ services:
       - CF_ZONE_API_TOKEN_FILE=/run/secrets/karo_compose_traefik_acme_zone_api_token
       - CF_DNS_API_TOKEN_FILE=/run/secrets/karo_compose_traefik_acme_dns_api_token
       - CLOUDFLARE_POLLING_INTERVAL=10
+      - TZ={{ karo_compose_timezone }}
     secrets:
       - karo_compose_traefik_acme_zone_api_token
       - karo_compose_traefik_acme_dns_api_token
