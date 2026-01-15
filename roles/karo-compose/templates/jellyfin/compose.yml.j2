@@ -1,0 +1,54 @@
+# SPDX-FileCopyrightText: 2025 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+---
+name: jellyfin
+services:
+
+  jellyfin:
+    # https://github.com/jellyfin/jellyfin
+    # https://hub.docker.com/r/jellyfin/jellyfin
+    image: docker.io/jellyfin/jellyfin:10.11.5@sha256:6d819e9ab067efcf712993b23455cc100ee5585919bb297ea5a109ac00cb626e
+    container_name: jellyfin
+    restart: {{ karo_compose_restart_policy }}
+    ports:
+      - "0.0.0.0:7359:7359/udp" # client discovery
+    networks:
+      - egress_jellyfin
+      - frontend
+    volumes:
+      - type: bind
+        source: {{ karo_compose_jellyfin_movies_media_path }}
+        target: /data/media/movies
+        read_only: true
+      - type: bind
+        source: {{ karo_compose_jellyfin_series_media_path }}
+        target: /data/media/series
+        read_only: true
+      - type: volume
+        source: jellyfin_data
+        target: /config
+      - type: volume
+        source: jellyfin_cache
+        target: /cache
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.jellyfin.rule=Host(`jellyfin.{{ karo_compose_private_domain }}`)
+      - traefik.http.services.jellyfin.loadbalancer.server.port=8096
+    environment:
+      - TZ={{ karo_compose_timezone }}
+
+networks:
+  egress_jellyfin:
+    name: egress_jellyfin
+    driver: bridge
+    internal: false
+  frontend:
+    external: true
+
+volumes:
+  jellyfin_data:
+    name: jellyfin_data
+  jellyfin_cache:
+    name: jellyfin_cache

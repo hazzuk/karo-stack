@@ -1,0 +1,59 @@
+# SPDX-FileCopyrightText: 2025 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+---
+name: servarr
+services:
+
+  radarr:
+    # https://github.com/radarr/radarr
+    # https://hub.docker.com/r/linuxserver/radarr
+    image: docker.io/linuxserver/radarr:version-6.0.4.10291@sha256:6c0948b42c149e36bb3dbc0b64d36c77b2d3c9dccf1b424c4f72af1e57ba0c21
+    container_name: radarr
+    restart: {{ karo_compose_restart_policy }}
+    network_mode: "container:gluetun"
+    volumes:
+      - type: bind
+        source: {{ karo_compose_servarr_data_path }}
+        target: /data
+      - type: volume
+        source: radarr_data
+        target: /config
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.radarr.rule=Host(`radarr.{{ karo_compose_private_domain }}`)
+      - traefik.http.services.radarr.loadbalancer.server.port=7878
+    environment:
+      - TZ={{ karo_compose_timezone }}
+      - PUID=0
+      - PGID=0
+
+  sonarr:
+    # https://github.com/sonarr/sonarr
+    # https://hub.docker.com/r/linuxserver/sonarr
+    image: docker.io/linuxserver/sonarr:version-4.0.16.2944@sha256:8b9f2138ec50fc9e521960868f79d2ad0d529bc610aef19031ea8ff80b54c5e0
+    container_name: sonarr
+    restart: {{ karo_compose_restart_policy }}
+    network_mode: "container:gluetun"
+    volumes:
+      - type: bind
+        source: {{ karo_compose_servarr_data_path }}
+        target: /data
+      - type: volume
+        source: sonarr_data
+        target: /config
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.sonarr.rule=Host(`sonarr.{{ karo_compose_private_domain }}`)
+      - traefik.http.services.sonarr.loadbalancer.server.port=8989
+    environment:
+      - TZ={{ karo_compose_timezone }}
+      - PUID=0
+      - PGID=0
+
+volumes:
+  radarr_data:
+    name: radarr_data
+  sonarr_data:
+    name: sonarr_data

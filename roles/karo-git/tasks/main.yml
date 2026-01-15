@@ -1,0 +1,22 @@
+# SPDX-FileCopyrightText: 2025 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+---
+
+- name: Install git
+  ansible.builtin.apt:
+    name: git
+    state: present
+
+- name: Set gitconfig for karo
+  ansible.builtin.copy:
+    content: "{{ karo_git_config_raw }}"
+    dest: /home/karo/.gitconfig
+    mode: "0644"
+
+- name: Set allowedsigners for karo
+  ansible.builtin.copy:
+    content: "{{ karo_git_user_signingkey }}"
+    dest: /home/karo/.ssh/git_allowedsigners
+    mode: "0644"
