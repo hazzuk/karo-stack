@@ -1,0 +1,41 @@
+global:
+  checkNewVersion: false
+  sendAnonymousUsage: false
+
+log:
+  # level: ERROR
+  level: DEBUG
+
+api:
+  dashboard: true
+  insecure: true
+
+entryPoints:
+  web:
+    address: :80
+    # http:
+    #   redirect:
+    #     entryPoint:
+    #       to: websecure
+    #       scheme: https
+  websecure:
+    address: :443
+
+# certificatesResolvers:
+#   cloudflare:
+#     acme:
+#       email: {{ karo_compose_traefik_acme_email }}
+#       storage: /var/traefik/certs/acme.json
+#       caServer: "https://acme-v02.api.letsencrypt.org/directory"
+#       caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
+#       dnsChallenge:
+#         provider: {{ karo_compose_traefik_acme_provider }}
+#         resolvers:
+#           - 1.1.1.1:53
+#           - 8.8.8.8:53
+
+providers:
+  docker:
+    endpoint: "tcp://cetusguard:2375"
+    exposedByDefault: false
+    network: frontend # container connections

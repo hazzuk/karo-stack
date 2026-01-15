@@ -1,0 +1,17 @@
+# SPDX-FileCopyrightText: 2025 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+---
+
+- name: Reload systemd
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+
+- name: Reload sysctl config
+  ansible.builtin.command:
+    argv:
+      - /sbin/sysctl
+      - -p
+      - /etc/sysctl.d/karo.conf
+  changed_when: true

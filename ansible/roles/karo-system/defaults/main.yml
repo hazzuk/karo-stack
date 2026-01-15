@@ -1,0 +1,27 @@
+# SPDX-FileCopyrightText: 2025 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+---
+
+karo_system_packages:
+  - chrony
+  - acl
+  - python3-debian
+  - just
+  - micro
+  - git
+  - curl
+  - wget
+  - btop
+  - tree
+  - man-db
+
+karo_system_motd_raw: |
+   _                           _             _    
+  | | ____ _ _ __ ___      ___| |_ __ _  ___| | __
+  | |/ / _` | '__/ _ \ ___/ __| __/ _` |/ __| |/ /
+  |   < (_| | | | (_) |___\__ \ || (_| | (__|   < 
+  |_|\_\__,_|_|  \___/    |___/\__\__,_|\___|_|\_\
+
+  > https://karolabs.dev

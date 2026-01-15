@@ -1,0 +1,24 @@
+# SPDX-FileCopyrightText: 2025 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+---
+
+- name: Install nftables
+  ansible.builtin.apt:
+    cache_valid_time: 86400
+    name: nftables
+    state: present
+
+- name: Configure nftables
+  ansible.builtin.template:
+    src: nftables.conf.j2
+    dest: /etc/nftables.conf
+    mode: "0644"
+  notify: Restart nftables
+
+- name: Enable nftables service
+  ansible.builtin.service:
+    name: nftables
+    enabled: true
+    state: started

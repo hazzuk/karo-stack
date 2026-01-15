@@ -1,0 +1,22 @@
+# SPDX-FileCopyrightText: 2025 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+---
+
+karo_compose_traefik_enabled: true
+karo_compose_whoami_enabled: true
+
+# docker will start stacks in this order
+# docker will stop stacks in reverse order
+karo_compose_stacks_list:
+  - traefik
+  - whoami
+
+karo_compose_traefik_acme_email: cert@example.com
+karo_compose_traefik_acme_provider: cloudflare
+
+karo_compose_restart_policy: unless-stopped
+
+karo_compose_public_domain: localhost
+karo_compose_private_domain: localhost

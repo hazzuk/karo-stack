@@ -1,0 +1,22 @@
+# SPDX-FileCopyrightText: 2025 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+---
+
+- name: "Create compose stack directory for {{ stack }}"
+  ansible.builtin.file:
+    path: "/srv/docker/{{ stack }}"
+    mode: "0774"
+    owner: dockeruser
+    group: dockeruser
+    state: directory
+
+- name: "Deploy compose templates for {{ stack }}"
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "/srv/docker/{{ stack }}/{{ item.path | splitext | first }}"
+    mode: "0644"
+    owner: dockeruser
+    group: dockeruser
+  with_community.general.filetree: ../templates/{{ stack }}/

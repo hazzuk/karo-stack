@@ -1,0 +1,36 @@
+# SPDX-FileCopyrightText: 2025 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+---
+
+- name: Create ansible temp directory
+  ansible.builtin.file:
+    path: /root/.ansible/tmp
+    mode: "0700"
+    state: directory
+
+- name: Install essential packages
+  ansible.builtin.apt:
+    cache_valid_time: 86400
+    name: "{{ karo_system_packages }}"
+    state: present
+
+- name: Upgrade packages
+  ansible.builtin.apt:
+    update_cache: true
+    allow_downgrade: true
+    upgrade: true
+
+- name: Configure kernel parameters
+  ansible.builtin.copy:
+    src: sysctl_karo.conf
+    dest: /etc/sysctl.d/karo.conf
+    mode: "0644"
+  notify: Reload sysctl config
+
+- name: Set motd
+  ansible.builtin.copy:
+    content: "{{ karo_system_motd_raw }}"
+    dest: /etc/motd
+    mode: "0644"

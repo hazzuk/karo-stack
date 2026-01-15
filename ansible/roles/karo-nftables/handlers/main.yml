@@ -1,0 +1,10 @@
+# SPDX-FileCopyrightText: 2025 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+---
+
+- name: Restart nftables
+  ansible.builtin.service:
+    name: nftables
+    state: restarted

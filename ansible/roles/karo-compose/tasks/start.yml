@@ -1,0 +1,18 @@
+# SPDX-FileCopyrightText: 2025 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+---
+
+- name: Start compose stack {{ stack }}
+  become: true
+  become_user: dockeruser
+  no_log: true
+  tags: start
+  environment:
+    karo_compose_traefik_acme_zone_api_token: "{{ karo_compose_traefik_acme_zone_api_token if stack == 'traefik' else '' }}"
+    karo_compose_traefik_acme_dns_api_token: "{{ karo_compose_traefik_acme_dns_api_token if stack == 'traefik' else '' }}"
+  community.docker.docker_compose_v2:
+    docker_host: unix:///run/user/1001/docker.sock
+    project_src: "/srv/docker/{{ stack }}"
+    state: present # docker compose up
