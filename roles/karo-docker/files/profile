@@ -28,8 +28,8 @@ fi
 
 # karo-stack dockeruser
 
-# set DOCKER_HOST for rootless docker
-export DOCKER_HOST="unix://$XDG_RUNTIME_DIR/docker.sock"
-
 # set initial working directory
 cd /srv/docker || return
+
+# set DOCKER_HOST for rootless docker
+export DOCKER_HOST="unix://$XDG_RUNTIME_DIR/docker.sock"
