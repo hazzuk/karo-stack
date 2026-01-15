@@ -13,10 +13,15 @@ karo_compose_stacks_list:
   - traefik
   - whoami
 
-karo_compose_traefik_acme_email: cert@example.com
-karo_compose_traefik_acme_provider: cloudflare
-
 karo_compose_restart_policy: unless-stopped
 
 karo_compose_public_domain: localhost
 karo_compose_private_domain: localhost
+
+karo_compose_traefik_dashboard_enabled: false
+
+karo_compose_traefik_acme_email: cert@example.com
+karo_compose_traefik_acme_zone_api_token: token_not_set
+karo_compose_traefik_acme_dns_api_token: token_not_set
+
+karo_compose_traefik_acme_staging_enabled: true

@@ -1,39 +1,68 @@
+# SPDX-FileCopyrightText: 2025 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+---
+
 global:
   checkNewVersion: false
   sendAnonymousUsage: false
 
+# https://doc.traefik.io/traefik/reference/install-configuration/observability/logs-and-accesslogs/
 log:
-  # level: ERROR
-  level: DEBUG
+  level: DEBUG # (DEBUG, INFO, WARN)
 
+# https://doc.traefik.io/traefik/reference/install-configuration/api-dashboard/
 api:
-  dashboard: true
-  insecure: true
+  dashboard: {{ karo_compose_traefik_dashboard_enabled | lower }}
+  disabledashboardad: true
 
+# https://doc.traefik.io/traefik/reference/install-configuration/entrypoints/
 entryPoints:
   web:
     address: :80
-    # http:
-    #   redirect:
-    #     entryPoint:
-    #       to: websecure
-    #       scheme: https
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+          permanent: true
   websecure:
     address: :443
+    http3: true
+    asDefault: true
+    http:
+      tls:
+        certResolver: cloudflare
+        domains:
+          - main: "*.{{ karo_compose_private_domain }}"
 
-# certificatesResolvers:
-#   cloudflare:
-#     acme:
-#       email: {{ karo_compose_traefik_acme_email }}
-#       storage: /var/traefik/certs/acme.json
-#       caServer: "https://acme-v02.api.letsencrypt.org/directory"
-#       caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
-#       dnsChallenge:
-#         provider: {{ karo_compose_traefik_acme_provider }}
-#         resolvers:
-#           - 1.1.1.1:53
-#           - 8.8.8.8:53
+# https://doc.traefik.io/traefik/reference/install-configuration/tls/certificate-resolvers/acme/
+certificatesResolvers:
+  cloudflare:
+    acme:
+      storage: /etc/traefik/acme/acme.json
+      email: {{ karo_compose_traefik_acme_email }}
+      keyType: EC384
+{% if karo_compose_traefik_acme_staging_enabled %}
+      caServer: {{ karo_compose_traefik_acme_staging_ca_server_url }}
+{% else %}
+      caServer: {{ karo_compose_traefik_acme_ca_server_url }}
+{% endif %}
+      dnsChallenge:
+        provider: cloudflare
+        resolvers:
+          - "1.1.1.1:53"
+          - "1.0.0.1:53"
 
+# https://doc.traefik.io/traefik/reference/routing-configuration/http/tls/tls-options/
+tls:
+  options:
+    default:
+      minVersion: VersionTLS13
+      sniStrict: true
+
+# https://doc.traefik.io/traefik/reference/install-configuration/providers/docker/
 providers:
   docker:
     endpoint: "tcp://cetusguard:2375"
