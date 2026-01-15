@@ -1,0 +1,61 @@
+# SPDX-FileCopyrightText: 2025 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+---
+name: pocketid
+services:
+
+  pocketid:
+    # https://github.com/pocket-id/pocket-id
+    # https://github.com/pocket-id/pocket-id/pkgs/container/pocket-id
+    image: ghcr.io/pocket-id/pocket-id:v1.16.0@sha256:f8cde808e8e840acda25683fc2168e0206e3f3fb1a48cca89d211aafd87eaeef
+    container_name: pocketid
+    restart: {{ karo_compose_restart_policy }}
+    read_only: false
+    networks:
+      - egress_pocketid
+      - frontend
+    volumes:
+      - type: volume
+        source: pocketid_data
+        target: /app/data
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.pocketid.rule=Host(`{{ karo_compose_oidc_domain }}`)
+      - traefik.http.services.pocketid.loadbalancer.server.port=1411
+    environment:
+      - APP_URL={{ karo_compose_oidc_url }}
+      - ENCRYPTION_KEY_FILE=/run/secrets/karo_compose_pocketid_encryption_key
+      - MAXMIND_LICENSE_KEY_FILE=/run/secrets/karo_compose_pocketid_maxmind_license_key
+      - ANALYTICS_DISABLED=true
+      - TRUST_PROXY=true
+      - PUID=1000
+      - PGID=1000
+    secrets:
+      - karo_compose_pocketid_encryption_key
+      - karo_compose_pocketid_maxmind_license_key
+    healthcheck:
+      test: [ "CMD", "/app/pocket-id", "healthcheck" ]
+      interval: 1m30s
+      timeout: 5s
+      retries: 2
+      start_period: 10s
+
+networks:
+  egress_pocketid:
+    name: egress_pocketid
+    driver: bridge
+    internal: false
+  frontend:
+    external: true
+
+volumes:
+  pocketid_data:
+    name: pocketid_data
+
+secrets:
+  karo_compose_pocketid_encryption_key:
+    environment: karo_compose_pocketid_encryption_key
+  karo_compose_pocketid_maxmind_license_key:
+    environment: karo_compose_pocketid_maxmind_license_key

@@ -12,6 +12,7 @@
     - karo-nftables
     - karo-system
     - karo-ssh
+    - karo-git
     - karo-docker
 
 - name: Manage karo-stack docker compose
