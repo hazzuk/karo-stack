@@ -10,7 +10,6 @@ karo_system_packages:
   - python3-debian
   - just
   - micro
-  - git
   - curl
   - wget
   - btop
