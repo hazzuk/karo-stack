@@ -36,6 +36,10 @@ services:
       - traefik.http.routers.dashboard.rule=Host(`traefik.{{ karo_compose_private_domain }}`)
       - traefik.http.routers.dashboard.service=api@internal
       - traefik.http.services.dashboard.loadbalancer.server.port=8080
+      # forward auth
+      - traefik.http.routers.dashboard.middlewares=tinyauth
+      - tinyauth.apps.dashboard.config.domain=traefik.{{ karo_compose_private_domain }}
+      - tinyauth.apps.dashboard.oauth.groups={{ karo_compose_oidc_admin_group }}
     environment:
       - CF_ZONE_API_TOKEN_FILE=/run/secrets/karo_compose_traefik_acme_zone_api_token
       - CF_DNS_API_TOKEN_FILE=/run/secrets/karo_compose_traefik_acme_dns_api_token

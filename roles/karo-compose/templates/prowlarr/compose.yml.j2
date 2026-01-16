@@ -21,6 +21,9 @@ services:
       - traefik.enable=true
       - traefik.http.routers.prowlarr.rule=Host(`prowlarr.{{ karo_compose_private_domain }}`)
       - traefik.http.services.prowlarr.loadbalancer.server.port=9696
+      # forward auth
+      - traefik.http.routers.prowlarr.middlewares=tinyauth
+      - tinyauth.apps.prowlarr.oauth.groups={{ karo_compose_oidc_admin_group }}
     environment:
       - TZ={{ karo_compose_timezone }}
       - PUID=1000
