@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2025 hazzuk
+# SPDX-FileCopyrightText: 2025 - 2026 hazzuk
 #
 # SPDX-License-Identifier: AGPL-3.0-only
 
@@ -16,6 +16,7 @@ karo_compose_prowlarr_enabled: true
 karo_compose_servarr_enabled: true
 karo_compose_seerr_enabled: true
 karo_compose_jellyfin_enabled: true
+karo_compose_ntfy_enabled: true
 
 # docker will start stacks in this order
 # docker will stop stacks in reverse order
@@ -30,6 +31,7 @@ karo_compose_stacks_list:
   - servarr
   - seerr
   - jellyfin
+  - ntfy
 
 karo_compose_restart_policy: unless-stopped
 karo_compose_timezone: "Europe/London"
@@ -116,3 +118,11 @@ karo_compose_seerr_log_level: info
 
 karo_compose_jellyfin_movies_media_path: "" # e.g. /media/drive1/data/media/movies
 karo_compose_jellyfin_series_media_path: "" # e.g. /media/drive1/data/media/series
+
+# ntfy
+
+karo_compose_ntfy_log_level: info
+
+karo_compose_ntfy_auth_users: "" # https://docs.ntfy.sh/config/#users-via-the-config
+karo_compose_ntfy_auth_access: "" # https://docs.ntfy.sh/config/#acl-entries-via-the-config
+karo_compose_ntfy_auth_tokens: "" # https://docs.ntfy.sh/config/#tokens-via-the-config
