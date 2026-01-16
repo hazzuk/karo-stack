@@ -63,6 +63,10 @@ karo_compose_oidc_logout_url: "{{ karo_compose_oidc_url }}{{ karo_compose_oidc_l
 karo_compose_oidc_certificate_path: "/.well-known/jwks.json"
 karo_compose_oidc_certificate_url: "{{ karo_compose_oidc_url }}{{ karo_compose_oidc_certificate_path }}"
 
+karo_compose_oidc_provider_name: "PocketID"
+
+karo_compose_oidc_admin_group: "admin"
+
 # traefik
 
 karo_compose_traefik_log_level: DEBUG # DEBUG, INFO, WARN
@@ -76,6 +80,13 @@ karo_compose_traefik_acme_dns_api_token: "token_not_set" # secret
 karo_compose_traefik_acme_staging_enabled: true
 karo_compose_traefik_acme_staging_ca_server_url: "https://acme-staging-v02.api.letsencrypt.org/directory"
 karo_compose_traefik_acme_ca_server_url: "https://acme-v02.api.letsencrypt.org/directory" # "https://acme.zerossl.com/v2/DV90"
+
+karo_compose_traefik_tinyauth_domain: "tinyauth.{{ karo_compose_public_domain }}"
+
+karo_compose_traefik_tinyauth_log_level: info
+
+karo_compose_traefik_tinyauth_oidc_client_id: ""
+karo_compose_traefik_tinyauth_oidc_client_secret: "" # secret
 
 # godns
 
