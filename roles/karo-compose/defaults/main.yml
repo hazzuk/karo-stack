@@ -55,8 +55,15 @@ karo_compose_oidc_provider_name: "PocketID"
 
 karo_compose_oidc_admin_group: "admin"
 
-# stacks
+# core stacks
 # ---
+
+# pocketid
+
+karo_compose_pocketid_enabled: true
+
+karo_compose_pocketid_encryption_key: "" # secret (`openssl rand -base64 32`)
+karo_compose_pocketid_maxmind_license_key: "" # secret
 
 # traefik
 
@@ -83,19 +90,8 @@ karo_compose_traefik_tinyauth_domain: "tinyauth.{{ karo_compose_public_domain }}
 karo_compose_traefik_tinyauth_oidc_client_id: ""
 karo_compose_traefik_tinyauth_oidc_client_secret: "" # secret
 
-# whoami
-
-karo_compose_whoami_enabled: false
-karo_compose_whoami_domain: "whoami.{{ karo_compose_private_domain }}"
-karo_compose_whoami_nginx_domain: "nginx.{{ karo_compose_private_domain }}"
-
-# godns
-
-karo_compose_godns_enabled: false
-
-karo_compose_godns_subdomain: home
-
-karo_compose_godns_dns_api_token: "token_not_set" # secret
+# extra stacks
+# ---
 
 # gluetun
 
@@ -105,6 +101,37 @@ karo_compose_gluetun_firewall_vpn_input_ports: ""
 
 karo_compose_gluetun_wireguard_config_raw: | # secret
   # wireguard config
+
+# godns
+
+karo_compose_godns_enabled: false
+
+karo_compose_godns_subdomain: home
+
+karo_compose_godns_dns_api_token: "token_not_set" # secret
+
+# jellyfin
+
+karo_compose_jellyfin_enabled: false
+karo_compose_jellyfin_domain: "jellyfin.{{ karo_compose_private_domain }}"
+
+karo_compose_jellyfin_movies_media_path: "" # e.g. /media/drive1/data/media/movies
+karo_compose_jellyfin_series_media_path: "" # e.g. /media/drive1/data/media/series
+
+# ntfy
+
+karo_compose_ntfy_enabled: false
+karo_compose_ntfy_log_level: info
+karo_compose_ntfy_domain: "ntfy.{{ karo_compose_public_domain }}"
+
+karo_compose_ntfy_auth_users: "" # https://docs.ntfy.sh/config/#users-via-the-config
+karo_compose_ntfy_auth_access: "" # https://docs.ntfy.sh/config/#acl-entries-via-the-config
+karo_compose_ntfy_auth_tokens: "" # https://docs.ntfy.sh/config/#tokens-via-the-config
+
+# prowlarr
+
+karo_compose_prowlarr_enabled: false
+karo_compose_prowlarr_domain: "prowlarr.{{ karo_compose_private_domain }}"
 
 # qbittorrent
 
@@ -124,17 +151,11 @@ karo_compose_qbittorrent_qui_session_secret: "" # secret (`openssl rand -hex 16`
 karo_compose_qbittorrent_qui_oidc_client_id: ""
 karo_compose_qbittorrent_qui_oidc_client_secret: ""
 
-# pocketid
+# seerr
 
-karo_compose_pocketid_enabled: true
-
-karo_compose_pocketid_encryption_key: "" # secret (`openssl rand -base64 32`)
-karo_compose_pocketid_maxmind_license_key: "" # secret
-
-# prowlarr
-
-karo_compose_prowlarr_enabled: false
-karo_compose_prowlarr_domain: "prowlarr.{{ karo_compose_private_domain }}"
+karo_compose_seerr_enabled: false
+karo_compose_seerr_log_level: info
+karo_compose_seerr_domain: "seerr.{{ karo_compose_private_domain }}"
 
 # servarr
 
@@ -144,26 +165,8 @@ karo_compose_sonarr_domain: "sonarr.{{ karo_compose_private_domain }}"
 
 karo_compose_servarr_data_path: "" # e.g. /media/drive1/data
 
-# seerr
+# whoami
 
-karo_compose_seerr_enabled: false
-karo_compose_seerr_log_level: info
-karo_compose_seerr_domain: "seerr.{{ karo_compose_private_domain }}"
-
-# jellyfin
-
-karo_compose_jellyfin_enabled: false
-karo_compose_jellyfin_domain: "jellyfin.{{ karo_compose_private_domain }}"
-
-karo_compose_jellyfin_movies_media_path: "" # e.g. /media/drive1/data/media/movies
-karo_compose_jellyfin_series_media_path: "" # e.g. /media/drive1/data/media/series
-
-# ntfy
-
-karo_compose_ntfy_enabled: false
-karo_compose_ntfy_log_level: info
-karo_compose_ntfy_domain: "ntfy.{{ karo_compose_public_domain }}"
-
-karo_compose_ntfy_auth_users: "" # https://docs.ntfy.sh/config/#users-via-the-config
-karo_compose_ntfy_auth_access: "" # https://docs.ntfy.sh/config/#acl-entries-via-the-config
-karo_compose_ntfy_auth_tokens: "" # https://docs.ntfy.sh/config/#tokens-via-the-config
+karo_compose_whoami_enabled: false
+karo_compose_whoami_domain: "whoami.{{ karo_compose_private_domain }}"
+karo_compose_whoami_nginx_domain: "nginx.{{ karo_compose_private_domain }}"
