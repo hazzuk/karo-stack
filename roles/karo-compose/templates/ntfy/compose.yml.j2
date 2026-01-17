@@ -28,11 +28,11 @@ services:
         target: /var/lib/ntfy
     labels:
       - traefik.enable=true
-      - traefik.http.routers.ntfy.rule=Host(`ntfy.{{ karo_compose_public_domain }}`)
+      - traefik.http.routers.ntfy.rule=Host(`{{ karo_compose_ntfy_domain }}`)
       - traefik.http.services.ntfy.loadbalancer.server.port=80
     environment:
       - TZ={{ karo_compose_timezone }}
-      - NTFY_BASE_URL=https://ntfy.{{ karo_compose_public_domain }}
+      - NTFY_BASE_URL=https://{{ karo_compose_ntfy_domain }}
       - NTFY_CACHE_FILE=/var/lib/ntfy/cache.db
       - NTFY_AUTH_FILE=/var/lib/ntfy/auth.db
       - NTFY_AUTH_DEFAULT_ACCESS=deny-all

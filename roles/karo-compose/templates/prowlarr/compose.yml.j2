@@ -19,7 +19,7 @@ services:
         target: /config
     labels:
       - traefik.enable=true
-      - traefik.http.routers.prowlarr.rule=Host(`prowlarr.{{ karo_compose_private_domain }}`)
+      - traefik.http.routers.prowlarr.rule=Host(`{{ karo_compose_prowlarr_domain }}`)
       - traefik.http.services.prowlarr.loadbalancer.server.port=9696
       # forward auth
       - traefik.http.routers.prowlarr.middlewares=tinyauth

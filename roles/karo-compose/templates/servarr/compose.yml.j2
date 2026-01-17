@@ -22,7 +22,7 @@ services:
         target: /config
     labels:
       - traefik.enable=true
-      - traefik.http.routers.radarr.rule=Host(`radarr.{{ karo_compose_private_domain }}`)
+      - traefik.http.routers.radarr.rule=Host(`{{ karo_compose_radarr_domain }}`)
       - traefik.http.services.radarr.loadbalancer.server.port=7878
       # forward auth
       - traefik.http.routers.radarr.middlewares=tinyauth
@@ -48,7 +48,7 @@ services:
         target: /config
     labels:
       - traefik.enable=true
-      - traefik.http.routers.sonarr.rule=Host(`sonarr.{{ karo_compose_private_domain }}`)
+      - traefik.http.routers.sonarr.rule=Host(`{{ karo_compose_sonarr_domain }}`)
       - traefik.http.services.sonarr.loadbalancer.server.port=8989
       # forward auth
       - traefik.http.routers.sonarr.middlewares=tinyauth

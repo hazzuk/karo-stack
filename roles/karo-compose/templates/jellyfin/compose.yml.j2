@@ -34,7 +34,7 @@ services:
         target: /cache
     labels:
       - traefik.enable=true
-      - traefik.http.routers.jellyfin.rule=Host(`jellyfin.{{ karo_compose_private_domain }}`)
+      - traefik.http.routers.jellyfin.rule=Host(`{{ karo_compose_jellyfin_domain }}`)
       - traefik.http.services.jellyfin.loadbalancer.server.port=8096
     environment:
       - TZ={{ karo_compose_timezone }}
