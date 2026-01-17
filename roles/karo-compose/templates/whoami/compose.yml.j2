@@ -27,19 +27,6 @@ services:
       - tinyauth.apps.whoami.oauth.groups={{ karo_compose_oidc_admin_group }}
       - tinyauth.apps.whoami.path.allow=^\/api
 
-  nginx:
-    # https://github.com/nginx/nginx
-    # https://hub.docker.com/_/nginx
-    image: docker.io/nginx:1.29.3-alpine@sha256:b3c656d55d7ad751196f21b7fd2e8d4da9cb430e32f646adcf92441b72f82b14
-    container_name: nginx
-    restart: {{ karo_compose_restart_policy }}
-    networks:
-      - frontend
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.nginx.rule=Host(`{{ karo_compose_whoami_nginx_domain }}`)
-      - traefik.http.services.nginx.loadbalancer.server.port=80
-
 networks:
   frontend:
     external: true

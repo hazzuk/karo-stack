@@ -169,4 +169,3 @@ karo_compose_servarr_data_path: "" # e.g. /media/drive1/data
 
 karo_compose_whoami_enabled: false
 karo_compose_whoami_domain: "whoami.{{ karo_compose_private_domain }}"
-karo_compose_whoami_nginx_domain: "nginx.{{ karo_compose_private_domain }}"
