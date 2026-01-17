@@ -6,18 +6,6 @@
 
 karo_compose_justfile_stack: all
 
-karo_compose_traefik_enabled: true
-karo_compose_whoami_enabled: true
-karo_compose_godns_enabled: true
-karo_compose_gluetun_enabled: true
-karo_compose_qbittorrent_enabled: true
-karo_compose_pocketid_enabled: true
-karo_compose_prowlarr_enabled: true
-karo_compose_servarr_enabled: true
-karo_compose_seerr_enabled: true
-karo_compose_jellyfin_enabled: true
-karo_compose_ntfy_enabled: true
-
 # docker will start stacks in this order
 # docker will stop stacks in reverse order
 karo_compose_stacks_list:
@@ -72,21 +60,24 @@ karo_compose_oidc_admin_group: "admin"
 
 # traefik
 
-karo_compose_traefik_log_level: DEBUG # DEBUG, INFO, WARN
-
+karo_compose_traefik_enabled: true
+karo_compose_traefik_log_level: debug
 karo_compose_traefik_dashboard_domain: "traefik.{{ karo_compose_private_domain }}"
+
 karo_compose_traefik_dashboard_enabled: true
+
+karo_compose_traefik_acme_staging_enabled: true
+
+karo_compose_traefik_acme_ca_server_url: "https://acme-v02.api.letsencrypt.org/directory" # "https://acme.zerossl.com/v2/DV90"
+karo_compose_traefik_acme_staging_ca_server_url: "https://acme-staging-v02.api.letsencrypt.org/directory"
 
 karo_compose_traefik_acme_email: cert@example.com
 karo_compose_traefik_acme_zone_api_token: "token_not_set" # secret
 karo_compose_traefik_acme_dns_api_token: "token_not_set" # secret
 
-karo_compose_traefik_acme_staging_enabled: true
-karo_compose_traefik_acme_staging_ca_server_url: "https://acme-staging-v02.api.letsencrypt.org/directory"
-karo_compose_traefik_acme_ca_server_url: "https://acme-v02.api.letsencrypt.org/directory" # "https://acme.zerossl.com/v2/DV90"
+# traefik tinyauth
 
 karo_compose_traefik_tinyauth_log_level: info
-
 karo_compose_traefik_tinyauth_domain: "tinyauth.{{ karo_compose_public_domain }}"
 
 karo_compose_traefik_tinyauth_oidc_client_id: ""
@@ -94,11 +85,13 @@ karo_compose_traefik_tinyauth_oidc_client_secret: "" # secret
 
 # whoami
 
+karo_compose_whoami_enabled: false
 karo_compose_whoami_domain: "whoami.{{ karo_compose_private_domain }}"
-
 karo_compose_whoami_nginx_domain: "nginx.{{ karo_compose_private_domain }}"
 
 # godns
+
+karo_compose_godns_enabled: false
 
 karo_compose_godns_subdomain: home
 
@@ -106,18 +99,23 @@ karo_compose_godns_dns_api_token: "token_not_set" # secret
 
 # gluetun
 
-karo_compose_gluetun_wireguard_config_raw: | # secret
-  # wireguard config
+karo_compose_gluetun_enabled: false
 
 karo_compose_gluetun_firewall_vpn_input_ports: ""
 
+karo_compose_gluetun_wireguard_config_raw: | # secret
+  # wireguard config
+
 # qbittorrent
 
+karo_compose_qbittorrent_enabled: false
 karo_compose_qbittorrent_domain: "qbittorrent.{{ karo_compose_private_domain }}"
 
 karo_compose_qbittorrent_downloads_path: "" # e.g. /media/drive1/data/torrents
 
 karo_compose_qbittorrent_webui_enabled: true
+
+# qbittorrent qui
 
 karo_compose_qbittorrent_qui_domain: "qui.{{ karo_compose_private_domain }}"
 
@@ -128,16 +126,19 @@ karo_compose_qbittorrent_qui_oidc_client_secret: ""
 
 # pocketid
 
-karo_compose_pocketid_encryption_key: "" # secret (`openssl rand -base64 32`)
+karo_compose_pocketid_enabled: true
 
+karo_compose_pocketid_encryption_key: "" # secret (`openssl rand -base64 32`)
 karo_compose_pocketid_maxmind_license_key: "" # secret
 
 # prowlarr
 
+karo_compose_prowlarr_enabled: false
 karo_compose_prowlarr_domain: "prowlarr.{{ karo_compose_private_domain }}"
 
 # servarr
 
+karo_compose_servarr_enabled: false
 karo_compose_radarr_domain: "radarr.{{ karo_compose_private_domain }}"
 karo_compose_sonarr_domain: "sonarr.{{ karo_compose_private_domain }}"
 
@@ -145,12 +146,13 @@ karo_compose_servarr_data_path: "" # e.g. /media/drive1/data
 
 # seerr
 
+karo_compose_seerr_enabled: false
 karo_compose_seerr_log_level: info
-
 karo_compose_seerr_domain: "seerr.{{ karo_compose_private_domain }}"
 
 # jellyfin
 
+karo_compose_jellyfin_enabled: false
 karo_compose_jellyfin_domain: "jellyfin.{{ karo_compose_private_domain }}"
 
 karo_compose_jellyfin_movies_media_path: "" # e.g. /media/drive1/data/media/movies
@@ -158,8 +160,8 @@ karo_compose_jellyfin_series_media_path: "" # e.g. /media/drive1/data/media/seri
 
 # ntfy
 
+karo_compose_ntfy_enabled: false
 karo_compose_ntfy_log_level: info
-
 karo_compose_ntfy_domain: "ntfy.{{ karo_compose_public_domain }}"
 
 karo_compose_ntfy_auth_users: "" # https://docs.ntfy.sh/config/#users-via-the-config
