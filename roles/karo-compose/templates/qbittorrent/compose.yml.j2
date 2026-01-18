@@ -61,6 +61,8 @@ services:
       - QUI__OIDC_DISABLE_BUILT_IN_LOGIN=true
     secrets:
       - karo_compose_qbittorrent_qui_session_secret
+    depends_on:
+      - qbittorrent
 
 volumes:
   qbittorrent_data:
