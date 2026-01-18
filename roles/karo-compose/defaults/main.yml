@@ -83,8 +83,8 @@ karo_compose_traefik_acme_ca_server_url: "https://acme-v02.api.letsencrypt.org/d
 karo_compose_traefik_acme_staging_ca_server_url: "https://acme-staging-v02.api.letsencrypt.org/directory"
 
 karo_compose_traefik_acme_email: cert@example.com
-karo_compose_traefik_acme_zone_api_token: "token_not_set" # secret
-karo_compose_traefik_acme_dns_api_token: "token_not_set" # secret
+karo_compose_traefik_acme_zone_api_token: "" # secret
+karo_compose_traefik_acme_dns_api_token: "" # secret
 
 # traefik tinyauth
 
@@ -123,7 +123,7 @@ karo_compose_godns_version: v3.3.5@sha256:83dc9457f1d390bd1c2fa1ca59d56a8d8b8506
 
 karo_compose_godns_subdomain: home
 
-karo_compose_godns_dns_api_token: "token_not_set" # secret
+karo_compose_godns_dns_api_token: "" # secret
 
 # jellyfin
 
