@@ -10,7 +10,7 @@ services:
     # https://github.com/seerr-team/seerr
     # https://hub.docker.com/r/fallenbagel/jellyseerr
     # https://hub.docker.com/r/seerr/seerr (future)
-    image: docker.io/fallenbagel/jellyseerr:preview-OIDC@sha256:9f3195998306da6548fc3b2420d114dda64a6e904f41e911168788fb410a7972
+    image: {{ karo_compose_seerr_image }}:{{ karo_compose_seerr_version }}
     container_name: seerr
     restart: {{ karo_compose_restart_policy }}
     # init: true

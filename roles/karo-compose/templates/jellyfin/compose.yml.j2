@@ -9,7 +9,7 @@ services:
   jellyfin:
     # https://github.com/jellyfin/jellyfin
     # https://hub.docker.com/r/jellyfin/jellyfin
-    image: docker.io/jellyfin/jellyfin:10.11.5@sha256:6d819e9ab067efcf712993b23455cc100ee5585919bb297ea5a109ac00cb626e
+    image: {{ karo_compose_jellyfin_image }}:{{ karo_compose_jellyfin_version }}
     container_name: jellyfin
     restart: {{ karo_compose_restart_policy }}
     ports:

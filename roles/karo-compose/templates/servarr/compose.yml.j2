@@ -9,7 +9,7 @@ services:
   radarr:
     # https://github.com/radarr/radarr
     # https://hub.docker.com/r/linuxserver/radarr
-    image: docker.io/linuxserver/radarr:version-6.0.4.10291@sha256:6c0948b42c149e36bb3dbc0b64d36c77b2d3c9dccf1b424c4f72af1e57ba0c21
+    image: {{ karo_compose_radarr_image }}:{{ karo_compose_radarr_version }}
     container_name: radarr
     restart: {{ karo_compose_restart_policy }}
     network_mode: "container:gluetun"
@@ -35,7 +35,7 @@ services:
   sonarr:
     # https://github.com/sonarr/sonarr
     # https://hub.docker.com/r/linuxserver/sonarr
-    image: docker.io/linuxserver/sonarr:version-4.0.16.2944@sha256:8b9f2138ec50fc9e521960868f79d2ad0d529bc610aef19031ea8ff80b54c5e0
+    image: {{ karo_compose_sonarr_image }}:{{ karo_compose_sonarr_version }}
     container_name: sonarr
     restart: {{ karo_compose_restart_policy }}
     network_mode: "container:gluetun"

@@ -9,7 +9,7 @@ services:
   traefik:
     # https://github.com/traefik/traefik
     # https://hub.docker.com/_/traefik
-    image: docker.io/traefik:v3.6.6@sha256:82d3d16dde0474a51fef00b28de143d48b67f7a27453224d5e7b5aaefff26a97
+    image: {{ karo_compose_traefik_image }}:{{ karo_compose_traefik_version }}
     container_name: traefik
     restart: {{ karo_compose_restart_policy }}
     security_opt:
@@ -54,7 +54,7 @@ services:
   tinyauth:
     # https://github.com/steveiliop56/tinyauth
     # https://github.com/steveiliop56/tinyauth/pkgs/container/tinyauth
-    image: ghcr.io/steveiliop56/tinyauth:v4.1.0-distroless@sha256:b6aea73049dd7d5e0fdf800602a5ca43d560696e4b4938cb9bec65b40c828405
+    image: {{ karo_compose_traefik_tinyauth_image }}:{{ karo_compose_traefik_tinyauth_version }}
     container_name: tinyauth
     restart: {{ karo_compose_restart_policy }}
     # user: 1000:1000 # unsupported
@@ -93,8 +93,8 @@ services:
   cetusguard:
     # https://github.com/hectorm/cetusguard
     # https://hub.docker.com/r/hectorm/cetusguard
-    image: docker.io/hectorm/cetusguard:v1.1.2@sha256:692496ba976990a14416cc5bed844a72df6a4d75d677932c7d75934492312ef3
     container_name: cetusguard
+    image: {{ karo_compose_traefik_cetusguard_image }}:{{ karo_compose_traefik_cetusguard_version }}
     restart: {{ karo_compose_restart_policy }}
     read_only: true
     networks:

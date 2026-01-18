@@ -9,7 +9,7 @@ services:
   qbittorrent:
     # https://github.com/qbittorrent/docker-qbittorrent-nox
     # https://hub.docker.com/r/qbittorrentofficial/qbittorrent-nox
-    image: docker.io/qbittorrentofficial/qbittorrent-nox:5.1.4-1@sha256:41888f4e05646ace98aeaff01a7bbec714e2e6082ab273fd4af0d1210352ea2c
+    image: {{ karo_compose_qbittorrent_image }}:{{ karo_compose_qbittorrent_version }}
     container_name: qbittorrent
     restart: {{ karo_compose_restart_policy }}
     stop_grace_period: 30m
@@ -39,7 +39,7 @@ services:
   qui:
     # https://github.com/autobrr/qui
     # https://github.com/autobrr/qui/pkgs/container/qui
-    image: ghcr.io/autobrr/qui:v1.11.0@sha256:5c7c08d5e8d4c4fe966106b58d3705f19921a69606b3dc4f237009a6c25a0ac7
+    image: {{ karo_compose_qbittorrent_qui_image }}:{{ karo_compose_qbittorrent_qui_version }}
     container_name: qui
     restart: {{ karo_compose_restart_policy }}
     network_mode: "container:gluetun"

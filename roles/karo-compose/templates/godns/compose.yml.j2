@@ -9,7 +9,7 @@ services:
   godns:
     # https://github.com/TimothyYe/godns
     # https://hub.docker.com/r/timothyye/godns
-    image: docker.io/timothyye/godns:v3.3.5@sha256:83dc9457f1d390bd1c2fa1ca59d56a8d8b8506060cf7fd31f8838b78cda5f181
+    image: {{ karo_compose_godns_image }}:{{ karo_compose_godns_version }}
     container_name: godns
     restart: {{ karo_compose_restart_policy }}
     networks:

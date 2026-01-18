@@ -9,7 +9,7 @@ services:
   ntfy:
     # https://github.com/binwiederhier/ntfy
     # https://hub.docker.com/r/binwiederhier/ntfy
-    image: docker.io/binwiederhier/ntfy:v2.15.0@sha256:aa10e84da624f65be107f9317dbf6e212fa812e0ebf62e74d032d0762eccc930
+    image: {{ karo_compose_ntfy_image }}:{{ karo_compose_ntfy_version }}
     container_name: ntfy
     restart: {{ karo_compose_restart_policy }}
     # user: 1000:1000 # issue 1276
