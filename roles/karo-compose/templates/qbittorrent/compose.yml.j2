@@ -52,6 +52,7 @@ services:
       - traefik.http.routers.qui.rule=Host(`{{ karo_compose_qbittorrent_qui_domain }}`)
       - traefik.http.services.qui.loadbalancer.server.port=7476
     environment:
+      - QUI__LOG_LEVEL={{ karo_compose_qbittorrent_qui_log_level | upper }}
       - QUI__SESSION_SECRET_FILE=/run/secrets/karo_compose_qbittorrent_qui_session_secret
       - QUI__OIDC_ENABLED=true
       - QUI__OIDC_ISSUER={{ karo_compose_oidc_url }}

@@ -10,7 +10,7 @@ global:
 
 # https://doc.traefik.io/traefik/reference/install-configuration/observability/logs-and-accesslogs/
 log:
-  level: {{ karo_compose_traefik_log_level }}
+  level: {{ karo_compose_traefik_log_level | upper }}
 
 # https://doc.traefik.io/traefik/reference/install-configuration/api-dashboard/
 api:

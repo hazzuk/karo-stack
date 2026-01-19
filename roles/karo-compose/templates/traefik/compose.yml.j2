@@ -117,7 +117,7 @@ services:
         GET %API_PREFIX_CONTAINERS%/json
         ! inspect a container
         GET %API_PREFIX_CONTAINERS%/%CONTAINER_ID_OR_NAME%/json
-      CETUSGUARD_LOG_LEVEL: "7"
+      CETUSGUARD_LOG_LEVEL: "{{ karo_compose_traefik_cetusguard_log_level }}"
 
 networks:
   socketproxy_traefik:
