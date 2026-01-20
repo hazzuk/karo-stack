@@ -1,0 +1,64 @@
+# SPDX-FileCopyrightText: 2026 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+---
+name: ntfy
+services:
+
+  ntfy:
+    # https://github.com/binwiederhier/ntfy
+    # https://hub.docker.com/r/binwiederhier/ntfy
+    image: docker.io/binwiederhier/ntfy:v2.15.0@sha256:aa10e84da624f65be107f9317dbf6e212fa812e0ebf62e74d032d0762eccc930
+    container_name: ntfy
+    restart: {{ karo_compose_restart_policy }}
+    # user: 1000:1000 # issue 1276
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    init: true # for healthcheck
+    command:
+      - serve
+    networks:
+      - egress_ntfy
+      - frontend
+    volumes:
+      - type: volume
+        source: ntfy_data
+        target: /var/lib/ntfy
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.ntfy.rule=Host(`ntfy.{{ karo_compose_public_domain }}`)
+      - traefik.http.services.ntfy.loadbalancer.server.port=80
+    environment:
+      - TZ={{ karo_compose_timezone }}
+      - NTFY_BASE_URL=https://ntfy.{{ karo_compose_public_domain }}
+      - NTFY_CACHE_FILE=/var/lib/ntfy/cache.db
+      - NTFY_AUTH_FILE=/var/lib/ntfy/auth.db
+      - NTFY_AUTH_DEFAULT_ACCESS=deny-all
+      - NTFY_BEHIND_PROXY=true
+      - NTFY_ATTACHMENT_CACHE_DIR=/var/lib/ntfy/attachments
+      - NTFY_UPSTREAM_BASE_URL=https://ntfy.sh
+      - NTFY_WEB_ROOT=disable
+      - NTFY_LOG_LEVEL={{ karo_compose_ntfy_log_level }}
+      - NTFY_AUTH_USERS={{ karo_compose_ntfy_auth_users }}
+      - NTFY_AUTH_ACCESS={{ karo_compose_ntfy_auth_access }}
+      - NTFY_AUTH_TOKENS={{ karo_compose_ntfy_auth_tokens }}
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --tries=1 http://localhost:80/v1/health -O - | grep -Eo '\"healthy\"\\s*:\\s*true' || exit 1"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  egress_ntfy:
+    name: egress_ntfy
+    driver: bridge
+    internal: false
+  frontend:
+    external: true
+
+volumes:
+  ntfy_data:
+    name: ntfy_data
