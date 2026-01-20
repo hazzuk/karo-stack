@@ -4,6 +4,8 @@
 
 ---
 
+karo_compose_justfile_stack: all
+
 karo_compose_traefik_enabled: true
 karo_compose_whoami_enabled: true
 karo_compose_godns_enabled: true

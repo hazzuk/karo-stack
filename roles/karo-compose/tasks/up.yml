@@ -4,11 +4,11 @@
 
 ---
 
-- name: Start compose stack {{ stack }}
+- name: Up compose stack {{ stack }}
   become: true
   become_user: dockeruser
   no_log: true
-  tags: start
+  tags: up
   environment:
     # docker secrets
     karo_compose_traefik_acme_zone_api_token: "{{ karo_compose_traefik_acme_zone_api_token if stack == 'traefik' else '' }}"

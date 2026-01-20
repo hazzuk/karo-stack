@@ -4,10 +4,10 @@
 
 ---
 
-- name: Stop compose stack {{ stack }}
+- name: Down compose stack {{ stack }}
   become: true
   become_user: dockeruser
-  tags: stop
+  tags: down
   community.docker.docker_compose_v2:
     docker_host: unix:///run/user/1001/docker.sock
     project_src: "/srv/docker/{{ stack }}"

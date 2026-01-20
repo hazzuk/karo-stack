@@ -5,6 +5,7 @@
 ---
 
 - name: "Create compose stack directory for {{ stack }}"
+  tags: deploy
   ansible.builtin.file:
     path: "/srv/docker/{{ stack }}"
     mode: "0774"
@@ -13,6 +14,7 @@
     state: directory
 
 - name: "Deploy compose templates for {{ stack }}"
+  tags: deploy
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "/srv/docker/{{ stack }}/{{ item.path | splitext | first }}"

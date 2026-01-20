@@ -6,25 +6,32 @@
 
 ---
 
-- name: Stop docker compose stacks
-  ansible.builtin.include_tasks: stop.yml
+- name: Down docker compose stacks
+  ansible.builtin.include_tasks: down.yml
   loop: "{{ karo_compose_stacks_list | reverse }}"
   loop_control:
     loop_var: stack
-  when: lookup('vars', "karo_compose_" ~ stack ~ "_enabled") | default(false)
-  tags: stop
+  when:
+    - lookup('vars', "karo_compose_" ~ stack ~ "_enabled") | default(false)
+    - stack == karo_compose_justfile_stack or karo_compose_justfile_stack == 'all'
+  tags: down
 
 - name: Deploy compose stacks
   ansible.builtin.include_tasks: deploy.yml
   loop: "{{ karo_compose_stacks_list }}"
   loop_control:
     loop_var: stack
-  when: lookup('vars', "karo_compose_" ~ stack ~ "_enabled") | default(false)
+  when:
+    - lookup('vars', "karo_compose_" ~ stack ~ "_enabled") | default(false)
+    - stack == karo_compose_justfile_stack or karo_compose_justfile_stack == 'all'
+  tags: deploy
 
-- name: Start docker compose stacks
-  ansible.builtin.include_tasks: start.yml
+- name: Up docker compose stacks
+  ansible.builtin.include_tasks: up.yml
   loop: "{{ karo_compose_stacks_list }}"
   loop_control:
     loop_var: stack
-  when: lookup('vars', "karo_compose_" ~ stack ~ "_enabled") | default(false)
-  tags: start
+  when:
+    - lookup('vars', "karo_compose_" ~ stack ~ "_enabled") | default(false)
+    - stack == karo_compose_justfile_stack or karo_compose_justfile_stack == 'all'
+  tags: up
