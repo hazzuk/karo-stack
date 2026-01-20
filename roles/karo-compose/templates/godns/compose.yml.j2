@@ -1,0 +1,33 @@
+# SPDX-FileCopyrightText: 2025 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+---
+name: godns
+services:
+
+  godns:
+    # https://github.com/TimothyYe/godns
+    # https://hub.docker.com/r/timothyye/godns
+    image: docker.io/timothyye/godns:v3.3.5@sha256:83dc9457f1d390bd1c2fa1ca59d56a8d8b8506060cf7fd31f8838b78cda5f181
+    container_name: godns
+    restart: {{ karo_compose_restart_policy }}
+    networks:
+      - egress_godns
+    volumes:
+      - type: bind
+        source: /srv/docker/godns/config.json
+        target: /config.json
+        read_only: true
+    secrets:
+      - karo_compose_godns_dns_api_token
+
+networks:
+  egress_godns:
+    name: egress_godns
+    driver: bridge
+    internal: false
+
+secrets:
+  karo_compose_godns_dns_api_token:
+    environment: karo_compose_godns_dns_api_token
