@@ -7,6 +7,7 @@
 karo_compose_traefik_enabled: true
 karo_compose_whoami_enabled: true
 karo_compose_godns_enabled: true
+karo_compose_gluetun_enabled: true
 
 # docker will start stacks in this order
 # docker will stop stacks in reverse order
@@ -14,8 +15,10 @@ karo_compose_stacks_list:
   - traefik
   - whoami
   - godns
+  - gluetun
 
 karo_compose_restart_policy: unless-stopped
+karo_compose_timezone: "Europe/London"
 
 karo_compose_public_domain: localhost
 karo_compose_private_domain: example.localhost
@@ -32,3 +35,10 @@ karo_compose_traefik_acme_staging_enabled: true
 
 karo_compose_godns_dns_api_token: "token_not_set" # secret
 karo_compose_godns_subdomain: home
+
+# gluetun
+
+karo_compose_gluetun_wireguard_config_raw: | # secret
+  # wireguard config
+
+karo_compose_gluetun_firewall_vpn_input_ports: ""
