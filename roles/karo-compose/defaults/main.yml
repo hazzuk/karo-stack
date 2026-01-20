@@ -11,6 +11,7 @@ karo_compose_whoami_enabled: true
 karo_compose_godns_enabled: true
 karo_compose_gluetun_enabled: true
 karo_compose_qbittorrent_enabled: true
+karo_compose_pocketid_enabled: true
 
 # docker will start stacks in this order
 # docker will stop stacks in reverse order
@@ -20,12 +21,37 @@ karo_compose_stacks_list:
   - godns
   - gluetun
   - qbittorrent
+  - pocketid
 
 karo_compose_restart_policy: unless-stopped
 karo_compose_timezone: "Europe/London"
 
 karo_compose_public_domain: example.com
 karo_compose_private_domain: int.example.com
+
+# oidc
+
+karo_compose_oidc_subdomain: auth
+karo_compose_oidc_domain: "{{ karo_compose_oidc_subdomain }}.{{ karo_compose_public_domain }}" # e.g. auth.example.com
+karo_compose_oidc_url: "https://{{ karo_compose_oidc_domain }}" # e.g. https://auth.example.com
+
+karo_compose_oidc_authorization_path: "/authorize"
+karo_compose_oidc_authorization_url: "{{ karo_compose_oidc_url }}{{ karo_compose_oidc_authorization_path }}"
+
+karo_compose_oidc_discovery_path: "/.well-known/openid-configuration"
+karo_compose_oidc_discovery_url: "{{ karo_compose_oidc_url }}{{ karo_compose_oidc_discovery_path }}"
+
+karo_compose_oidc_token_path: "/api/oidc/token"
+karo_compose_oidc_token_url: "{{ karo_compose_oidc_url }}{{ karo_compose_oidc_token_path }}"
+
+karo_compose_oidc_userinfo_path: "/api/oidc/userinfo"
+karo_compose_oidc_userinfo_url: "{{ karo_compose_oidc_url }}{{ karo_compose_oidc_userinfo_path }}"
+
+karo_compose_oidc_logout_path: "/api/oidc/end-session"
+karo_compose_oidc_logout_url: "{{ karo_compose_oidc_url }}{{ karo_compose_oidc_logout_path }}"
+
+karo_compose_oidc_certificate_path: "/.well-known/jwks.json"
+karo_compose_oidc_certificate_url: "{{ karo_compose_oidc_url }}{{ karo_compose_oidc_certificate_path }}"
 
 # traefik
 
@@ -60,3 +86,12 @@ karo_compose_qbittorrent_downloads_path: "" # e.g. /media/drive1/data/torrents
 karo_compose_qbittorrent_webui_enabled: true
 
 karo_compose_qbittorrent_qui_session_secret: "" # secret (`openssl rand -hex 16`)
+
+karo_compose_qbittorrent_qui_oidc_client_id: ""
+karo_compose_qbittorrent_qui_oidc_client_secret: ""
+
+# pocketid
+
+karo_compose_pocketid_encryption_key: "" # secret (`openssl rand -base64 32`)
+
+karo_compose_pocketid_maxmind_license_key: "" # secret
