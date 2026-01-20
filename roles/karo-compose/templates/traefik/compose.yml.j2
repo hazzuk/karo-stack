@@ -9,7 +9,7 @@ services:
   traefik:
     # https://github.com/traefik/traefik
     # https://hub.docker.com/_/traefik
-    image: docker.io/traefik:v3.6.1@sha256:fd5932c796f7e2db9fd6bff485ef693d53797f0ee8ad03dc68aa424ea6f21958
+    image: docker.io/traefik:v3.6.6@sha256:82d3d16dde0474a51fef00b28de143d48b67f7a27453224d5e7b5aaefff26a97
     container_name: traefik
     restart: {{ karo_compose_restart_policy }}
     security_opt:
@@ -19,16 +19,17 @@ services:
       - "0.0.0.0:443:443/tcp"
       - "0.0.0.0:443:443/udp"
     networks:
-      - socketproxy_traefik
-      - egress_traefik
-      - frontend
+      socketproxy_traefik:
+      egress_traefik:
+      frontend:
+        ipv4_address: 172.18.0.254
     volumes:
       - type: bind
         source: /srv/docker/traefik/traefik.yml
         target: /etc/traefik/traefik.yml
         read_only: true
       - type: volume
-        source: acme
+        source: traefik_acme
         target: /etc/traefik/acme
     labels:
       - traefik.enable=true
@@ -96,7 +97,8 @@ networks:
           gateway: 172.18.0.1
 
 volumes:
-  acme:
+  traefik_acme:
+    name: traefik_acme
 
 secrets:
   karo_compose_traefik_acme_zone_api_token:
