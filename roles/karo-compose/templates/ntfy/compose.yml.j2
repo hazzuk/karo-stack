@@ -9,7 +9,7 @@ services:
   ntfy:
     # https://github.com/binwiederhier/ntfy
     # https://hub.docker.com/r/binwiederhier/ntfy
-    image: docker.io/binwiederhier/ntfy:v2.15.0@sha256:aa10e84da624f65be107f9317dbf6e212fa812e0ebf62e74d032d0762eccc930
+    image: {{ karo_compose_ntfy_image }}:{{ karo_compose_ntfy_version }}
     container_name: ntfy
     restart: {{ karo_compose_restart_policy }}
     # user: 1000:1000 # issue 1276
@@ -28,11 +28,11 @@ services:
         target: /var/lib/ntfy
     labels:
       - traefik.enable=true
-      - traefik.http.routers.ntfy.rule=Host(`ntfy.{{ karo_compose_public_domain }}`)
+      - traefik.http.routers.ntfy.rule=Host(`{{ karo_compose_ntfy_domain }}`)
       - traefik.http.services.ntfy.loadbalancer.server.port=80
     environment:
       - TZ={{ karo_compose_timezone }}
-      - NTFY_BASE_URL=https://ntfy.{{ karo_compose_public_domain }}
+      - NTFY_BASE_URL=https://{{ karo_compose_ntfy_domain }}
       - NTFY_CACHE_FILE=/var/lib/ntfy/cache.db
       - NTFY_AUTH_FILE=/var/lib/ntfy/auth.db
       - NTFY_AUTH_DEFAULT_ACCESS=deny-all

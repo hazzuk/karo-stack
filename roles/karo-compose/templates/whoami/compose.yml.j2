@@ -9,36 +9,23 @@ services:
   whoami:
     # https://github.com/traefik/whoami
     # https://hub.docker.com/r/traefik/whoami
-    image: docker.io/traefik/whoami:v1.11.0@sha256:200689790a0a0ea48ca45992e0450bc26ccab5307375b41c84dfc4f2475937ab
+    image: {{ karo_compose_whoami_image }}:{{ karo_compose_whoami_version }}
     container_name: whoami
     restart: {{ karo_compose_restart_policy }}
     networks:
       - frontend
     labels:
       - traefik.enable=true
-      - traefik.http.routers.whoami.rule=Host(`whoami.{{ karo_compose_private_domain }}`)
+      - traefik.http.routers.whoami.rule=Host(`{{ karo_compose_whoami_domain }}`)
       # - traefik.http.routers.whoami.tls=true
       # - traefik.http.routers.whoami.tls.certresolver=cloudflare
       # - traefik.http.routers.dashboard.entrypoints=websecure
       - traefik.http.services.whoami.loadbalancer.server.port=80
       # forward auth
       - traefik.http.routers.whoami.middlewares=tinyauth
-      # - tinyauth.apps.whoami.config.domain=whoami.{{ karo_compose_private_domain }}
+      # - tinyauth.apps.whoami.config.domain={{ karo_compose_whoami_domain }}
       - tinyauth.apps.whoami.oauth.groups={{ karo_compose_oidc_admin_group }}
       - tinyauth.apps.whoami.path.allow=^\/api
-
-  nginx:
-    # https://github.com/nginx/nginx
-    # https://hub.docker.com/_/nginx
-    image: docker.io/nginx:1.29.3-alpine@sha256:b3c656d55d7ad751196f21b7fd2e8d4da9cb430e32f646adcf92441b72f82b14
-    container_name: nginx
-    restart: {{ karo_compose_restart_policy }}
-    networks:
-      - frontend
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.nginx.rule=Host(`nginx.{{ karo_compose_private_domain }}`)
-      - traefik.http.services.nginx.loadbalancer.server.port=80
 
 networks:
   frontend:

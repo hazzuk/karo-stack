@@ -9,7 +9,7 @@ services:
   pocketid:
     # https://github.com/pocket-id/pocket-id
     # https://github.com/pocket-id/pocket-id/pkgs/container/pocket-id
-    image: ghcr.io/pocket-id/pocket-id:v1.16.0@sha256:f8cde808e8e840acda25683fc2168e0206e3f3fb1a48cca89d211aafd87eaeef
+    image: {{ karo_compose_pocketid_image }}:{{ karo_compose_pocketid_version }}
     container_name: pocketid
     restart: {{ karo_compose_restart_policy }}
     read_only: false
