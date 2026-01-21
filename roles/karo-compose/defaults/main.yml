@@ -63,6 +63,7 @@ karo_compose_oidc_admin_group: "admin"
 karo_compose_pocketid_enabled: true
 karo_compose_pocketid_image: ghcr.io/pocket-id/pocket-id
 karo_compose_pocketid_version: v1.16.0@sha256:f8cde808e8e840acda25683fc2168e0206e3f3fb1a48cca89d211aafd87eaeef
+karo_compose_pocketid_log_level: info # debug, info, warn, error
 
 karo_compose_pocketid_encryption_key: "" # secret (`openssl rand -base64 32`)
 karo_compose_pocketid_maxmind_license_key: "" # secret
@@ -73,7 +74,7 @@ karo_compose_traefik_enabled: true
 karo_compose_traefik_image: docker.io/traefik
 karo_compose_traefik_version: v3.6.6@sha256:82d3d16dde0474a51fef00b28de143d48b67f7a27453224d5e7b5aaefff26a97
 karo_compose_traefik_dashboard_domain: "traefik.{{ karo_compose_private_domain }}"
-karo_compose_traefik_log_level: debug
+karo_compose_traefik_log_level: debug # trace, debug, info, warn, error, fatal, panic
 
 karo_compose_traefik_dashboard_enabled: true
 
@@ -91,7 +92,7 @@ karo_compose_traefik_acme_dns_api_token: "" # secret
 karo_compose_traefik_tinyauth_image: ghcr.io/steveiliop56/tinyauth
 karo_compose_traefik_tinyauth_version: v4.1.0-distroless@sha256:b6aea73049dd7d5e0fdf800602a5ca43d560696e4b4938cb9bec65b40c828405
 karo_compose_traefik_tinyauth_domain: "tinyauth.{{ karo_compose_public_domain }}"
-karo_compose_traefik_tinyauth_log_level: info
+karo_compose_traefik_tinyauth_log_level: info # trace, debug, info, warn, error, fatal, panic
 
 karo_compose_traefik_tinyauth_oidc_client_id: ""
 karo_compose_traefik_tinyauth_oidc_client_secret: "" # secret
@@ -100,6 +101,7 @@ karo_compose_traefik_tinyauth_oidc_client_secret: "" # secret
 
 karo_compose_traefik_cetusguard_image: docker.io/hectorm/cetusguard
 karo_compose_traefik_cetusguard_version: v1.1.2@sha256:692496ba976990a14416cc5bed844a72df6a4d75d677932c7d75934492312ef3
+karo_compose_traefik_cetusguard_log_level: 7 # 0-7
 
 # extra stacks
 # ---
@@ -109,6 +111,7 @@ karo_compose_traefik_cetusguard_version: v1.1.2@sha256:692496ba976990a14416cc5be
 karo_compose_gluetun_enabled: false
 karo_compose_gluetun_image: docker.io/qmcgaw/gluetun
 karo_compose_gluetun_version: v3.40.3@sha256:ef4a44819a60469682c7b5e69183e6401171891feaa60186652d292c59e41b30
+karo_compose_gluetun_log_level: info # debug, info, warning, error
 
 karo_compose_gluetun_firewall_vpn_input_ports: ""
 
@@ -120,6 +123,7 @@ karo_compose_gluetun_wireguard_config_raw: | # secret
 karo_compose_godns_enabled: false
 karo_compose_godns_image: docker.io/timothyye/godns
 karo_compose_godns_version: v3.3.5@sha256:83dc9457f1d390bd1c2fa1ca59d56a8d8b8506060cf7fd31f8838b78cda5f181
+karo_compose_godns_debug_info_enabled: false
 
 karo_compose_godns_subdomain: home
 
@@ -141,7 +145,7 @@ karo_compose_ntfy_enabled: false
 karo_compose_ntfy_image: docker.io/binwiederhier/ntfy
 karo_compose_ntfy_version: v2.15.0@sha256:aa10e84da624f65be107f9317dbf6e212fa812e0ebf62e74d032d0762eccc930
 karo_compose_ntfy_domain: "ntfy.{{ karo_compose_public_domain }}"
-karo_compose_ntfy_log_level: info
+karo_compose_ntfy_log_level: info # trace, debug, info, warn, error
 
 karo_compose_ntfy_auth_users: "" # https://docs.ntfy.sh/config/#users-via-the-config
 karo_compose_ntfy_auth_access: "" # https://docs.ntfy.sh/config/#acl-entries-via-the-config
@@ -170,6 +174,7 @@ karo_compose_qbittorrent_webui_enabled: true
 karo_compose_qbittorrent_qui_image: ghcr.io/autobrr/qui
 karo_compose_qbittorrent_qui_version: v1.11.0@sha256:5c7c08d5e8d4c4fe966106b58d3705f19921a69606b3dc4f237009a6c25a0ac7
 karo_compose_qbittorrent_qui_domain: "qui.{{ karo_compose_private_domain }}"
+karo_compose_qbittorrent_qui_log_level: info # trace, debug, info, warn, error
 
 karo_compose_qbittorrent_qui_session_secret: "" # secret (`openssl rand -hex 16`)
 
@@ -182,7 +187,7 @@ karo_compose_seerr_enabled: false
 karo_compose_seerr_image: docker.io/fallenbagel/jellyseerr
 karo_compose_seerr_version: preview-OIDC@sha256:9f3195998306da6548fc3b2420d114dda64a6e904f41e911168788fb410a7972
 karo_compose_seerr_domain: "seerr.{{ karo_compose_private_domain }}"
-karo_compose_seerr_log_level: info
+karo_compose_seerr_log_level: info # debug, info, warn, error
 
 # servarr
 

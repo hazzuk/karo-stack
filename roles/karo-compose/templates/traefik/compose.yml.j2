@@ -49,7 +49,8 @@ services:
       - karo_compose_traefik_acme_zone_api_token
       - karo_compose_traefik_acme_dns_api_token
     depends_on:
-      - cetusguard
+      tinyauth:
+        condition: service_healthy
 
   tinyauth:
     # https://github.com/steveiliop56/tinyauth
@@ -89,12 +90,14 @@ services:
       - DOCKER_HOST=tcp://cetusguard:2375
     secrets:
       - karo_compose_traefik_tinyauth_oidc_client_secret
+    depends_on:
+      - cetusguard
 
   cetusguard:
     # https://github.com/hectorm/cetusguard
     # https://hub.docker.com/r/hectorm/cetusguard
-    container_name: cetusguard
     image: {{ karo_compose_traefik_cetusguard_image }}:{{ karo_compose_traefik_cetusguard_version }}
+    container_name: cetusguard_traefik
     restart: {{ karo_compose_restart_policy }}
     read_only: true
     networks:
@@ -114,7 +117,7 @@ services:
         GET %API_PREFIX_CONTAINERS%/json
         ! inspect a container
         GET %API_PREFIX_CONTAINERS%/%CONTAINER_ID_OR_NAME%/json
-      CETUSGUARD_LOG_LEVEL: "7"
+      CETUSGUARD_LOG_LEVEL: "{{ karo_compose_traefik_cetusguard_log_level }}"
 
 networks:
   socketproxy_traefik:
