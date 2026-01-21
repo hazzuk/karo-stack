@@ -9,14 +9,15 @@ karo_compose_justfile_stack: all
 # docker will start stacks in this order
 # docker will stop stacks in reverse order
 karo_compose_stacks_list:
+  - pocketid
   - traefik
   - whoami
   - godns
   - gluetun
   - qbittorrent
-  - pocketid
   - prowlarr
-  - servarr
+  - radarr
+  - sonarr
   - seerr
   - jellyfin
   - ntfy
@@ -192,6 +193,15 @@ karo_compose_qbittorrent_qui_session_secret: "" # secret (`openssl rand -hex 16`
 karo_compose_qbittorrent_qui_oidc_client_id: ""
 karo_compose_qbittorrent_qui_oidc_client_secret: ""
 
+# radarr
+
+karo_compose_radarr_enabled: false
+karo_compose_radarr_image: docker.io/linuxserver/radarr
+karo_compose_radarr_version: version-6.0.4.10291@sha256:6c0948b42c149e36bb3dbc0b64d36c77b2d3c9dccf1b424c4f72af1e57ba0c21
+karo_compose_radarr_domain: "radarr.{{ karo_compose_private_domain }}"
+
+karo_compose_radarr_data_path: "" # e.g. /media/drive1/data
+
 # seerr
 
 karo_compose_seerr_enabled: false
@@ -200,23 +210,14 @@ karo_compose_seerr_version: preview-OIDC@sha256:9f3195998306da6548fc3b2420d114dd
 karo_compose_seerr_domain: "seerr.{{ karo_compose_private_domain }}"
 karo_compose_seerr_log_level: info # debug, info, warn, error
 
-# servarr
+# sonarr
 
-karo_compose_servarr_enabled: false
-
-karo_compose_servarr_data_path: "" # e.g. /media/drive1/data
-
-# servarr radarr
-
-karo_compose_radarr_image: docker.io/linuxserver/radarr
-karo_compose_radarr_version: version-6.0.4.10291@sha256:6c0948b42c149e36bb3dbc0b64d36c77b2d3c9dccf1b424c4f72af1e57ba0c21
-karo_compose_radarr_domain: "radarr.{{ karo_compose_private_domain }}"
-
-# servarr sonarr
-
+karo_compose_sonarr_enabled: false
 karo_compose_sonarr_image: docker.io/linuxserver/sonarr
 karo_compose_sonarr_version: version-4.0.16.2944@sha256:8b9f2138ec50fc9e521960868f79d2ad0d529bc610aef19031ea8ff80b54c5e0
 karo_compose_sonarr_domain: "sonarr.{{ karo_compose_private_domain }}"
+
+karo_compose_sonarr_data_path: "" # e.g. /media/drive1/data
 
 # whoami
 
