@@ -20,6 +20,7 @@ karo_compose_stacks_list:
   - seerr
   - jellyfin
   - ntfy
+  - glance
 
 karo_compose_restart_policy: unless-stopped
 karo_compose_timezone: "Europe/London"
@@ -105,6 +106,16 @@ karo_compose_traefik_cetusguard_log_level: 7 # 0-7
 
 # extra stacks
 # ---
+
+# glance
+
+karo_compose_glance_enabled: false
+karo_compose_glance_image: docker.io/glanceapp/glance
+karo_compose_glance_version: v0.8.4@sha256:6df86a7e8868d1eda21f35205134b1962c422957e42a0c44d4717c8e8f741b1a
+karo_compose_glance_domain: "glance.{{ karo_compose_private_domain }}"
+
+karo_compose_glance_config_raw: |
+  # glance config
 
 # gluetun
 

@@ -1,0 +1,55 @@
+# SPDX-FileCopyrightText: 2026 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+---
+name: glance
+services:
+
+  glance:
+    # https://github.com/glanceapp/glance
+    # https://hub.docker.com/r/glanceapp/glance
+    image: {{ karo_compose_glance_image }}:{{ karo_compose_glance_version }}
+    container_name: glance
+    restart: {{ karo_compose_restart_policy }}
+    user: 2000:2000
+    tty: false
+    stdin_open: false
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    tmpfs:
+    - /tmp:rw,noexec,nosuid,nodev
+    cap_drop:
+      - ALL
+    networks:
+      - egress_glance
+      - frontend
+    volumes:
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+      - type: bind
+        source: /srv/docker/glance/glance.yml
+        target: /app/config/glance.yml
+        read_only: true
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.glance.rule=Host(`{{ karo_compose_glance_domain }}`)
+      - traefik.http.services.glance.loadbalancer.server.port=8080
+      # forward auth
+      - traefik.http.routers.glance.middlewares=tinyauth
+      - tinyauth.apps.glance.oauth.groups={{ karo_compose_oidc_admin_group }}
+
+networks:
+  egress_glance:
+    name: egress_glance
+    driver: bridge
+    internal: false
+  frontend:
+    external: true
+
+volumes:
+  glance_data:
+    name: glance_data
