@@ -13,6 +13,7 @@
     # docker secrets
     karo_compose_traefik_acme_zone_api_token: "{{ karo_compose_traefik_acme_zone_api_token if stack == 'traefik' else '' }}"
     karo_compose_traefik_acme_dns_api_token: "{{ karo_compose_traefik_acme_dns_api_token if stack == 'traefik' else '' }}"
+    karo_compose_traefik_tinyauth_oidc_client_secret: "{{ karo_compose_traefik_tinyauth_oidc_client_secret if stack == 'traefik' else '' }}"
     karo_compose_godns_dns_api_token: "{{ karo_compose_godns_dns_api_token if stack == 'godns' else '' }}"
     karo_compose_gluetun_wireguard_config_raw: "{{ karo_compose_gluetun_wireguard_config_raw if stack == 'gluetun' else '' }}"
     karo_compose_qbittorrent_qui_session_secret: "{{ karo_compose_qbittorrent_qui_session_secret if stack == 'qbittorrent' else '' }}"
