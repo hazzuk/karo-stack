@@ -71,8 +71,8 @@ setup-vault hostname:
 
 # (Internal use) Create the Ansible vault password file when missing
 _check-password:
-    @[ -e "{{password}}" ] || micro -mkparents true "{{password}}"
+    @[ -e "{{password}}" ] || micro -backup false -mkparents true "{{password}}"
 
 # Edit the Ansible vault password file
 setup-password:
-    @micro -mkparents true "{{password}}"
+    @micro -backup false -mkparents true "{{password}}"
