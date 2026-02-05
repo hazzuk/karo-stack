@@ -48,7 +48,7 @@ down-compose stack='all': _check-password
 
 # vault
 
-password := "/run/user/1000/karo/vault_password"
+password := "/run/user/1000/karo-stack/vault_pass"
 
 # Manage an Ansible vault
 setup-vault hostname:
