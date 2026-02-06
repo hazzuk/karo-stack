@@ -26,6 +26,7 @@ services:
       - traefik.http.services.sonarr.loadbalancer.server.port=8989
       # forward auth
       - traefik.http.routers.sonarr.middlewares=tinyauth
+      - tinyauth.apps.sonarr.config.domain={{ karo_compose_sonarr_domain }}
       - tinyauth.apps.sonarr.oauth.groups={{ karo_compose_oidc_admin_group }}
     environment:
       - TZ={{ karo_compose_timezone }}

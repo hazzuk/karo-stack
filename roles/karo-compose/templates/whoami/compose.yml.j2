@@ -23,7 +23,7 @@ services:
       - traefik.http.services.whoami.loadbalancer.server.port=80
       # forward auth
       - traefik.http.routers.whoami.middlewares=tinyauth
-      # - tinyauth.apps.whoami.config.domain={{ karo_compose_whoami_domain }}
+      - tinyauth.apps.whoami.config.domain={{ karo_compose_whoami_domain }}
       - tinyauth.apps.whoami.oauth.groups={{ karo_compose_oidc_admin_group }}
       - tinyauth.apps.whoami.path.allow=^\/api
 

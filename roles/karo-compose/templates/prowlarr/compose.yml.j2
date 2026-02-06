@@ -23,6 +23,7 @@ services:
       - traefik.http.services.prowlarr.loadbalancer.server.port=9696
       # forward auth
       - traefik.http.routers.prowlarr.middlewares=tinyauth
+      - tinyauth.apps.prowlarr.config.domain={{ karo_compose_prowlarr_domain }}
       - tinyauth.apps.prowlarr.oauth.groups={{ karo_compose_oidc_admin_group }}
     environment:
       - TZ={{ karo_compose_timezone }}
