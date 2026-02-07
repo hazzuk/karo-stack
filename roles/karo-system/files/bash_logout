@@ -9,4 +9,4 @@ fi
 # karo-stack
 
 # clean-up vault password on logout
-export P="/run/user/1000/karo/vault_password"; [ -e "$P" ] && shred -u "$P" >/dev/null 2>&1 || true
+export P="/run/user/1000/karo-stack/vault_pass"; [ -e "$P" ] && shred -u "$P" >/dev/null 2>&1 || true

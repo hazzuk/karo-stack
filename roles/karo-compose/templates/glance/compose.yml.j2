@@ -40,6 +40,7 @@ services:
       - traefik.http.services.glance.loadbalancer.server.port=8080
       # forward auth
       - traefik.http.routers.glance.middlewares=tinyauth
+      - tinyauth.apps.glance.config.domain={{ karo_compose_glance_domain }}
       - tinyauth.apps.glance.oauth.groups={{ karo_compose_oidc_admin_group }}
 
 networks:

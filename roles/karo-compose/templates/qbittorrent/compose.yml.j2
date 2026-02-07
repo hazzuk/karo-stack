@@ -13,8 +13,13 @@ services:
     container_name: qbittorrent
     restart: {{ karo_compose_restart_policy }}
     stop_grace_period: 30m
+    tty: false
+    stdin_open: false
     read_only: false
-    tty: true
+    security_opt:
+      - no-new-privileges:true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,nodev
     network_mode: "container:gluetun"
     volumes:
       - type: bind
@@ -23,18 +28,16 @@ services:
       - type: volume
         source: qbittorrent_data
         target: /config
-    tmpfs:
-      - /tmp
     labels:
       - traefik.enable={{ karo_compose_qbittorrent_webui_enabled | lower }}
       - traefik.http.routers.qbittorrent.rule=Host(`{{ karo_compose_qbittorrent_domain }}`)
       - traefik.http.services.qbittorrent.loadbalancer.server.port=9814
     environment:
-      - QBT_LEGAL_NOTICE=confirm
-      - QBT_WEBUI_PORT=9814
       - TZ={{ karo_compose_timezone }}
       - PUID=0
       - PGID=0
+      - QBT_LEGAL_NOTICE=confirm
+      - QBT_WEBUI_PORT=9814
 
   qui:
     # https://github.com/autobrr/qui

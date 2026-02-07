@@ -103,7 +103,7 @@ karo_compose_traefik_tinyauth_oidc_client_secret: "" # secret
 
 karo_compose_traefik_cetusguard_image: docker.io/hectorm/cetusguard
 karo_compose_traefik_cetusguard_version: v1.1.2@sha256:692496ba976990a14416cc5bed844a72df6a4d75d677932c7d75934492312ef3
-karo_compose_traefik_cetusguard_log_level: 7 # 0-7
+karo_compose_traefik_cetusguard_log_level: 7 # 0-7 (min to max verbosity)
 
 # extra stacks
 # ---
