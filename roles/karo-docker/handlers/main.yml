@@ -4,11 +4,6 @@
 
 ---
 
-# - name: Restart rootful docker
-#   ansible.builtin.service:
-#     name: docker
-#     state: restarted
-
 - name: Restart rootless docker
   become: true
   become_user: dockeruser
