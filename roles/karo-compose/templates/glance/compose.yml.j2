@@ -12,7 +12,7 @@ services:
     image: {{ karo_compose_glance_image }}:{{ karo_compose_glance_version }}
     container_name: glance
     restart: {{ karo_compose_restart_policy }}
-    user: 2000:2000
+    user: 1000:1000
     tty: false
     stdin_open: false
     read_only: true
