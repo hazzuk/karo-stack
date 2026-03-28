@@ -12,6 +12,8 @@
 > [!WARNING]  
 > This project is still in early development.
 
+Learn more about the project and how to use it at [docs.karolabs.dev](https://docs.karolabs.dev/).
+
 ## Copyright & License
 
 The [karo-stack](https://github.com/hazzuk/karo-stack) project is copyright © [hazzuk](https://github.com/hazzuk) and is licensed [AGPL-3.0-only](https://github.com/hazzuk/karo-stack/blob/main/LICENSE).
