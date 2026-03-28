@@ -1,10 +1,10 @@
 
 # karo-stack
 
-**Create declarative Linux servers and desktops**
+**An open-source toolkit to create a declarative Linux homeserver**
 
 > [!WARNING]  
-> This project is currently in early development, and is not yet ready for public use.
+> This project is still in early development.
 
 ## Copyright & License
 
