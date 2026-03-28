@@ -1,6 +1,3 @@
-![karo-stack](docs/assets/karo-stack.png)
-
----
 
 # karo-stack
 
