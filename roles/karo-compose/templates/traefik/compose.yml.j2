@@ -2,13 +2,13 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-only
 
+# https://docs.karolabs.dev/stacks/core/traefik
+
 ---
 name: traefik
 services:
 
   traefik:
-    # https://github.com/traefik/traefik
-    # https://hub.docker.com/_/traefik
     image: {{ karo_compose_traefik_image }}:{{ karo_compose_traefik_version }}
     container_name: traefik
     restart: {{ karo_compose_restart_policy }}
@@ -53,8 +53,6 @@ services:
         condition: service_healthy
 
   tinyauth:
-    # https://github.com/steveiliop56/tinyauth
-    # https://github.com/steveiliop56/tinyauth/pkgs/container/tinyauth
     image: {{ karo_compose_traefik_tinyauth_image }}:{{ karo_compose_traefik_tinyauth_version }}
     container_name: tinyauth
     restart: {{ karo_compose_restart_policy }}
@@ -94,8 +92,6 @@ services:
       - cetusguard
 
   cetusguard:
-    # https://github.com/hectorm/cetusguard
-    # https://hub.docker.com/r/hectorm/cetusguard
     image: {{ karo_compose_traefik_cetusguard_image }}:{{ karo_compose_traefik_cetusguard_version }}
     container_name: cetusguard_traefik
     restart: {{ karo_compose_restart_policy }}

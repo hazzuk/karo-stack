@@ -2,13 +2,13 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-only
 
+# https://docs.karolabs.dev/stacks/extra/jellyfin
+
 ---
 name: jellyfin
 services:
 
   jellyfin:
-    # https://github.com/jellyfin/jellyfin
-    # https://hub.docker.com/r/jellyfin/jellyfin
     image: {{ karo_compose_jellyfin_image }}:{{ karo_compose_jellyfin_version }}
     container_name: jellyfin
     restart: {{ karo_compose_restart_policy }}

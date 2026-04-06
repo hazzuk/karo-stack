@@ -2,13 +2,13 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-only
 
+# https://docs.karolabs.dev/stacks/extra/qbittorrent
+
 ---
 name: qbittorrent
 services:
 
   qbittorrent:
-    # https://github.com/qbittorrent/docker-qbittorrent-nox
-    # https://hub.docker.com/r/qbittorrentofficial/qbittorrent-nox
     image: {{ karo_compose_qbittorrent_image }}:{{ karo_compose_qbittorrent_version }}
     container_name: qbittorrent
     restart: {{ karo_compose_restart_policy }}
@@ -40,8 +40,6 @@ services:
       - QBT_WEBUI_PORT=9814
 
   qui:
-    # https://github.com/autobrr/qui
-    # https://github.com/autobrr/qui/pkgs/container/qui
     image: {{ karo_compose_qbittorrent_qui_image }}:{{ karo_compose_qbittorrent_qui_version }}
     container_name: qui
     restart: {{ karo_compose_restart_policy }}

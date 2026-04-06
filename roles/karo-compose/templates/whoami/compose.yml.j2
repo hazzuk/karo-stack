@@ -2,13 +2,13 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-only
 
+# https://docs.karolabs.dev/stacks/extra/whoami
+
 ---
 name: whoami
 services:
 
   whoami:
-    # https://github.com/traefik/whoami
-    # https://hub.docker.com/r/traefik/whoami
     image: {{ karo_compose_whoami_image }}:{{ karo_compose_whoami_version }}
     container_name: whoami
     restart: {{ karo_compose_restart_policy }}

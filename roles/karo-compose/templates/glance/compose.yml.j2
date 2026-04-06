@@ -2,13 +2,13 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-only
 
+# https://docs.karolabs.dev/stacks/extra/glance
+
 ---
 name: glance
 services:
 
   glance:
-    # https://github.com/glanceapp/glance
-    # https://hub.docker.com/r/glanceapp/glance
     image: {{ karo_compose_glance_image }}:{{ karo_compose_glance_version }}
     container_name: glance
     restart: {{ karo_compose_restart_policy }}

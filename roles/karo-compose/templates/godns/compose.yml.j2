@@ -2,13 +2,13 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-only
 
+# https://docs.karolabs.dev/stacks/extra/godns
+
 ---
 name: godns
 services:
 
   godns:
-    # https://github.com/TimothyYe/godns
-    # https://hub.docker.com/r/timothyye/godns
     image: {{ karo_compose_godns_image }}:{{ karo_compose_godns_version }}
     container_name: godns
     restart: {{ karo_compose_restart_policy }}

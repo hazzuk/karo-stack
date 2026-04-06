@@ -2,13 +2,13 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-only
 
+# https://docs.karolabs.dev/stacks/extra/prowlarr
+
 ---
 name: prowlarr
 services:
 
   prowlarr:
-    # https://github.com/prowlarr/prowlarr
-    # https://hub.docker.com/r/linuxserver/prowlarr
     image: {{ karo_compose_prowlarr_image }}:{{ karo_compose_prowlarr_version }}
     container_name: prowlarr
     restart: {{ karo_compose_restart_policy }}

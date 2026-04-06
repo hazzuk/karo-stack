@@ -2,13 +2,13 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-only
 
+# https://docs.karolabs.dev/stacks/extra/ntfy
+
 ---
 name: ntfy
 services:
 
   ntfy:
-    # https://github.com/binwiederhier/ntfy
-    # https://hub.docker.com/r/binwiederhier/ntfy
     image: {{ karo_compose_ntfy_image }}:{{ karo_compose_ntfy_version }}
     container_name: ntfy
     restart: {{ karo_compose_restart_policy }}

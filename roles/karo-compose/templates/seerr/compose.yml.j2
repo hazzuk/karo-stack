@@ -2,14 +2,13 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-only
 
+# https://docs.karolabs.dev/stacks/extra/seerr
+
 ---
 name: seerr
 services:
 
   seerr:
-    # https://github.com/seerr-team/seerr
-    # https://hub.docker.com/r/fallenbagel/jellyseerr
-    # https://hub.docker.com/r/seerr/seerr (future)
     image: {{ karo_compose_seerr_image }}:{{ karo_compose_seerr_version }}
     container_name: seerr
     restart: {{ karo_compose_restart_policy }}
