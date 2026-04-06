@@ -33,8 +33,8 @@ _host-preseed platform:
 # server
 
 # Run Ansible to provision the Debian server
-setup-server: _check-password
-    ansible-playbook run.yml --tags setup
+setup-server hostname='': _check-password
+    ansible-playbook run.yml --tags setup --limit "{{hostname}}"
 
 # compose
 
