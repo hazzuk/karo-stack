@@ -31,7 +31,7 @@ services:
         target: /etc/localtime
         read_only: true
       - type: bind
-        source: /srv/docker/glance/glance.yml
+        source: /srv/docker/extra/glance/glance.yml
         target: /app/config/glance.yml
         read_only: true
     labels:
