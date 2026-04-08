@@ -25,7 +25,7 @@
     stack: "{{ item.name }}"
     group: "{{ item.group }}"
   when:
-    - lookup('vars', "karo_compose_" ~ stack ~ "_enabled") | default(false)
+    - lookup('vars', 'karo_compose_' ~ stack ~ '_enabled') | default(false)
     - stack == karo_compose_justfile_stack or karo_compose_justfile_stack == 'all'
   tags: down
 
@@ -36,7 +36,7 @@
     stack: "{{ item.name }}"
     group: "{{ item.group }}"
   when:
-    - lookup('vars', "karo_compose_" ~ stack ~ "_enabled") | default(false)
+    - lookup('vars', 'karo_compose_' ~ stack ~ '_enabled') | default(false)
     - stack == karo_compose_justfile_stack or karo_compose_justfile_stack == 'all'
   tags: deploy
 
@@ -47,6 +47,6 @@
     stack: "{{ item.name }}"
     group: "{{ item.group }}"
   when:
-    - lookup('vars', "karo_compose_" ~ stack ~ "_enabled") | default(false)
+    - lookup('vars', 'karo_compose_' ~ stack ~ '_enabled') | default(false)
     - stack == karo_compose_justfile_stack or karo_compose_justfile_stack == 'all'
   tags: up
