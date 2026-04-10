@@ -2,13 +2,13 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-only
 
+# https://docs.karolabs.dev/stacks/extra/sonarr
+
 ---
 name: sonarr
 services:
 
   sonarr:
-    # https://github.com/sonarr/sonarr
-    # https://hub.docker.com/r/linuxserver/sonarr
     image: {{ karo_compose_sonarr_image }}:{{ karo_compose_sonarr_version }}
     container_name: sonarr
     restart: {{ karo_compose_restart_policy }}

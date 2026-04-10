@@ -2,13 +2,13 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-only
 
+# https://docs.karolabs.dev/stacks/extra/gluetun
+
 ---
 name: gluetun
 services:
 
   gluetun:
-    # https://github.com/qdm12/gluetun
-    # https://hub.docker.com/r/qmcgaw/gluetun
     image: {{ karo_compose_gluetun_image }}:{{ karo_compose_gluetun_version }}
     container_name: gluetun
     restart: {{ karo_compose_restart_policy }}

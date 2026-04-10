@@ -33,18 +33,20 @@ _host-preseed platform:
 # server
 
 # Run Ansible to provision the Debian server
-setup-server: _check-password
-    ansible-playbook run.yml --tags setup
+setup-server hostname='': _check-password
+    ansible-playbook run.yml --tags setup --limit "{{hostname}}"
 
 # compose
 
 # Run Ansible to deploy Docker compose stacks
-setup-compose stack='all': _check-password
-    ansible-playbook run.yml --extra-vars "karo_compose_justfile_stack={{stack}}" --tags compose --skip-tags down
+[arg("stack", long, short="s")]
+setup-compose hostname='' stack='all': _check-password
+    ansible-playbook run.yml --extra-vars "karo_compose_justfile_stack={{stack}}" --tags compose --skip-tags down --limit "{{hostname}}"
 
 # Run Ansible to down Docker compose stacks
-down-compose stack='all': _check-password
-    ansible-playbook run.yml --extra-vars "karo_compose_justfile_stack={{stack}}" --tags compose --skip-tags deploy,up
+[arg("stack", long, short="s")]
+down-compose hostname='' stack='all': _check-password
+    ansible-playbook run.yml --extra-vars "karo_compose_justfile_stack={{stack}}" --tags compose --skip-tags deploy,up --limit "{{hostname}}"
 
 # vault
 

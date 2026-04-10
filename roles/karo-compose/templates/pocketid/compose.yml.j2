@@ -2,13 +2,13 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-only
 
+# https://docs.karolabs.dev/stacks/core/pocket-id
+
 ---
 name: pocketid
 services:
 
   pocketid:
-    # https://github.com/pocket-id/pocket-id
-    # https://github.com/pocket-id/pocket-id/pkgs/container/pocket-id
     image: {{ karo_compose_pocketid_image }}:{{ karo_compose_pocketid_version }}
     container_name: pocketid
     restart: {{ karo_compose_restart_policy }}

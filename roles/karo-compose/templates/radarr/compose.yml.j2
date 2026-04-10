@@ -2,13 +2,13 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-only
 
+# https://docs.karolabs.dev/stacks/extra/radarr
+
 ---
 name: radarr
 services:
 
   radarr:
-    # https://github.com/radarr/radarr
-    # https://hub.docker.com/r/linuxserver/radarr
     image: {{ karo_compose_radarr_image }}:{{ karo_compose_radarr_version }}
     container_name: radarr
     restart: {{ karo_compose_restart_policy }}
