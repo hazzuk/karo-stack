@@ -16,7 +16,7 @@ services:
       - egress_godns
     volumes:
       - type: bind
-        source: /srv/docker/godns/config.json
+        source: /srv/docker/extra/godns/config.json
         target: /config.json
         read_only: true
     secrets:

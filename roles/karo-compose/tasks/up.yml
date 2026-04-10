@@ -21,5 +21,5 @@
     karo_compose_pocketid_maxmind_license_key: "{{ karo_compose_pocketid_maxmind_license_key if stack == 'pocketid' else '' }}"
   community.docker.docker_compose_v2:
     docker_host: unix:///run/user/1001/docker.sock
-    project_src: "/srv/docker/{{ stack }}"
+    project_src: "/srv/docker/{{ group }}/{{ stack }}"
     state: present # docker compose up

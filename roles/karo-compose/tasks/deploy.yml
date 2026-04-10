@@ -7,7 +7,7 @@
 - name: "Create compose stack directory for {{ stack }}"
   tags: deploy
   ansible.builtin.file:
-    path: "/srv/docker/{{ stack }}"
+    path: "/srv/docker/{{ group }}/{{ stack }}"
     mode: "0774"
     owner: dockeruser
     group: dockeruser
@@ -16,9 +16,11 @@
 - name: "Deploy compose templates for {{ stack }}"
   tags: deploy
   ansible.builtin.template:
-    src: "{{ item.src }}"
-    dest: "/srv/docker/{{ stack }}/{{ item.path | splitext | first }}"
+    src: "{{ template.src }}"
+    dest: "/srv/docker/{{ group }}/{{ stack }}/{{ template.path | splitext | first }}"
     mode: "0644"
     owner: dockeruser
     group: dockeruser
-  with_community.general.filetree: ../templates/{{ stack }}/
+  loop_control:
+    loop_var: template
+  with_community.general.filetree: ../templates/{{ group }}/{{ stack }}/

@@ -8,20 +8,22 @@ karo_compose_justfile_stack: all
 
 # docker will start stacks in this order
 # docker will stop stacks in reverse order
-karo_compose_stacks_list:
-  - pocketid
-  - traefik
-  - whoami
-  - godns
-  - gluetun
-  - qbittorrent
-  - prowlarr
-  - radarr
-  - sonarr
-  - seerr
-  - jellyfin
-  - ntfy
-  - glance
+karo_compose_stacks:
+  core:
+    - pocketid
+    - traefik
+  extra:
+    - whoami
+    - godns
+    - gluetun
+    - qbittorrent
+    - prowlarr
+    - radarr
+    - sonarr
+    - seerr
+    - jellyfin
+    - ntfy
+    - glance
 
 karo_compose_restart_policy: unless-stopped
 karo_compose_timezone: "Europe/London"

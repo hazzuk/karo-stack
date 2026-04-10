@@ -25,7 +25,7 @@ services:
         ipv4_address: 172.18.0.254
     volumes:
       - type: bind
-        source: /srv/docker/traefik/traefik.yml
+        source: /srv/docker/core/traefik/traefik.yml
         target: /etc/traefik/traefik.yml
         read_only: true
       - type: volume
