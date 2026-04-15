@@ -2,11 +2,13 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-only
 
+
 # help
 
 # Print help
 help:
     @{{ just_executable() }} --list --unsorted --list-prefix "  - " --justfile "{{ justfile() }}"
+
 
 # preseed
 
@@ -30,11 +32,13 @@ _host-preseed platform:
     @echo "info: Press 'Ctrl + C' to exit"
     -python3 -m http.server 8000 --bind 0.0.0.0 --directory ./debian/{{platform}}
 
+
 # server
 
 # Run Ansible to provision the Debian server
 setup-server hostname='': _check-password
     ansible-playbook run.yml --tags setup --limit "{{hostname}}"
+
 
 # compose
 
@@ -47,6 +51,7 @@ setup-compose hostname='' stack='all': _check-password
 [arg("stack", long, short="s")]
 down-compose hostname='' stack='all': _check-password
     ansible-playbook run.yml --extra-vars "karo_compose_justfile_stack={{stack}}" --tags compose --skip-tags deploy,up --limit "{{hostname}}"
+
 
 # vault
 
@@ -78,3 +83,13 @@ _check-password:
 # Edit the Ansible vault password file
 setup-password:
     @micro -backup false -mkparents true "{{password}}"
+
+
+# wireguard
+
+# Generate WireGuard key pair
+setup-wireguard:
+    @priv="$(wg genkey)"; \
+    pub="$(wg pubkey <<<"$priv")"; \
+    printf 'Private key: %s\n' "$priv"; \
+    printf 'Public key: %s\n' "$pub"
