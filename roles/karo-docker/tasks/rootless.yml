@@ -106,13 +106,6 @@
     state: started
     daemon_reload: true
 
-- name: Allow rootless exposing privileged ports
-  community.general.capabilities:
-    capability: cap_net_bind_service=ep
-    path: /usr/bin/rootlesskit
-    state: present
-  notify: Restart rootless docker
-
 - name: Create docker compose directory
   ansible.builtin.file:
     path: /srv/docker
