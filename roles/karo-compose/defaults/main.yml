@@ -78,6 +78,7 @@ karo_compose_traefik_enabled: true
 karo_compose_traefik_image: docker.io/traefik
 karo_compose_traefik_version: v3.6.6@sha256:82d3d16dde0474a51fef00b28de143d48b67f7a27453224d5e7b5aaefff26a97
 karo_compose_traefik_dashboard_domain: "traefik.{{ karo_compose_private_domain }}"
+karo_compose_traefik_dashboard_forward_auth_enabled: true
 karo_compose_traefik_log_level: debug # trace, debug, info, warn, error, fatal, panic
 
 karo_compose_traefik_dashboard_enabled: true
@@ -116,6 +117,7 @@ karo_compose_glance_enabled: false
 karo_compose_glance_image: docker.io/glanceapp/glance
 karo_compose_glance_version: v0.8.4@sha256:6df86a7e8868d1eda21f35205134b1962c422957e42a0c44d4717c8e8f741b1a
 karo_compose_glance_domain: "glance.{{ karo_compose_private_domain }}"
+karo_compose_glance_forward_auth_enabled: true
 
 karo_compose_glance_config_raw: |
   # glance config
@@ -171,6 +173,7 @@ karo_compose_prowlarr_enabled: false
 karo_compose_prowlarr_image: docker.io/linuxserver/prowlarr
 karo_compose_prowlarr_version: version-2.3.0.5236@sha256:67a8aaedcfd6989f3030b937a6a07007310b1dfc7ee8df16d2cbfa48d1c1158c
 karo_compose_prowlarr_domain: "prowlarr.{{ karo_compose_private_domain }}"
+karo_compose_prowlarr_forward_auth_enabled: true
 
 # qbittorrent
 
@@ -201,6 +204,7 @@ karo_compose_radarr_enabled: false
 karo_compose_radarr_image: docker.io/linuxserver/radarr
 karo_compose_radarr_version: version-6.0.4.10291@sha256:6c0948b42c149e36bb3dbc0b64d36c77b2d3c9dccf1b424c4f72af1e57ba0c21
 karo_compose_radarr_domain: "radarr.{{ karo_compose_private_domain }}"
+karo_compose_radarr_forward_auth_enabled: true
 
 karo_compose_radarr_data_path: "" # e.g. /media/drive1/data
 
@@ -218,6 +222,7 @@ karo_compose_sonarr_enabled: false
 karo_compose_sonarr_image: docker.io/linuxserver/sonarr
 karo_compose_sonarr_version: version-4.0.16.2944@sha256:8b9f2138ec50fc9e521960868f79d2ad0d529bc610aef19031ea8ff80b54c5e0
 karo_compose_sonarr_domain: "sonarr.{{ karo_compose_private_domain }}"
+karo_compose_sonarr_forward_auth_enabled: true
 
 karo_compose_sonarr_data_path: "" # e.g. /media/drive1/data
 
@@ -227,3 +232,4 @@ karo_compose_whoami_enabled: false
 karo_compose_whoami_image: docker.io/traefik/whoami
 karo_compose_whoami_version: v1.11.0@sha256:200689790a0a0ea48ca45992e0450bc26ccab5307375b41c84dfc4f2475937ab
 karo_compose_whoami_domain: "whoami.{{ karo_compose_private_domain }}"
+karo_compose_whoami_forward_auth_enabled: false
