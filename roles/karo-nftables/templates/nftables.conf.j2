@@ -36,6 +36,29 @@ table inet filter {
                 tcp dport { 80, 443 } accept
                 udp dport 443 accept
 {% endif %}
+
+{% if karo_compose_jellyfin_enabled | default(false) %}
+
+                # allow jellyfin discovery port
+                udp dport 7359 accept
+{% endif %}
+{% if karo_compose_proxy_client_enabled | default(false) %}
+
+                # allow wireguard proxyserver traffic
+                iif "wg0" ip saddr {{ karo_compose_proxy_server_wireguard_ipv4 }} tcp dport { 80, 443 } accept
+
+                # allow proxyserver pings
+                ip protocol icmp ip saddr {{ karo_compose_proxy_server_wireguard_ipv4 }} accept
+{% endif %}
+{% if karo_compose_proxy_server_enabled | default(false) %}
+
+                # allow wireguard listen port
+                udp dport {{ karo_compose_proxy_server_wireguard_port }} accept
+
+                # allow homeserver pings
+                ip protocol icmp ip saddr {{ karo_compose_proxy_client_wireguard_ipv4 }} accept
+{% endif %}
+
 {% if karo_nftables_accepted_tcp_ports %}
 
                 # allow user defined tcp connections
