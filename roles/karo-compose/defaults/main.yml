@@ -180,6 +180,9 @@ karo_compose_proxy_server_enabled: false
 
 karo_compose_proxy_enabled: "{{ karo_compose_proxy_server_enabled }}"
 
+karo_compose_proxy_client_wireguard_ipv4: 10.25.0.2
+karo_compose_proxy_server_wireguard_ipv4: 10.25.0.1
+
 # proxy haproxy
 
 karo_compose_proxy_haproxy_image: docker.io/haproxy

@@ -31,6 +31,11 @@ entryPoints:
     address: :443
     http3: true
     asDefault: true
+{% if karo_compose_proxy_client_enabled %}
+    proxyProtocol:
+      trustedIPs:
+        - "{{ karo_compose_proxy_server_wireguard_ipv4 }}"
+{% endif %}
     http:
       tls:
         certResolver: cloudflare
