@@ -34,9 +34,4 @@ frontend https
   bind *:443
   mode tcp
 
-  # wait for tls clienthello
-  tcp-request inspect-delay 5s
-  tcp-request content accept if { req_ssl_hello_type 1 }
-  tcp-request content reject
-
   {{ karo_compose_proxy_haproxy_config_raw }}
