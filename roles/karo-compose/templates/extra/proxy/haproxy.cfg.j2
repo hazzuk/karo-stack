@@ -20,8 +20,10 @@ defaults
 
   # timeouts
   timeout connect 10s
-  timeout client  1m
-  timeout server  1m
+  timeout check   10s
+  timeout client  30s
+  timeout server  30s
+  timeout tunnel  1h
 
 frontend http
   bind *:80
