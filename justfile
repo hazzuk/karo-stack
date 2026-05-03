@@ -87,8 +87,8 @@ setup-password:
 
 # wireguard
 
-# Generate WireGuard key pair
-setup-wireguard:
+# Generate key pair
+wireguard:
     @priv="$(wg genkey)"; \
     pub="$(wg pubkey <<<"$priv")"; \
     printf 'Private key: %s\n' "$priv"; \
