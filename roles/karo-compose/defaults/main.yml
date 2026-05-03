@@ -188,7 +188,7 @@ karo_compose_proxy_server_wireguard_port: 52525
 # proxy haproxy
 
 karo_compose_proxy_haproxy_image: docker.io/haproxy
-karo_compose_proxy_haproxy_version: 3.2.15-alpine@sha256:6af70a17d18cc5a907cf1299322cd12f4cc2546f73c7fa8620e6f7029dbcc5e6
+karo_compose_proxy_haproxy_version: 3.2.17-alpine@sha256:0c32ec9e64a3bbacb2a1a28afbc3d46032d905bf74ccb745b45488ff41ee9a6b
 
 karo_compose_proxy_haproxy_config_raw: |
   # haproxy config
