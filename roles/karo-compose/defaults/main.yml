@@ -66,7 +66,7 @@ karo_compose_oidc_admin_group: "admin"
 
 karo_compose_pocketid_enabled: true
 karo_compose_pocketid_image: ghcr.io/pocket-id/pocket-id
-karo_compose_pocketid_version: v1.16.0@sha256:f8cde808e8e840acda25683fc2168e0206e3f3fb1a48cca89d211aafd87eaeef
+karo_compose_pocketid_version: v2.6.2@sha256:1cc51e5b36fa7ec31368d3efb24ba362be6dce20f3cc0a2852843527bd5110f0
 karo_compose_pocketid_log_level: info # debug, info, warn, error
 
 karo_compose_pocketid_encryption_key: "" # secret (`openssl rand -base64 32`)

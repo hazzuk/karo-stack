@@ -30,6 +30,7 @@ services:
       - ENCRYPTION_KEY_FILE=/run/secrets/karo_compose_pocketid_encryption_key
       - MAXMIND_LICENSE_KEY_FILE=/run/secrets/karo_compose_pocketid_maxmind_license_key
       - ANALYTICS_DISABLED=true
+      - VERSION_CHECK_DISABLED=true
       - TRUST_PROXY=true
       - PUID=1000
       - PGID=1000
