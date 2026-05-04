@@ -212,7 +212,7 @@ karo_compose_qbittorrent_webui_enabled: true
 # qbittorrent qui
 
 karo_compose_qbittorrent_qui_image: ghcr.io/autobrr/qui
-karo_compose_qbittorrent_qui_version: v1.11.0@sha256:5c7c08d5e8d4c4fe966106b58d3705f19921a69606b3dc4f237009a6c25a0ac7
+karo_compose_qbittorrent_qui_version: v1.17.0@sha256:fb3832e68f66b056e1b049d16c40732661e7b73999bc642d4b11469a3ebbabd3
 karo_compose_qbittorrent_qui_domain: "qui.{{ karo_compose_root_domain }}"
 karo_compose_qbittorrent_qui_log_level: info # trace, debug, info, warn, error
 

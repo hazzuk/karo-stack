@@ -19,6 +19,7 @@
     karo_compose_qbittorrent_qui_session_secret: "{{ karo_compose_qbittorrent_qui_session_secret if stack == 'qbittorrent' else '' }}"
     karo_compose_pocketid_encryption_key: "{{ karo_compose_pocketid_encryption_key if stack == 'pocketid' else '' }}"
     karo_compose_pocketid_maxmind_license_key: "{{ karo_compose_pocketid_maxmind_license_key if stack == 'pocketid' else '' }}"
+    karo_compose_qbittorrent_qui_oidc_client_secret: "{{ karo_compose_qbittorrent_qui_oidc_client_secret if stack == 'qbittorrent' else '' }}"
   community.docker.docker_compose_v2:
     docker_host: unix:///run/user/1001/docker.sock
     project_src: "/srv/docker/{{ group }}/{{ stack }}"
