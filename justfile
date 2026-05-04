@@ -15,7 +15,7 @@ help:
 # Host preseed.cfg
 @preseed:
     # check user key file exists
-    [ -e "inventory/key.txt" ] || { echo "error: inventory/key.txt not found!" >&2; exit 1; }
+    [ -e "inventory/key.txt" ] || { echo "inventory/key.txt not found" >&2; exit 1; }
     # insert public ssh key into preseed file
     just _insert-preseed-key "$(cat inventory/key.txt)" server
     # run webserver
@@ -29,7 +29,7 @@ _insert-preseed-key value platform:
 
 # (Internal use) Run a Python HTTP server to host the preseed file
 _host-preseed platform:
-    @echo "info: Press 'Ctrl + C' to exit"
+    @echo "press 'Ctrl + C' to exit"
     -python3 -m http.server 8000 --bind 0.0.0.0 --directory ./debian/{{platform}}
 
 
@@ -72,8 +72,7 @@ vault hostname:
             ansible-vault create "$vault"
         fi
     else
-        echo "error: {{password}} not found! Run 'just setup-password'" >&2
-        exit 1
+        echo "{{password}} not found, run 'just password'." >&2; exit 1;
     fi
 
 # (Internal use) Create the Ansible vault password file when missing
