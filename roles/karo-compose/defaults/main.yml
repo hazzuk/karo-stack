@@ -98,7 +98,7 @@ karo_compose_traefik_acme_dns_api_token: "" # secret
 # traefik tinyauth
 
 karo_compose_traefik_tinyauth_image: ghcr.io/steveiliop56/tinyauth
-karo_compose_traefik_tinyauth_version: v4.1.0-distroless@sha256:b6aea73049dd7d5e0fdf800602a5ca43d560696e4b4938cb9bec65b40c828405
+karo_compose_traefik_tinyauth_version: v5.0.7-distroless@sha256:e31ae2bac566cfe4687a8a54121a884ce25c4869995075f8e7e3d352bcd59241
 karo_compose_traefik_tinyauth_domain: "tinyauth.{{ karo_compose_root_domain }}"
 karo_compose_traefik_tinyauth_log_level: info # trace, debug, info, warn, error, fatal, panic
 

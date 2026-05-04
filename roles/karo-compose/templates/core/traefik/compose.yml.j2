@@ -76,20 +76,20 @@ services:
       - traefik.http.middlewares.tinyauth.forwardauth.maxResponseBodySize=8192
       - traefik.http.middlewares.tinyauth.forwardauth.trustForwardHeader=true
     environment:
-      - LOG_LEVEL={{ karo_compose_traefik_tinyauth_log_level }}
-      - DISABLE_ANALYTICS=true
-      - DISABLE_RESOURCES=true
-      - BACKGROUND_IMAGE=""
-      - APP_URL=https://{{ karo_compose_traefik_tinyauth_domain }}
-      - OAUTH_AUTO_REDIRECT=pocketid
-      - PROVIDERS_POCKETID_CLIENT_ID={{ karo_compose_traefik_tinyauth_oidc_client_id }}
-      - PROVIDERS_POCKETID_CLIENT_SECRET_FILE=/run/secrets/karo_compose_traefik_tinyauth_oidc_client_secret
-      - PROVIDERS_POCKETID_AUTH_URL={{ karo_compose_oidc_authorization_url }}
-      - PROVIDERS_POCKETID_TOKEN_URL={{ karo_compose_oidc_token_url }}
-      - PROVIDERS_POCKETID_USER_INFO_URL={{ karo_compose_oidc_userinfo_url }}
-      - PROVIDERS_POCKETID_REDIRECT_URL=https://{{ karo_compose_traefik_tinyauth_domain }}/api/oauth/callback/pocketid
-      - PROVIDERS_POCKETID_SCOPES=openid email profile groups
-      - PROVIDERS_POCKETID_NAME={{ karo_compose_oidc_provider_name }}
+      - TINYAUTH_LOG_LEVEL={{ karo_compose_traefik_tinyauth_log_level }}
+      - TINYAUTH_ANALYTICS_ENABLED=false
+      - TINYAUTH_RESOURCES_ENABLED=false
+      - TINYAUTH_UI_BACKGROUNDIMAGE=""
+      - TINYAUTH_APPURL=https://{{ karo_compose_traefik_tinyauth_domain }}
+      - TINYAUTH_OAUTH_AUTOREDIRECT=pocketid
+      - TINYAUTH_OAUTH_PROVIDERS_POCKETID_CLIENTID={{ karo_compose_traefik_tinyauth_oidc_client_id }}
+      - TINYAUTH_OAUTH_PROVIDERS_POCKETID_CLIENTSECRETFILE=/run/secrets/karo_compose_traefik_tinyauth_oidc_client_secret
+      - TINYAUTH_OAUTH_PROVIDERS_POCKETID_AUTHURL={{ karo_compose_oidc_authorization_url }}
+      - TINYAUTH_OAUTH_PROVIDERS_POCKETID_TOKENURL={{ karo_compose_oidc_token_url }}
+      - TINYAUTH_OAUTH_PROVIDERS_POCKETID_USERINFOURL={{ karo_compose_oidc_userinfo_url }}
+      - TINYAUTH_OAUTH_PROVIDERS_POCKETID_REDIRECTURL=https://{{ karo_compose_traefik_tinyauth_domain }}/api/oauth/callback/pocketid
+      - TINYAUTH_OAUTH_PROVIDERS_POCKETID_SCOPES=openid email profile groups
+      - TINYAUTH_OAUTH_PROVIDERS_POCKETID_NAME={{ karo_compose_oidc_provider_name }}
       - DOCKER_HOST=tcp://cetusguard:2375
     secrets:
       - karo_compose_traefik_tinyauth_oidc_client_secret
