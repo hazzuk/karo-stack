@@ -45,7 +45,7 @@ table inet filter {
 {% if karo_compose_proxy_client_enabled | default(false) %}
 
                 # allow wireguard proxyserver traffic
-                iif "wg0" ip saddr {{ karo_compose_proxy_server_wireguard_ipv4 | default('10.25.0.1') }} tcp dport { 80, 443 } accept
+                ip saddr {{ karo_compose_proxy_server_wireguard_ipv4 | default('10.25.0.1') }} tcp dport { 80, 443 } accept
 
                 # allow proxyserver pings
                 ip protocol icmp ip saddr {{ karo_compose_proxy_server_wireguard_ipv4 | default('10.25.0.1') }} accept
