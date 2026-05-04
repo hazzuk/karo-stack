@@ -63,8 +63,9 @@ services:
     security_opt:
       - no-new-privileges:true
     networks:
-      - socketproxy_traefik
-      - frontend
+      socketproxy_traefik:
+      frontend:
+        ipv4_address: 172.18.0.253
     extra_hosts:
       - "{{ karo_compose_oidc_domain }}:172.18.0.254"
     labels:
@@ -72,6 +73,8 @@ services:
       - traefik.http.routers.tinyauth.rule=Host(`{{ karo_compose_traefik_tinyauth_domain }}`)
       - traefik.http.services.tinyauth.loadbalancer.server.port=3000
       - traefik.http.middlewares.tinyauth.forwardauth.address=http://tinyauth:3000/api/auth/traefik
+      - traefik.http.middlewares.tinyauth.forwardauth.maxResponseBodySize=8192
+      - traefik.http.middlewares.tinyauth.forwardauth.trustForwardHeader=true
     environment:
       - LOG_LEVEL={{ karo_compose_traefik_tinyauth_log_level }}
       - DISABLE_ANALYTICS=true
