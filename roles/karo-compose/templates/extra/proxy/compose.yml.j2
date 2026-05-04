@@ -1,0 +1,30 @@
+# SPDX-FileCopyrightText: 2026 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+# https://docs.karolabs.dev/stacks/extra/proxy
+
+---
+name: proxy
+services:
+
+  haproxy:
+    image: {{ karo_compose_proxy_haproxy_image }}:{{ karo_compose_proxy_haproxy_version }}
+    container_name: haproxy
+    restart: {{ karo_compose_restart_policy }}
+    ports:
+      - "0.0.0.0:80:80/tcp"
+      - "0.0.0.0:443:443/tcp"
+    networks:
+      - egress_haproxy
+    volumes:
+      - type: bind
+        source: /srv/docker/extra/proxy/haproxy.cfg
+        target: /usr/local/etc/haproxy/haproxy.cfg
+        read_only: true
+
+networks:
+  egress_haproxy:
+    name: egress_haproxy
+    driver: bridge
+    internal: false
