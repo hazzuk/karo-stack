@@ -24,10 +24,12 @@ services:
       - traefik.enable=true
       - traefik.http.routers.sonarr.rule=Host(`{{ karo_compose_sonarr_domain }}`)
       - traefik.http.services.sonarr.loadbalancer.server.port=8989
+{% if karo_compose_sonarr_forward_auth_enabled %}
       # forward auth
       - traefik.http.routers.sonarr.middlewares=tinyauth
       - tinyauth.apps.sonarr.config.domain={{ karo_compose_sonarr_domain }}
       - tinyauth.apps.sonarr.oauth.groups={{ karo_compose_oidc_admin_group }}
+{% endif %}
     environment:
       - TZ={{ karo_compose_timezone }}
       - PUID=0

@@ -24,10 +24,12 @@ services:
       - traefik.enable=true
       - traefik.http.routers.radarr.rule=Host(`{{ karo_compose_radarr_domain }}`)
       - traefik.http.services.radarr.loadbalancer.server.port=7878
+{% if karo_compose_radarr_forward_auth_enabled %}
       # forward auth
       - traefik.http.routers.radarr.middlewares=tinyauth
       - tinyauth.apps.radarr.config.domain={{ karo_compose_radarr_domain }}
       - tinyauth.apps.radarr.oauth.groups={{ karo_compose_oidc_admin_group }}
+{% endif %}
     environment:
       - TZ={{ karo_compose_timezone }}
       - PUID=0
