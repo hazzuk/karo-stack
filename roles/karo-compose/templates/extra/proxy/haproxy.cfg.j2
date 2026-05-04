@@ -1,0 +1,39 @@
+# SPDX-FileCopyrightText: 2026 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+
+global
+  log stdout format raw local0
+  stats timeout 30s
+
+defaults
+  # logging
+  log global
+  option dontlognull
+  option tcplog
+
+  # connections
+  option tcpka
+  option tcp-smart-accept
+  option tcp-smart-connect
+
+  # timeouts
+  timeout connect 10s
+  timeout check   10s
+  timeout client  30s
+  timeout server  30s
+  timeout tunnel  1h
+
+frontend http
+  bind *:80
+  mode http
+
+  # https redirect
+  http-request redirect scheme https code 301 if !{ ssl_fc }
+
+frontend https
+  bind *:443
+  mode tcp
+
+  {{ karo_compose_proxy_haproxy_config_raw }}

@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2025 hazzuk
+# SPDX-FileCopyrightText: 2026 hazzuk
 #
 # SPDX-License-Identifier: AGPL-3.0-only
 
@@ -9,3 +9,9 @@ karo_nftables_accepted_tcp_ports: "" # e.g. "53, 465, 587"
 
 # udp port 443 is allowed by default (server only)
 karo_nftables_accepted_udp_ports: "" # e.g. "7777, 25565"
+
+# allow icmp traffic (pings)
+karo_nftables_icmp_enabled: false
+
+# log denied traffic (sudo journalctl -k -f)
+karo_nftables_log_enabled: false

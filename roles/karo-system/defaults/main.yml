@@ -17,6 +17,7 @@ karo_system_packages:
   - btop
   - tree
   - man-db
+  - wireguard
 
 karo_system_motd_raw: |
    _                           _             _    
