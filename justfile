@@ -13,15 +13,17 @@ help:
 # preseed
 
 # Host preseed.cfg
-@preseed:
+@preseed platform='server':
+    # check user input for platform
+    [ "{{platform}}" = "server" ] || [ "{{platform}}" = "desktop" ] || { echo "platform must be 'server' or 'desktop'" >&2; exit 1; }
     # check user key file exists
     [ -e "inventory/key.txt" ] || { echo "inventory/key.txt not found" >&2; exit 1; }
     # insert public ssh key into preseed file
-    just _insert-preseed-key "$(cat inventory/key.txt)" server
+    just _insert-preseed-key "$(cat inventory/key.txt)" {{platform}}
     # run webserver
-    -just _host-preseed server
+    -just _host-preseed {{platform}}
     -# revert change to preseed file
-    -just _insert-preseed-key "<key>" server
+    -just _insert-preseed-key "<key>" {{platform}}
 
 # (Internal use) Write the authorized SSH key to the Debian preseed file
 _insert-preseed-key value platform:
