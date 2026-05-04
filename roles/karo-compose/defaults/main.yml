@@ -234,8 +234,8 @@ karo_compose_radarr_data_path: "" # e.g. /media/drive1/data
 # seerr
 
 karo_compose_seerr_enabled: false
-karo_compose_seerr_image: docker.io/fallenbagel/jellyseerr
-karo_compose_seerr_version: preview-OIDC@sha256:9f3195998306da6548fc3b2420d114dda64a6e904f41e911168788fb410a7972
+karo_compose_seerr_image: ghcr.io/seerr-team/seerr
+karo_compose_seerr_version: preview-new-oidc@sha256:a14a9c326881fdce70b00df3fc095f5b5b128f5552677f677cd3788e757fb4e6
 karo_compose_seerr_domain: "seerr.{{ karo_compose_root_domain }}"
 karo_compose_seerr_log_level: info # debug, info, warn, error
 
