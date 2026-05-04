@@ -46,13 +46,22 @@ _host-preseed platform:
 
 # Deploy/remove stacks
 [arg("stack", long, short="s")]
-setup-compose hostname='' stack='all': _check-password
-    ansible-playbook run.yml --extra-vars "karo_compose_justfile_stack={{stack}}" --tags compose --skip-tags down --limit "{{hostname}}"
-
-# Run Ansible to down Docker compose stacks
-[arg("stack", long, short="s")]
-down-compose hostname='' stack='all': _check-password
-    ansible-playbook run.yml --extra-vars "karo_compose_justfile_stack={{stack}}" --tags compose --skip-tags deploy,up --limit "{{hostname}}"
+compose action hostname='' stack='all': _check-password
+    #!/bin/bash
+    # check user input for action
+    if [ "{{action}}" = "up" ]; then
+        skip_tags="down"
+    elif [ "{{action}}" = "down" ]; then
+        skip_tags="deploy,up"
+    else
+        echo "action must be 'up' or 'down'" >&2; exit 1;
+    fi
+    # run user action
+    ansible-playbook run.yml \
+        --extra-vars "karo_compose_justfile_stack={{stack}}" \
+        --tags compose \
+        --skip-tags "$skip_tags" \
+        --limit "{{hostname}}"
 
 
 # vault
