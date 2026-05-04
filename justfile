@@ -12,8 +12,8 @@ help:
 
 # preseed
 
-# Host the Debian preseed.cfg file for use over a local network
-@preseed-server:
+# Host preseed.cfg
+@preseed:
     # check user key file exists
     [ -e "inventory/key.txt" ] || { echo "error: inventory/key.txt not found!" >&2; exit 1; }
     # insert public ssh key into preseed file
@@ -35,14 +35,14 @@ _host-preseed platform:
 
 # server
 
-# Run Ansible to provision the Debian server
-setup-server hostname='': _check-password
+# Setup a system
+@install hostname='': _check-password
     ansible-playbook run.yml --tags setup --limit "{{hostname}}"
 
 
 # compose
 
-# Run Ansible to deploy Docker compose stacks
+# Deploy/remove stacks
 [arg("stack", long, short="s")]
 setup-compose hostname='' stack='all': _check-password
     ansible-playbook run.yml --extra-vars "karo_compose_justfile_stack={{stack}}" --tags compose --skip-tags down --limit "{{hostname}}"
@@ -57,8 +57,8 @@ down-compose hostname='' stack='all': _check-password
 
 password := "/run/user/1000/karo-stack/vault_pass"
 
-# Manage an Ansible vault
-setup-vault hostname:
+# Manage a vault
+vault hostname:
     #!/bin/bash
     # check password file exists
     if [ -e "{{password}}" ]; then
@@ -80,8 +80,8 @@ setup-vault hostname:
 _check-password:
     @[ -e "{{password}}" ] || micro -backup false -mkparents true "{{password}}"
 
-# Edit the Ansible vault password file
-setup-password:
+# Set password
+password:
     @micro -backup false -mkparents true "{{password}}"
 
 
