@@ -12,16 +12,18 @@ help:
 
 # preseed
 
-# Host the Debian preseed.cfg file for use over a local network
-@preseed-server:
+# Host preseed.cfg
+@preseed platform='server':
+    # check user input for platform
+    [ "{{platform}}" = "server" ] || [ "{{platform}}" = "desktop" ] || { echo "platform must be 'server' or 'desktop'" >&2; exit 1; }
     # check user key file exists
-    [ -e "inventory/key.txt" ] || { echo "error: inventory/key.txt not found!" >&2; exit 1; }
+    [ -e "inventory/key.txt" ] || { echo "inventory/key.txt not found" >&2; exit 1; }
     # insert public ssh key into preseed file
-    just _insert-preseed-key "$(cat inventory/key.txt)" server
+    just _insert-preseed-key "$(cat inventory/key.txt)" {{platform}}
     # run webserver
-    -just _host-preseed server
+    -just _host-preseed {{platform}}
     -# revert change to preseed file
-    -just _insert-preseed-key "<key>" server
+    -just _insert-preseed-key "<key>" {{platform}}
 
 # (Internal use) Write the authorized SSH key to the Debian preseed file
 _insert-preseed-key value platform:
@@ -29,36 +31,45 @@ _insert-preseed-key value platform:
 
 # (Internal use) Run a Python HTTP server to host the preseed file
 _host-preseed platform:
-    @echo "info: Press 'Ctrl + C' to exit"
+    @echo "press 'Ctrl + C' to exit"
     -python3 -m http.server 8000 --bind 0.0.0.0 --directory ./debian/{{platform}}
 
 
 # server
 
-# Run Ansible to provision the Debian server
-setup-server hostname='': _check-password
+# Setup a system
+@install hostname='': _check-password
     ansible-playbook run.yml --tags setup --limit "{{hostname}}"
 
 
 # compose
 
-# Run Ansible to deploy Docker compose stacks
+# Deploy/remove stacks
 [arg("stack", long, short="s")]
-setup-compose hostname='' stack='all': _check-password
-    ansible-playbook run.yml --extra-vars "karo_compose_justfile_stack={{stack}}" --tags compose --skip-tags down --limit "{{hostname}}"
-
-# Run Ansible to down Docker compose stacks
-[arg("stack", long, short="s")]
-down-compose hostname='' stack='all': _check-password
-    ansible-playbook run.yml --extra-vars "karo_compose_justfile_stack={{stack}}" --tags compose --skip-tags deploy,up --limit "{{hostname}}"
+compose action hostname='' stack='all': _check-password
+    #!/bin/bash
+    # check user input for action
+    if [ "{{action}}" = "up" ]; then
+        skip_tags="down"
+    elif [ "{{action}}" = "down" ]; then
+        skip_tags="deploy,up"
+    else
+        echo "action must be 'up' or 'down'" >&2; exit 1;
+    fi
+    # run user action
+    ansible-playbook run.yml \
+        --extra-vars "karo_compose_justfile_stack={{stack}}" \
+        --tags compose \
+        --skip-tags "$skip_tags" \
+        --limit "{{hostname}}"
 
 
 # vault
 
 password := "/run/user/1000/karo-stack/vault_pass"
 
-# Manage an Ansible vault
-setup-vault hostname:
+# Manage a vault
+vault hostname:
     #!/bin/bash
     # check password file exists
     if [ -e "{{password}}" ]; then
@@ -72,16 +83,15 @@ setup-vault hostname:
             ansible-vault create "$vault"
         fi
     else
-        echo "error: {{password}} not found! Run 'just setup-password'" >&2
-        exit 1
+        echo "{{password}} not found, run 'just password'." >&2; exit 1;
     fi
 
 # (Internal use) Create the Ansible vault password file when missing
 _check-password:
     @[ -e "{{password}}" ] || micro -backup false -mkparents true "{{password}}"
 
-# Edit the Ansible vault password file
-setup-password:
+# Set password
+password:
     @micro -backup false -mkparents true "{{password}}"
 
 
