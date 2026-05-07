@@ -66,7 +66,7 @@ karo_compose_oidc_admin_group: "admin"
 
 karo_compose_pocketid_enabled: true
 karo_compose_pocketid_image: ghcr.io/pocket-id/pocket-id
-karo_compose_pocketid_version: v1.16.0@sha256:f8cde808e8e840acda25683fc2168e0206e3f3fb1a48cca89d211aafd87eaeef
+karo_compose_pocketid_version: v2.6.2@sha256:1cc51e5b36fa7ec31368d3efb24ba362be6dce20f3cc0a2852843527bd5110f0
 karo_compose_pocketid_log_level: info # debug, info, warn, error
 
 karo_compose_pocketid_encryption_key: "" # secret (`openssl rand -base64 32`)
@@ -76,7 +76,7 @@ karo_compose_pocketid_maxmind_license_key: "" # secret
 
 karo_compose_traefik_enabled: true
 karo_compose_traefik_image: docker.io/traefik
-karo_compose_traefik_version: v3.6.6@sha256:82d3d16dde0474a51fef00b28de143d48b67f7a27453224d5e7b5aaefff26a97
+karo_compose_traefik_version: v3.6.15@sha256:8cb20d16e01a53d8d7f7696ac2f1af7d200d5c9984d226ce2299731d9eab6d6c
 karo_compose_traefik_dashboard_domain: "traefik.{{ karo_compose_root_domain }}"
 karo_compose_traefik_dashboard_forward_auth_enabled: true
 karo_compose_traefik_log_level: debug # trace, debug, info, warn, error, fatal, panic
@@ -98,7 +98,7 @@ karo_compose_traefik_acme_dns_api_token: "" # secret
 # traefik tinyauth
 
 karo_compose_traefik_tinyauth_image: ghcr.io/steveiliop56/tinyauth
-karo_compose_traefik_tinyauth_version: v4.1.0-distroless@sha256:b6aea73049dd7d5e0fdf800602a5ca43d560696e4b4938cb9bec65b40c828405
+karo_compose_traefik_tinyauth_version: v5.0.7-distroless@sha256:e31ae2bac566cfe4687a8a54121a884ce25c4869995075f8e7e3d352bcd59241
 karo_compose_traefik_tinyauth_domain: "tinyauth.{{ karo_compose_root_domain }}"
 karo_compose_traefik_tinyauth_log_level: info # trace, debug, info, warn, error, fatal, panic
 
@@ -108,7 +108,7 @@ karo_compose_traefik_tinyauth_oidc_client_secret: "" # secret
 # traefik cetusguard
 
 karo_compose_traefik_cetusguard_image: docker.io/hectorm/cetusguard
-karo_compose_traefik_cetusguard_version: v1.1.2@sha256:692496ba976990a14416cc5bed844a72df6a4d75d677932c7d75934492312ef3
+karo_compose_traefik_cetusguard_version: v1.1.3@sha256:b3dc5d2042869dd714c75985d94bb8c259df53b325ec6b1a2b57bcc3eac17689
 karo_compose_traefik_cetusguard_log_level: 7 # 0-7 (min to max verbosity)
 
 # extra stacks
@@ -129,7 +129,7 @@ karo_compose_glance_config_raw: |
 
 karo_compose_gluetun_enabled: false
 karo_compose_gluetun_image: docker.io/qmcgaw/gluetun
-karo_compose_gluetun_version: v3.40.3@sha256:ef4a44819a60469682c7b5e69183e6401171891feaa60186652d292c59e41b30
+karo_compose_gluetun_version: v3.41.1@sha256:1a5bf4b4820a879cdf8d93d7ef0d2d963af56670c9ebff8981860b6804ebc8ab
 karo_compose_gluetun_log_level: info # debug, info, warning, error
 
 karo_compose_gluetun_firewall_vpn_input_ports: ""
@@ -141,7 +141,7 @@ karo_compose_gluetun_wireguard_config_raw: | # secret
 
 karo_compose_godns_enabled: false
 karo_compose_godns_image: docker.io/timothyye/godns
-karo_compose_godns_version: v3.3.5@sha256:83dc9457f1d390bd1c2fa1ca59d56a8d8b8506060cf7fd31f8838b78cda5f181
+karo_compose_godns_version: v3.4.1@sha256:d9a043164b256ab9d7ab03a7619bfe2292a2ab2b6e5e3151e818edb63249b1de
 karo_compose_godns_debug_info_enabled: false
 
 karo_compose_godns_subdomain: home
@@ -152,7 +152,7 @@ karo_compose_godns_dns_api_token: "" # secret
 
 karo_compose_jellyfin_enabled: false
 karo_compose_jellyfin_image: docker.io/jellyfin/jellyfin
-karo_compose_jellyfin_version: 10.11.5@sha256:6d819e9ab067efcf712993b23455cc100ee5585919bb297ea5a109ac00cb626e
+karo_compose_jellyfin_version: 10.11.8@sha256:1694ff069f0c9dafb283c36765175606866769f5d72f2ed56b6a0f1be922fc37
 karo_compose_jellyfin_domain: "jellyfin.{{ karo_compose_root_domain }}"
 
 karo_compose_jellyfin_movies_media_path: "" # e.g. /media/drive1/data/media/movies
@@ -162,7 +162,7 @@ karo_compose_jellyfin_series_media_path: "" # e.g. /media/drive1/data/media/seri
 
 karo_compose_ntfy_enabled: false
 karo_compose_ntfy_image: docker.io/binwiederhier/ntfy
-karo_compose_ntfy_version: v2.15.0@sha256:aa10e84da624f65be107f9317dbf6e212fa812e0ebf62e74d032d0762eccc930
+karo_compose_ntfy_version: v2.22.0@sha256:d8b3408c75d5ae78e03339af6103e7e6195e56573eea6f1ad34bb4dc4f44f340
 karo_compose_ntfy_domain: "ntfy.{{ karo_compose_root_domain }}"
 karo_compose_ntfy_log_level: info # trace, debug, info, warn, error
 
@@ -174,7 +174,7 @@ karo_compose_ntfy_auth_tokens: "" # https://docs.ntfy.sh/config/#tokens-via-the-
 
 karo_compose_prowlarr_enabled: false
 karo_compose_prowlarr_image: docker.io/linuxserver/prowlarr
-karo_compose_prowlarr_version: version-2.3.0.5236@sha256:67a8aaedcfd6989f3030b937a6a07007310b1dfc7ee8df16d2cbfa48d1c1158c
+karo_compose_prowlarr_version: 2.3.5.5327-ls144@sha256:b4204e18666179472225935b443a99cf6c66dcb7bbc2d35034427a3851f13135
 karo_compose_prowlarr_domain: "prowlarr.{{ karo_compose_root_domain }}"
 karo_compose_prowlarr_forward_auth_enabled: true
 
@@ -212,20 +212,20 @@ karo_compose_qbittorrent_webui_enabled: true
 # qbittorrent qui
 
 karo_compose_qbittorrent_qui_image: ghcr.io/autobrr/qui
-karo_compose_qbittorrent_qui_version: v1.11.0@sha256:5c7c08d5e8d4c4fe966106b58d3705f19921a69606b3dc4f237009a6c25a0ac7
+karo_compose_qbittorrent_qui_version: v1.17.0@sha256:fb3832e68f66b056e1b049d16c40732661e7b73999bc642d4b11469a3ebbabd3
 karo_compose_qbittorrent_qui_domain: "qui.{{ karo_compose_root_domain }}"
 karo_compose_qbittorrent_qui_log_level: info # trace, debug, info, warn, error
 
 karo_compose_qbittorrent_qui_session_secret: "" # secret (`openssl rand -hex 16`)
 
 karo_compose_qbittorrent_qui_oidc_client_id: ""
-karo_compose_qbittorrent_qui_oidc_client_secret: ""
+karo_compose_qbittorrent_qui_oidc_client_secret: "" # secret
 
 # radarr
 
 karo_compose_radarr_enabled: false
 karo_compose_radarr_image: docker.io/linuxserver/radarr
-karo_compose_radarr_version: version-6.0.4.10291@sha256:6c0948b42c149e36bb3dbc0b64d36c77b2d3c9dccf1b424c4f72af1e57ba0c21
+karo_compose_radarr_version: 6.1.1.10360-ls300@sha256:b01097ad2d948c9f5eca39eb60bb529e2e55b0738c4bf7db09383bef0abab59d
 karo_compose_radarr_domain: "radarr.{{ karo_compose_root_domain }}"
 karo_compose_radarr_forward_auth_enabled: true
 
@@ -234,8 +234,8 @@ karo_compose_radarr_data_path: "" # e.g. /media/drive1/data
 # seerr
 
 karo_compose_seerr_enabled: false
-karo_compose_seerr_image: docker.io/fallenbagel/jellyseerr
-karo_compose_seerr_version: preview-OIDC@sha256:9f3195998306da6548fc3b2420d114dda64a6e904f41e911168788fb410a7972
+karo_compose_seerr_image: ghcr.io/seerr-team/seerr
+karo_compose_seerr_version: preview-new-oidc@sha256:a14a9c326881fdce70b00df3fc095f5b5b128f5552677f677cd3788e757fb4e6
 karo_compose_seerr_domain: "seerr.{{ karo_compose_root_domain }}"
 karo_compose_seerr_log_level: info # debug, info, warn, error
 
@@ -243,7 +243,7 @@ karo_compose_seerr_log_level: info # debug, info, warn, error
 
 karo_compose_sonarr_enabled: false
 karo_compose_sonarr_image: docker.io/linuxserver/sonarr
-karo_compose_sonarr_version: version-4.0.16.2944@sha256:8b9f2138ec50fc9e521960868f79d2ad0d529bc610aef19031ea8ff80b54c5e0
+karo_compose_sonarr_version: 4.0.17.2952-ls309@sha256:3580aec3802c915f0f819a88d5099abce61734b925732b8393d176b5dc561020
 karo_compose_sonarr_domain: "sonarr.{{ karo_compose_root_domain }}"
 karo_compose_sonarr_forward_auth_enabled: true
 
