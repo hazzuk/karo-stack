@@ -29,6 +29,13 @@
     mode: "0644"
   notify: Reload sysctl config
 
+- name: Load kernel modules
+  ansible.builtin.copy:
+    src: modules_karo.conf
+    dest: /etc/modules-load.d/karo.conf
+    mode: "0644"
+  notify: Restart systemd-modules-load
+
 - name: Set bash configuration for karo
   ansible.builtin.copy:
     src: "{{ item }}"
