@@ -4,10 +4,12 @@
 
 ---
 
-- name: Restart rootless docker
+- name: Restart rootless docker service
   become: true
   become_user: dockeruser
   ansible.builtin.systemd_service:
-    name: docker
+    name: docker.service
     scope: user
+    enabled: true
     state: restarted
+    daemon_reload: true

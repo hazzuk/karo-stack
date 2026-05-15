@@ -83,6 +83,7 @@
         mode: "0644"
         owner: dockeruser
         group: dockeruser
+      notify: Restart rootless docker service
 
 - name: Install rootless docker
   become: true
@@ -95,16 +96,6 @@
       - /usr/bin/dockerd-rootless-setuptool.sh
       - install
     creates: /run/user/1001/docker.sock
-
-- name: Enable rootless docker service
-  become: true
-  become_user: dockeruser
-  ansible.builtin.systemd_service:
-    name: docker.service
-    scope: user
-    enabled: true
-    state: started
-    daemon_reload: true
 
 - name: Create docker compose directory
   ansible.builtin.file:
