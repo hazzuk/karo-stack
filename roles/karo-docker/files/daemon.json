@@ -23,5 +23,6 @@
             "size": 24
         }
     ],
-    "firewall-backend": "nftables"
+    "firewall-backend": "nftables",
+    "userland-proxy": false
 }
