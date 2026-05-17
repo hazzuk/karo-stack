@@ -47,6 +47,17 @@
     - bash_logout
     - profile
 
+- name: Add hostname to hosts
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    regexp: '^127\.0\.1\.1\s+debian(\s+{{ inventory_hostname }})?$'
+    line: "127.0.1.1 debian {{ inventory_hostname }}"
+
+- name: Set system hostname
+  ansible.builtin.hostname:
+    name: "{{ inventory_hostname }}"
+    use: systemd
+
 - name: Set motd
   ansible.builtin.copy:
     content: "{{ karo_system_motd_raw }}"
