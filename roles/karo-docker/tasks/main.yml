@@ -23,13 +23,13 @@
       ansible.builtin.deb822_repository:
         name: "docker"
         types: deb
-        uris: "{{ item.url }}"
+        uris: "{{ docker_repo_url }}"
         suites: "{{ ansible_facts.distribution_release }}"
         components: "stable"
-        signed_by: "{{ item.url }}/gpg"
+        signed_by: "{{ docker_repo_url }}/gpg"
         state: "present"
-      with_items:
-        - url: https://download.docker.com/linux/debian
+      vars:
+        docker_repo_url: https://download.docker.com/linux/debian
 
     - name: Install docker packages
       ansible.builtin.apt:
