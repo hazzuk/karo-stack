@@ -33,6 +33,8 @@
           mode: "0755"
         - dir: .config/docker
           mode: "0700"
+      loop_control:
+        label: "{{ item.dir }}"
 
     - name: Copy authorized_keys for dockeruser
       ansible.builtin.copy:

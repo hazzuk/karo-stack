@@ -7,7 +7,6 @@
 ---
 
 - name: Define expanded stack list
-  no_log: true
   ansible.builtin.set_fact:
     karo_compose_stacks_expanded: >-
       {{ karo_compose_stacks_expanded | default([]) + [
@@ -17,10 +16,14 @@
         }
       ] }}
   loop: "{{ karo_compose_stacks | dict2items | subelements('value') }}"
+  loop_control:
+    label: "{{ item.0.key }}/{{ item.1 }}"
 
 - name: Down docker compose stacks
   ansible.builtin.include_tasks: down.yml
   loop: "{{ karo_compose_stacks_expanded | reverse }}"
+  loop_control:
+    label: "{{ item.name }}"
   vars:
     stack: "{{ item.name }}"
     group: "{{ item.group }}"
@@ -32,6 +35,8 @@
 - name: Deploy compose stacks
   ansible.builtin.include_tasks: deploy.yml
   loop: "{{ karo_compose_stacks_expanded }}"
+  loop_control:
+    label: "{{ item.name }}"
   vars:
     stack: "{{ item.name }}"
     group: "{{ item.group }}"
@@ -54,6 +59,8 @@
     - name: Up docker compose stacks
       ansible.builtin.include_tasks: up.yml
       loop: "{{ karo_compose_stacks_expanded }}"
+      loop_control:
+        label: "{{ item.name }}"
       vars:
         stack: "{{ item.name }}"
         group: "{{ item.group }}"

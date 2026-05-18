@@ -23,4 +23,5 @@
     group: dockeruser
   loop_control:
     loop_var: template
+    label: "{{ template.path }}"
   with_community.general.filetree: ../templates/{{ group }}/{{ stack }}/
