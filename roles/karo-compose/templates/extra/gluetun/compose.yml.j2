@@ -27,9 +27,9 @@ services:
       - VPN_SERVICE_PROVIDER=custom
       - VPN_TYPE=wireguard
       - FIREWALL_VPN_INPUT_PORTS={{ karo_compose_gluetun_firewall_vpn_input_ports }}
-      - WIREGUARD_CONF_SECRETFILE=/run/secrets/karo_compose_gluetun_wireguard_config_raw
+      - WIREGUARD_CONF_SECRETFILE=/run/secrets/gluetun_wireguard_config_raw
     secrets:
-      - karo_compose_gluetun_wireguard_config_raw
+      - gluetun_wireguard_config_raw
 
 networks:
   egress_gluetun:
@@ -40,5 +40,5 @@ networks:
     external: true
 
 secrets:
-  karo_compose_gluetun_wireguard_config_raw:
-    environment: karo_compose_gluetun_wireguard_config_raw
+  gluetun_wireguard_config_raw:
+    file: /run/user/1001/karo/compose/gluetun_wireguard_config_raw

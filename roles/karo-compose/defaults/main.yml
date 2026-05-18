@@ -69,8 +69,9 @@ karo_compose_pocketid_image: ghcr.io/pocket-id/pocket-id
 karo_compose_pocketid_version: v2.6.2@sha256:1cc51e5b36fa7ec31368d3efb24ba362be6dce20f3cc0a2852843527bd5110f0
 karo_compose_pocketid_log_level: info # debug, info, warn, error
 
-karo_compose_pocketid_encryption_key: "" # secret (`openssl rand -base64 32`)
-karo_compose_pocketid_maxmind_license_key: "" # secret
+karo_compose_pocketid_secrets:
+  pocketid_encryption_key: "" # `openssl rand -base64 32`
+  pocketid_maxmind_license_key: ""
 
 # traefik
 
@@ -92,8 +93,11 @@ karo_compose_traefik_acme_ca_server_url: "https://acme-v02.api.letsencrypt.org/d
 karo_compose_traefik_acme_staging_ca_server_url: "https://acme-staging-v02.api.letsencrypt.org/directory"
 
 karo_compose_traefik_acme_email: cert@example.com
-karo_compose_traefik_acme_zone_api_token: "" # secret
-karo_compose_traefik_acme_dns_api_token: "" # secret
+
+karo_compose_traefik_secrets:
+  traefik_acme_zone_api_token: ""
+  traefik_acme_dns_api_token: ""
+  tinyauth_oidc_client_secret: ""
 
 # traefik tinyauth
 
@@ -103,7 +107,6 @@ karo_compose_traefik_tinyauth_domain: "tinyauth.{{ karo_compose_root_domain }}"
 karo_compose_traefik_tinyauth_log_level: info # trace, debug, info, warn, error, fatal, panic
 
 karo_compose_traefik_tinyauth_oidc_client_id: ""
-karo_compose_traefik_tinyauth_oidc_client_secret: "" # secret
 
 # traefik cetusguard
 
@@ -134,8 +137,9 @@ karo_compose_gluetun_log_level: info # debug, info, warning, error
 
 karo_compose_gluetun_firewall_vpn_input_ports: ""
 
-karo_compose_gluetun_wireguard_config_raw: | # secret
-  # wireguard config
+karo_compose_gluetun_secrets:
+  gluetun_wireguard_config_raw: |
+    # wireguard config
 
 # godns
 
@@ -146,7 +150,8 @@ karo_compose_godns_debug_info_enabled: false
 
 karo_compose_godns_subdomain: home
 
-karo_compose_godns_dns_api_token: "" # secret
+karo_compose_godns_secrets:
+  godns_dns_api_token: ""
 
 # jellyfin
 
@@ -209,6 +214,10 @@ karo_compose_qbittorrent_downloads_path: "" # e.g. /media/drive1/data/torrents
 
 karo_compose_qbittorrent_webui_enabled: true
 
+karo_compose_qbittorrent_secrets:
+  qui_session_secret: "" # `openssl rand -hex 16`
+  qui_oidc_client_secret: ""
+
 # qbittorrent qui
 
 karo_compose_qbittorrent_qui_image: ghcr.io/autobrr/qui
@@ -216,10 +225,7 @@ karo_compose_qbittorrent_qui_version: v1.17.0@sha256:fb3832e68f66b056e1b049d16c4
 karo_compose_qbittorrent_qui_domain: "qui.{{ karo_compose_root_domain }}"
 karo_compose_qbittorrent_qui_log_level: info # trace, debug, info, warn, error
 
-karo_compose_qbittorrent_qui_session_secret: "" # secret (`openssl rand -hex 16`)
-
 karo_compose_qbittorrent_qui_oidc_client_id: ""
-karo_compose_qbittorrent_qui_oidc_client_secret: "" # secret
 
 # radarr
 
