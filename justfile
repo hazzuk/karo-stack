@@ -66,7 +66,7 @@ compose action hostname='' stack='all': _check-password
 
 # vault
 
-password := "/run/user/1000/karo-stack/vault_pass"
+password := "/run/user/1000/karo/ansible/vault_pass"
 
 # Manage a vault
 vault hostname:
