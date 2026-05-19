@@ -19,38 +19,46 @@
   loop_control:
     label: "{{ item.0.key }}/{{ item.1 }}"
 
-- name: Down docker compose stacks
-  ansible.builtin.include_tasks: down.yml
-  loop: "{{ karo_compose_stacks_expanded | reverse }}"
-  loop_control:
-    label: "{{ item.name }}"
-  vars:
-    stack: "{{ item.name }}"
-    group: "{{ item.group }}"
-  when:
-    - lookup('vars', 'karo_compose_' ~ stack ~ '_enabled') | default(false)
-    - stack == karo_compose_justfile_stack or karo_compose_justfile_stack == 'all'
+- name: Down stacks
+  become: true
+  become_user: dockeruser
   tags: down
+  block:
+    - name: Down docker compose stacks
+      ansible.builtin.include_tasks: down.yml
+      loop: "{{ karo_compose_stacks_expanded | reverse }}"
+      loop_control:
+        label: "{{ item.name }}"
+      vars:
+        stack: "{{ item.name }}"
+        group: "{{ item.group }}"
+      when:
+        - lookup('vars', 'karo_compose_' ~ stack ~ '_enabled') | default(false)
+        - stack == karo_compose_justfile_stack or karo_compose_justfile_stack == 'all'
 
-- name: Deploy compose stacks
-  ansible.builtin.include_tasks: deploy.yml
-  loop: "{{ karo_compose_stacks_expanded }}"
-  loop_control:
-    label: "{{ item.name }}"
-  vars:
-    stack: "{{ item.name }}"
-    group: "{{ item.group }}"
-  when:
-    - lookup('vars', 'karo_compose_' ~ stack ~ '_enabled') | default(false)
-    - stack == karo_compose_justfile_stack or karo_compose_justfile_stack == 'all'
+- name: Deploy stacks
+  become: true
+  become_user: dockeruser
   tags: deploy
+  block:
+    - name: Deploy docker compose stacks
+      ansible.builtin.include_tasks: deploy.yml
+      loop: "{{ karo_compose_stacks_expanded }}"
+      loop_control:
+        label: "{{ item.name }}"
+      vars:
+        stack: "{{ item.name }}"
+        group: "{{ item.group }}"
+      when:
+        - lookup('vars', 'karo_compose_' ~ stack ~ '_enabled') | default(false)
+        - stack == karo_compose_justfile_stack or karo_compose_justfile_stack == 'all'
 
-- name: Create compose stacks
+- name: Create stacks
+  become: true
+  become_user: dockeruser
+  tags: up
   block:
     - name: Create tmpfs secrets directory
-      become: true
-      become_user: dockeruser
-      tags: up
       ansible.builtin.file:
         path: /run/user/1001/karo/compose
         state: directory
@@ -68,13 +76,9 @@
       when:
         - lookup('vars', 'karo_compose_' ~ stack ~ '_enabled') | default(false)
         - stack == karo_compose_justfile_stack or karo_compose_justfile_stack == 'all'
-      tags: up
 
   always:
     - name: Discard tmpfs secrets directory
-      become: true
-      become_user: dockeruser
-      tags: up
       ansible.builtin.file:
         path: "/run/user/1001/karo/compose"
         state: absent

@@ -5,22 +5,16 @@
 ---
 
 - name: "Create compose stack directory for {{ stack }}"
-  tags: deploy
   ansible.builtin.file:
     path: "/srv/docker/{{ group }}/{{ stack }}"
     mode: "0774"
-    owner: dockeruser
-    group: dockeruser
     state: directory
 
 - name: "Deploy compose templates for {{ stack }}"
-  tags: deploy
   ansible.builtin.template:
     src: "{{ template.src }}"
     dest: "/srv/docker/{{ group }}/{{ stack }}/{{ template.path | splitext | first }}"
     mode: "0644"
-    owner: dockeruser
-    group: dockeruser
   loop_control:
     loop_var: template
     label: "{{ template.path }}"

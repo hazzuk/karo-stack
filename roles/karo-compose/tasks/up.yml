@@ -5,9 +5,6 @@
 ---
 
 - name: Create secrets for {{ stack }}
-  become: true
-  become_user: dockeruser
-  tags: up
   ansible.builtin.copy:
     dest: "/run/user/1001/karo/compose/{{ secret.key }}"
     content: "{{ secret.value }}"
@@ -18,9 +15,6 @@
     label: "{{ secret.key }}"
 
 - name: Up compose stack {{ stack }}
-  become: true
-  become_user: dockeruser
-  tags: up
   community.docker.docker_compose_v2:
     docker_host: unix:///run/user/1001/docker.sock
     project_src: "/srv/docker/{{ group }}/{{ stack }}"
