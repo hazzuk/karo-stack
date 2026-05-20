@@ -6,6 +6,17 @@
 
 ---
 
+- name: Check docker directory status
+  ansible.builtin.stat:
+    path: /srv/docker
+  register: docker_dir
+
+- name: Assert docker setup
+  ansible.builtin.assert:
+    that: docker_dir.stat.exists
+    fail_msg: "Docker directory not present, run `just install` to setup Docker."
+    quiet: true
+
 - name: Define expanded stack list
   ansible.builtin.set_fact:
     karo_compose_stacks_expanded: >-
@@ -18,6 +29,15 @@
   loop: "{{ karo_compose_stacks | dict2items | subelements('value') }}"
   loop_control:
     label: "{{ item.0.key }}/{{ item.1 }}"
+
+- name: Assert stack name
+  ansible.builtin.assert:
+    that: karo_compose_justfile_stack in (
+        karo_compose_stacks_expanded | map(attribute='name') | list
+        + ['all']
+      )
+    fail_msg: "Invalid stack name '{{ karo_compose_justfile_stack }}'."
+    quiet: true
 
 - name: Down stacks
   become: true
