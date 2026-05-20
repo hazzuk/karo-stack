@@ -34,7 +34,7 @@
         group: "{{ item.group }}"
       when:
         - lookup('vars', 'karo_compose_' ~ stack ~ '_enabled') | default(false)
-        - stack == karo_compose_justfile_stack or karo_compose_justfile_stack == 'all'
+        - karo_compose_justfile_stack in [stack, 'all']
 
 - name: Deploy stacks
   become: true
@@ -51,7 +51,7 @@
         group: "{{ item.group }}"
       when:
         - lookup('vars', 'karo_compose_' ~ stack ~ '_enabled') | default(false)
-        - stack == karo_compose_justfile_stack or karo_compose_justfile_stack == 'all'
+        - karo_compose_justfile_stack in [stack, 'all']
 
 - name: Create stacks
   become: true
@@ -75,7 +75,7 @@
         secrets: "{{ lookup('vars', 'karo_compose_' ~ stack ~ '_secrets', default={}) | dict2items }}"
       when:
         - lookup('vars', 'karo_compose_' ~ stack ~ '_enabled') | default(false)
-        - stack == karo_compose_justfile_stack or karo_compose_justfile_stack == 'all'
+        - karo_compose_justfile_stack in [stack, 'all']
 
   always:
     - name: Discard tmpfs secrets directory
