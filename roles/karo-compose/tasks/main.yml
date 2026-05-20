@@ -97,3 +97,4 @@
         path: "/run/user/1001/karo/compose"
         state: absent
       when: secrets_dir | default(false)
+      changed_when: false

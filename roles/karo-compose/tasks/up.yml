@@ -14,6 +14,7 @@
         path: /run/user/1001/karo/compose
         state: directory
         mode: "0700"
+      changed_when: false
 
     - name: Mark secrets directory as created
       ansible.builtin.set_fact:
@@ -28,6 +29,7 @@
   loop_control:
     loop_var: secret
     label: "{{ secret.key }}"
+  changed_when: false
 
 - name: Up compose stack {{ stack }}
   community.docker.docker_compose_v2:
