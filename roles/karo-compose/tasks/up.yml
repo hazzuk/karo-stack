@@ -4,6 +4,21 @@
 
 ---
 
+- name: Prepare secrets
+  when:
+    - secrets | length > 0
+    - secrets_dir is undefined
+  block:
+    - name: Create tmpfs secrets directory
+      ansible.builtin.file:
+        path: /run/user/1001/karo/compose
+        state: directory
+        mode: "0700"
+
+    - name: Mark secrets directory as created
+      ansible.builtin.set_fact:
+        secrets_dir: true
+
 - name: Create secrets for {{ stack }}
   ansible.builtin.copy:
     dest: "/run/user/1001/karo/compose/{{ secret.key }}"

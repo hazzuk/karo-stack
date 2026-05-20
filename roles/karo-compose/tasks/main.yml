@@ -78,12 +78,6 @@
   become_user: dockeruser
   tags: up
   block:
-    - name: Create tmpfs secrets directory
-      ansible.builtin.file:
-        path: /run/user/1001/karo/compose
-        state: directory
-        mode: "0700"
-
     - name: Up docker compose stacks
       ansible.builtin.include_tasks: up.yml
       loop: "{{ karo_compose_stacks_expanded }}"
@@ -102,3 +96,4 @@
       ansible.builtin.file:
         path: "/run/user/1001/karo/compose"
         state: absent
+      when: secrets_dir | default(false)
