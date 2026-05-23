@@ -4,27 +4,34 @@
 
 ---
 
-- name: Up compose stack {{ stack }}
-  become: true
-  become_user: dockeruser
-  no_log: true
-  tags: up
-  environment: # docker secrets
-    # pocketid
-    karo_compose_pocketid_encryption_key: "{{ karo_compose_pocketid_encryption_key if stack == 'pocketid' else '' }}"
-    karo_compose_pocketid_maxmind_license_key: "{{ karo_compose_pocketid_maxmind_license_key if stack == 'pocketid' else '' }}"
-    # traefik
-    karo_compose_traefik_acme_zone_api_token: "{{ karo_compose_traefik_acme_zone_api_token if stack == 'traefik' else '' }}"
-    karo_compose_traefik_acme_dns_api_token: "{{ karo_compose_traefik_acme_dns_api_token if stack == 'traefik' else '' }}"
-    karo_compose_traefik_tinyauth_oidc_client_secret: "{{ karo_compose_traefik_tinyauth_oidc_client_secret if stack == 'traefik' else '' }}"
-    # gluetun
-    karo_compose_gluetun_wireguard_config_raw: "{{ karo_compose_gluetun_wireguard_config_raw if stack == 'gluetun' else '' }}"
-    # godns
-    karo_compose_godns_dns_api_token: "{{ karo_compose_godns_dns_api_token if stack == 'godns' else '' }}"
-    # qbittorrent
-    karo_compose_qbittorrent_qui_session_secret: "{{ karo_compose_qbittorrent_qui_session_secret if stack == 'qbittorrent' else '' }}"
-    karo_compose_qbittorrent_qui_oidc_client_secret: "{{ karo_compose_qbittorrent_qui_oidc_client_secret if stack == 'qbittorrent' else '' }}"
+- name: Prepare secrets
+  when:
+    - secrets | length > 0
+    - secrets_dir is undefined
+  block:
+    - name: Create tmpfs secrets directory
+      ansible.builtin.file:
+        path: /run/user/1001/karo/compose
+        state: directory
+        mode: "0700"
+      changed_when: false
 
+    - name: Mark secrets directory as created
+      ansible.builtin.set_fact:
+        secrets_dir: true
+
+- name: Create secrets for {{ stack }}
+  ansible.builtin.copy:
+    dest: "/run/user/1001/karo/compose/{{ secret.key }}"
+    content: "{{ secret.value }}"
+    mode: "0644"
+  loop: "{{ secrets }}"
+  loop_control:
+    loop_var: secret
+    label: "{{ secret.key }}"
+  changed_when: false
+
+- name: Up compose stack {{ stack }}
   community.docker.docker_compose_v2:
     docker_host: unix:///run/user/1001/docker.sock
     project_src: "/srv/docker/{{ group }}/{{ stack }}"

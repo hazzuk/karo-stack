@@ -20,7 +20,7 @@ services:
         target: /config.json
         read_only: true
     secrets:
-      - karo_compose_godns_dns_api_token
+      - godns_dns_api_token
 
 networks:
   egress_godns:
@@ -29,5 +29,5 @@ networks:
     internal: false
 
 secrets:
-  karo_compose_godns_dns_api_token:
-    environment: karo_compose_godns_dns_api_token
+  godns_dns_api_token:
+    file: /run/user/1001/karo/compose/godns_dns_api_token

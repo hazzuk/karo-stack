@@ -43,13 +43,13 @@ services:
       - tinyauth.apps.dashboard.oauth.groups={{ karo_compose_oidc_admin_group }}
 {% endif %}
     environment:
-      - CF_ZONE_API_TOKEN_FILE=/run/secrets/karo_compose_traefik_acme_zone_api_token
-      - CF_DNS_API_TOKEN_FILE=/run/secrets/karo_compose_traefik_acme_dns_api_token
+      - CF_ZONE_API_TOKEN_FILE=/run/secrets/traefik_acme_zone_api_token
+      - CF_DNS_API_TOKEN_FILE=/run/secrets/traefik_acme_dns_api_token
       - CLOUDFLARE_POLLING_INTERVAL=10
       - TZ={{ karo_compose_timezone }}
     secrets:
-      - karo_compose_traefik_acme_zone_api_token
-      - karo_compose_traefik_acme_dns_api_token
+      - traefik_acme_zone_api_token
+      - traefik_acme_dns_api_token
     depends_on:
       tinyauth:
         condition: service_healthy
@@ -83,7 +83,7 @@ services:
       - TINYAUTH_APPURL=https://{{ karo_compose_traefik_tinyauth_domain }}
       - TINYAUTH_OAUTH_AUTOREDIRECT=pocketid
       - TINYAUTH_OAUTH_PROVIDERS_POCKETID_CLIENTID={{ karo_compose_traefik_tinyauth_oidc_client_id }}
-      - TINYAUTH_OAUTH_PROVIDERS_POCKETID_CLIENTSECRETFILE=/run/secrets/karo_compose_traefik_tinyauth_oidc_client_secret
+      - TINYAUTH_OAUTH_PROVIDERS_POCKETID_CLIENTSECRETFILE=/run/secrets/tinyauth_oidc_client_secret
       - TINYAUTH_OAUTH_PROVIDERS_POCKETID_AUTHURL={{ karo_compose_oidc_authorization_url }}
       - TINYAUTH_OAUTH_PROVIDERS_POCKETID_TOKENURL={{ karo_compose_oidc_token_url }}
       - TINYAUTH_OAUTH_PROVIDERS_POCKETID_USERINFOURL={{ karo_compose_oidc_userinfo_url }}
@@ -92,7 +92,7 @@ services:
       - TINYAUTH_OAUTH_PROVIDERS_POCKETID_NAME={{ karo_compose_oidc_provider_name }}
       - DOCKER_HOST=tcp://cetusguard:2375
     secrets:
-      - karo_compose_traefik_tinyauth_oidc_client_secret
+      - tinyauth_oidc_client_secret
     depends_on:
       - cetusguard
 
@@ -148,9 +148,9 @@ volumes:
     name: traefik_acme
 
 secrets:
-  karo_compose_traefik_acme_zone_api_token:
-    environment: karo_compose_traefik_acme_zone_api_token
-  karo_compose_traefik_acme_dns_api_token:
-    environment: karo_compose_traefik_acme_dns_api_token
-  karo_compose_traefik_tinyauth_oidc_client_secret:
-    environment: karo_compose_traefik_tinyauth_oidc_client_secret
+  traefik_acme_zone_api_token:
+    file: /run/user/1001/karo/compose/traefik_acme_zone_api_token
+  traefik_acme_dns_api_token:
+    file: /run/user/1001/karo/compose/traefik_acme_dns_api_token
+  tinyauth_oidc_client_secret:
+    file: /run/user/1001/karo/compose/tinyauth_oidc_client_secret

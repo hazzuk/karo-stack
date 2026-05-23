@@ -27,16 +27,16 @@ services:
     environment:
       - LOG_LEVEL={{ karo_compose_pocketid_log_level }}
       - APP_URL={{ karo_compose_oidc_url }}
-      - ENCRYPTION_KEY_FILE=/run/secrets/karo_compose_pocketid_encryption_key
-      - MAXMIND_LICENSE_KEY_FILE=/run/secrets/karo_compose_pocketid_maxmind_license_key
+      - ENCRYPTION_KEY_FILE=/run/secrets/pocketid_encryption_key
+      - MAXMIND_LICENSE_KEY_FILE=/run/secrets/pocketid_maxmind_license_key
       - ANALYTICS_DISABLED=true
       - VERSION_CHECK_DISABLED=true
       - TRUST_PROXY=true
       - PUID=1000
       - PGID=1000
     secrets:
-      - karo_compose_pocketid_encryption_key
-      - karo_compose_pocketid_maxmind_license_key
+      - pocketid_encryption_key
+      - pocketid_maxmind_license_key
     healthcheck:
       test: [ "CMD", "/app/pocket-id", "healthcheck" ]
       interval: 1m30s
@@ -57,7 +57,7 @@ volumes:
     name: pocketid_data
 
 secrets:
-  karo_compose_pocketid_encryption_key:
-    environment: karo_compose_pocketid_encryption_key
-  karo_compose_pocketid_maxmind_license_key:
-    environment: karo_compose_pocketid_maxmind_license_key
+  pocketid_encryption_key:
+    file: /run/user/1001/karo/compose/pocketid_encryption_key
+  pocketid_maxmind_license_key:
+    file: /run/user/1001/karo/compose/pocketid_maxmind_license_key

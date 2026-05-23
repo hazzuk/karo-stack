@@ -57,7 +57,7 @@ compose action hostname='' stack='all': _check-password
         echo "action must be 'up' or 'down'" >&2; exit 1;
     fi
     # run user action
-    ansible-playbook run.yml \
+    ANSIBLE_DISPLAY_SKIPPED_HOSTS=false ansible-playbook run.yml \
         --extra-vars "karo_compose_justfile_stack={{stack}}" \
         --tags compose \
         --skip-tags "$skip_tags" \
@@ -66,7 +66,7 @@ compose action hostname='' stack='all': _check-password
 
 # vault
 
-password := "/run/user/1000/karo-stack/vault_pass"
+password := "/run/user/1000/karo/ansible/vault_pass"
 
 # Manage a vault
 vault hostname:

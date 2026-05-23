@@ -54,16 +54,16 @@ services:
       - traefik.http.services.qui.loadbalancer.server.port=7476
     environment:
       - QUI__LOG_LEVEL={{ karo_compose_qbittorrent_qui_log_level | upper }}
-      - QUI__SESSION_SECRET_FILE=/run/secrets/karo_compose_qbittorrent_qui_session_secret
+      - QUI__SESSION_SECRET_FILE=/run/secrets/qui_session_secret
       - QUI__OIDC_ENABLED=true
       - QUI__OIDC_ISSUER={{ karo_compose_oidc_url }}
       - QUI__OIDC_CLIENT_ID={{ karo_compose_qbittorrent_qui_oidc_client_id }}
-      - QUI__OIDC_CLIENT_SECRET_FILE=/run/secrets/karo_compose_qbittorrent_qui_oidc_client_secret
+      - QUI__OIDC_CLIENT_SECRET_FILE=/run/secrets/qui_oidc_client_secret
       - QUI__OIDC_REDIRECT_URL=https://{{ karo_compose_qbittorrent_qui_domain }}/api/auth/oidc/callback
       - QUI__OIDC_DISABLE_BUILT_IN_LOGIN=true
     secrets:
-      - karo_compose_qbittorrent_qui_session_secret
-      - karo_compose_qbittorrent_qui_oidc_client_secret
+      - qui_session_secret
+      - qui_oidc_client_secret
     depends_on:
       - qbittorrent
 
@@ -74,7 +74,7 @@ volumes:
     name: qui_data
 
 secrets:
-  karo_compose_qbittorrent_qui_session_secret:
-    environment: karo_compose_qbittorrent_qui_session_secret
-  karo_compose_qbittorrent_qui_oidc_client_secret:
-    environment: karo_compose_qbittorrent_qui_oidc_client_secret
+  qui_session_secret:
+    file: /run/user/1001/karo/compose/qui_session_secret
+  qui_oidc_client_secret:
+    file: /run/user/1001/karo/compose/qui_oidc_client_secret

@@ -6,8 +6,18 @@
 
 ---
 
+- name: Check docker directory status
+  ansible.builtin.stat:
+    path: /srv/docker
+  register: docker_dir
+
+- name: Assert docker setup
+  ansible.builtin.assert:
+    that: docker_dir.stat.exists
+    fail_msg: "Docker directory not present, run `just install` to setup Docker."
+    quiet: true
+
 - name: Define expanded stack list
-  no_log: true
   ansible.builtin.set_fact:
     karo_compose_stacks_expanded: >-
       {{ karo_compose_stacks_expanded | default([]) + [
@@ -17,36 +27,74 @@
         }
       ] }}
   loop: "{{ karo_compose_stacks | dict2items | subelements('value') }}"
+  loop_control:
+    label: "{{ item.0.key }}/{{ item.1 }}"
 
-- name: Down docker compose stacks
-  ansible.builtin.include_tasks: down.yml
-  loop: "{{ karo_compose_stacks_expanded | reverse }}"
-  vars:
-    stack: "{{ item.name }}"
-    group: "{{ item.group }}"
-  when:
-    - lookup('vars', 'karo_compose_' ~ stack ~ '_enabled') | default(false)
-    - stack == karo_compose_justfile_stack or karo_compose_justfile_stack == 'all'
+- name: Assert stack name
+  ansible.builtin.assert:
+    that: karo_compose_justfile_stack in (
+        karo_compose_stacks_expanded | map(attribute='name') | list
+        + ['all']
+      )
+    fail_msg: "Invalid stack name '{{ karo_compose_justfile_stack }}'."
+    quiet: true
+
+- name: Down stacks
+  become: true
+  become_user: dockeruser
   tags: down
+  block:
+    - name: Down docker compose stacks
+      ansible.builtin.include_tasks: down.yml
+      loop: "{{ karo_compose_stacks_expanded | reverse }}"
+      loop_control:
+        label: "{{ item.name }}"
+      vars:
+        stack: "{{ item.name }}"
+        group: "{{ item.group }}"
+      when:
+        - lookup('vars', 'karo_compose_' ~ stack ~ '_enabled') | default(false)
+        - karo_compose_justfile_stack in [stack, 'all']
 
-- name: Deploy compose stacks
-  ansible.builtin.include_tasks: deploy.yml
-  loop: "{{ karo_compose_stacks_expanded }}"
-  vars:
-    stack: "{{ item.name }}"
-    group: "{{ item.group }}"
-  when:
-    - lookup('vars', 'karo_compose_' ~ stack ~ '_enabled') | default(false)
-    - stack == karo_compose_justfile_stack or karo_compose_justfile_stack == 'all'
+- name: Deploy stacks
+  become: true
+  become_user: dockeruser
   tags: deploy
+  block:
+    - name: Deploy docker compose stacks
+      ansible.builtin.include_tasks: deploy.yml
+      loop: "{{ karo_compose_stacks_expanded }}"
+      loop_control:
+        label: "{{ item.name }}"
+      vars:
+        stack: "{{ item.name }}"
+        group: "{{ item.group }}"
+      when:
+        - lookup('vars', 'karo_compose_' ~ stack ~ '_enabled') | default(false)
+        - karo_compose_justfile_stack in [stack, 'all']
 
-- name: Up docker compose stacks
-  ansible.builtin.include_tasks: up.yml
-  loop: "{{ karo_compose_stacks_expanded }}"
-  vars:
-    stack: "{{ item.name }}"
-    group: "{{ item.group }}"
-  when:
-    - lookup('vars', 'karo_compose_' ~ stack ~ '_enabled') | default(false)
-    - stack == karo_compose_justfile_stack or karo_compose_justfile_stack == 'all'
+- name: Create stacks
+  become: true
+  become_user: dockeruser
   tags: up
+  block:
+    - name: Up docker compose stacks
+      ansible.builtin.include_tasks: up.yml
+      loop: "{{ karo_compose_stacks_expanded }}"
+      loop_control:
+        label: "{{ item.name }}"
+      vars:
+        stack: "{{ item.name }}"
+        group: "{{ item.group }}"
+        secrets: "{{ lookup('vars', 'karo_compose_' ~ stack ~ '_secrets', default={}) | dict2items }}"
+      when:
+        - lookup('vars', 'karo_compose_' ~ stack ~ '_enabled') | default(false)
+        - karo_compose_justfile_stack in [stack, 'all']
+
+  always:
+    - name: Discard tmpfs secrets directory
+      ansible.builtin.file:
+        path: "/run/user/1001/karo/compose"
+        state: absent
+      when: secrets_dir | default(false)
+      changed_when: false
