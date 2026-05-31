@@ -10,59 +10,65 @@
     mode: "0700"
     state: directory
 
-- name: Install essential packages
-  ansible.builtin.apt:
-    cache_valid_time: 86400
-    name: "{{ karo_system_packages }}"
-    state: present
+- name: Manage packages
+  block:
+    - name: Install essential packages
+      ansible.builtin.apt:
+        cache_valid_time: 86400
+        name: "{{ karo_system_packages }}"
+        state: present
 
-- name: Upgrade packages
-  ansible.builtin.apt:
-    update_cache: true
-    allow_downgrade: true
-    upgrade: true
+    - name: Upgrade packages
+      ansible.builtin.apt:
+        update_cache: true
+        allow_downgrade: true
+        upgrade: true
 
-- name: Configure kernel parameters
-  ansible.builtin.copy:
-    src: sysctl_karo.conf
-    dest: /etc/sysctl.d/karo.conf
-    mode: "0644"
-  notify: Reload sysctl config
+- name: Configure kernel
+  block:
+    - name: Set kernel parameters
+      ansible.builtin.copy:
+        src: sysctl_karo.conf
+        dest: /etc/sysctl.d/karo.conf
+        mode: "0644"
+      notify: Reload sysctl config
 
-- name: Load kernel modules
-  ansible.builtin.copy:
-    src: modules_karo.conf
-    dest: /etc/modules-load.d/karo.conf
-    mode: "0644"
-  notify: Restart systemd-modules-load
+    - name: Load kernel modules
+      ansible.builtin.copy:
+        src: modules_karo.conf
+        dest: /etc/modules-load.d/karo.conf
+        mode: "0644"
+      notify: Restart systemd-modules-load
 
-- name: Flush handlers
-  ansible.builtin.meta: flush_handlers
+    - name: Flush handlers
+      ansible.builtin.meta: flush_handlers
 
-- name: Set bash configuration for karo
-  ansible.builtin.copy:
-    src: "{{ item }}"
-    dest: "/home/karo/.{{ item }}"
-    mode: "0644"
-    owner: karo
-    group: karo
-  loop:
-    - bash_logout
-    - profile
+- name: Setup system
+  block:
+    - name: Set bash configuration for karo
+      ansible.builtin.copy:
+        src: "{{ item }}"
+        dest: "/home/karo/.{{ item }}"
+        mode: "0644"
+        owner: karo
+        group: karo
+      loop:
+        - bash_logout
+        - profile
 
-- name: Add hostname to hosts
-  ansible.builtin.lineinfile:
-    path: /etc/hosts
-    regexp: '^127\.0\.1\.1\s+debian(\s+{{ inventory_hostname }})?$'
-    line: "127.0.1.1 debian {{ inventory_hostname }}"
+    - name: Add hostname to hosts
+      ansible.builtin.lineinfile:
+        path: /etc/hosts
+        regexp: '^127\.0\.1\.1\s+debian(\s+{{ inventory_hostname }})?$'
+        line: "127.0.1.1 debian {{ inventory_hostname }}"
 
-- name: Set system hostname
-  ansible.builtin.hostname:
-    name: "{{ inventory_hostname }}"
-    use: systemd
+    - name: Set system hostname
+      ansible.builtin.hostname:
+        name: "{{ inventory_hostname }}"
+        use: systemd
 
-- name: Set motd
-  ansible.builtin.copy:
-    content: "{{ karo_system_motd_raw }}"
-    dest: /etc/motd
-    mode: "0644"
+    - name: Set motd
+      ansible.builtin.copy:
+        content: "{{ karo_system_motd_raw }}"
+        dest: /etc/motd
+        mode: "0644"
