@@ -36,6 +36,9 @@
     mode: "0644"
   notify: Restart systemd-modules-load
 
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
+
 - name: Set bash configuration for karo
   ansible.builtin.copy:
     src: "{{ item }}"
