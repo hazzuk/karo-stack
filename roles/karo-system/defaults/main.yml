@@ -7,8 +7,6 @@
 karo_system_packages:
   - chrony
   - acl
-  - python3-debian
-  - just
   - parted
   - rsync
   - micro
@@ -18,6 +16,7 @@ karo_system_packages:
   - tree
   - man-db
   - wireguard
+  - pipx
 
 karo_system_motd_raw: |
    _                           _             _    
