@@ -9,8 +9,8 @@
   become: true
   tags: install
   roles:
-    - karo-nftables
     - karo-system
+    - karo-nftables
     - karo-ssh
     - karo-git
     - karo-docker
