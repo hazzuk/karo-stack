@@ -30,7 +30,7 @@
         - dir: .ansible/tmp
           mode: "0700"
         - dir: .ssh
-          mode: "0755"
+          mode: "0700"
         - dir: .config/docker
           mode: "0700"
       loop_control:
@@ -41,7 +41,7 @@
         src: /home/karo/.ssh/authorized_keys
         remote_src: true
         dest: /home/dockeruser/.ssh/authorized_keys
-        mode: "0644"
+        mode: "0600"
         owner: dockeruser
         group: dockeruser
 
