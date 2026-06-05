@@ -5,18 +5,19 @@
 ---
 
 karo_system_packages:
-  - chrony
   - acl
-  - python3-debian
-  - just
-  - parted
-  - rsync
-  - micro
-  - curl
-  - wget
   - btop
-  - tree
+  - chrony
+  - curl
+  # - git (managed by karo-git)
   - man-db
+  - micro
+  # - openssh-server (managed by karo-ssh)
+  - parted
+  - pipx
+  - rsync
+  - tree
+  - wget
   - wireguard
 
 karo_system_motd_raw: |

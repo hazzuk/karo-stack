@@ -39,7 +39,7 @@ _host-preseed platform:
 
 # Setup a system
 @install hostname='': _check-password
-    ansible-playbook run.yml --tags setup --limit "{{hostname}}"
+    ansible-playbook run.yml --tags install --limit "{{hostname}}"
 
 
 # compose
