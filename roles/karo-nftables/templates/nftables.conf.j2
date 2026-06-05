@@ -1,6 +1,6 @@
 #!/usr/sbin/nft -f
 
-# SPDX-FileCopyrightText: 2025 hazzuk
+# SPDX-FileCopyrightText: 2026 hazzuk
 #
 # SPDX-License-Identifier: AGPL-3.0-only
 
@@ -16,34 +16,64 @@ table inet filter {
                 # criteria specified by the rules that follow below
                 type filter hook input priority filter; policy drop;
 
-                # allow loopback traffic
-                iifname "lo" accept
+                # allow localhost loopback traffic
+                iif lo accept
 
                 # allow traffic from established and related packets, drop invalid
                 ct state established,related accept
                 ct state invalid drop
+{% if karo_nftables_icmp_enabled %}
 
-                # allow new or established ssh connections
-                tcp dport {{ karo_ssh_port | default(22) }} ct state new,established accept
-
-{% if 'server' in group_names %}
-                # allow new or established http/https/http3 connections
-                tcp dport { 80, 443 } ct state new,established accept
-                udp dport 443 ct state new,established accept
-
+                # allow icmp traffic
+                ip protocol icmp accept
 {% endif %}
-{% if karo_nftables_accepted_tcp_ports %}
-                # allow user defined tcp connections
-                tcp dport { {{ karo_nftables_accepted_tcp_ports }} } ct state new,established accept
 
+                # allow new ssh connections
+                tcp dport {{ karo_ssh_port | default(22) }} accept
+{% if 'server' in group_names %}
+
+                # allow new http/https/http3 connections
+                tcp dport { 80, 443 } accept
+                udp dport 443 accept
+{% endif %}
+
+{% if karo_compose_jellyfin_enabled | default(false) %}
+
+                # allow jellyfin discovery port
+                udp dport 7359 accept
+{% endif %}
+{% if karo_compose_proxy_client_enabled | default(false) %}
+
+                # allow wireguard proxyserver traffic
+                ip saddr {{ karo_compose_proxy_server_wireguard_ipv4 | default('10.25.0.1') }} tcp dport { 80, 443 } accept
+
+                # allow proxyserver pings
+                ip protocol icmp ip saddr {{ karo_compose_proxy_server_wireguard_ipv4 | default('10.25.0.1') }} accept
+{% endif %}
+{% if karo_compose_proxy_server_enabled | default(false) %}
+
+                # allow wireguard listen port
+                udp dport {{ karo_compose_proxy_server_wireguard_port | default('52525') }} accept
+
+                # allow homeserver pings
+                ip protocol icmp ip saddr {{ karo_compose_proxy_client_wireguard_ipv4 | default('10.25.0.2') }} accept
+{% endif %}
+
+{% if karo_nftables_accepted_tcp_ports %}
+
+                # allow user defined tcp connections
+                tcp dport { {{ karo_nftables_accepted_tcp_ports }} } accept
 {% endif %}
 {% if karo_nftables_accepted_udp_ports %}
-                # allow user defined udp connections
-                udp dport { {{ karo_nftables_accepted_udp_ports }} } ct state new,established accept
 
+                # allow user defined udp connections
+                udp dport { {{ karo_nftables_accepted_udp_ports }} } accept
 {% endif %}
-                # uncomment to enable logging of denied inbound traffic
-                # log prefix "[nftables] Inbound Denied: " counter drop
+
+{% if karo_nftables_log_enabled %}
+                # debug denied traffic 
+                log prefix "nftables: input denied: " counter drop
+{% endif %}
         }
         chain forward {
                 type filter hook forward priority filter; policy drop;

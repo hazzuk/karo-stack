@@ -2,6 +2,92 @@
 
 All notable changes to the karo-stack will be documented in this file.
 
+## [2.0.0] - 2026-06-05
+
+### 🚀 Features
+
+- *(justfile)* Allow limiting server hostnames
+- *(justfile)* Allow limiting compose hostnames
+- *(compose)* [**breaking**] Deploy stacks inside directory groups
+- *(compose)* Add forward auth toggle options
+- *(justfile)* Add wireguard key gen recipe
+- *(nftables)* Add icmp and logging options
+- *(compose)* Add proxy stack
+- *(compose)* Configure traefik proxy protocol
+- *(nftables)* Automatically allow stack traffic
+- *(compose)* Adjust haproxy config timeouts
+- *(compose)* Allow custom domains in traefik
+- *(justfile)* Allow preseeding different platforms
+- *(docker)* Disable userland proxy in daemon.json
+- *(docker)* Handle daemon.json changes
+- *(system)* Load br_netfilter kernel module
+- *(system)* Configure system hostname
+- *(compose)* Inject secrets securely using files
+- *(ansible)* Unify loop logging with labels
+- *(justfile)* Reduce redundant compose role logging
+- *(ansible)* Disable become_ask_pass by default
+- *(compose)* Assert docker setup and stack name
+- *(preseed)* Enable debian backports source
+- Use pipx to install ansible and just
+
+### 🐛 Bug Fixes
+
+- *(preseed)* Do not hardcode locale or timezone
+- *(nftables)* Add default values for compose vars
+- *(nftables)* Remove wireguard interface check
+- *(system)* Load kernel modules before karo-docker
+
+### 🚜 Refactor
+
+- *(compose)* Avoid double quotes in lookup vars
+- *(compose)* Move templates inside group dirs
+- *(docker)* Allow privileged ports with sysctl
+- *(nftables)* Simplify input chain rules
+- *(compose)* [**breaking**] Only use the root domain
+- *(justfile)* Simplify recipe names/descriptions
+- *(justfile)* Shorten echo messages
+- *(justfile)* Unify compose recipes
+- *(compose)* Rearrange the docker secrets
+- *(ansible)* Remove with_items from playbook
+- *(compose)* Restructure secrets variables
+- *(compose)* Consolidate become/tags parameters
+- *(compose)* Simplify stack name check
+- *(compose)* Defer secrets dir creation
+- *(system)* Wrap tasks inside blocks
+- *(preseed)* Simplify late command
+- Order system packages alphabetically
+- *(system)* Change system tag to 'install'
+- *(ansible)* Reorder system and nftables roles
+
+### 📚 Documentation
+
+- Remove karo-stack ascii image
+- Update readme tagline and warning
+- Add shields and not-by-ai badge to readme
+- Add documentation site link to readme
+- *(readme)* Update project tagline
+
+### ⚙️ Miscellaneous
+
+- *(ansible)* Remove unused rootful docker task
+- *(compose)* Normalise glance stack uid
+- *(compose)* Remove unused glance stack volume
+- Update compose template links to karo-docs
+- Add cspell file to gitignore
+- *(compose)* Allow more control over haproxy config
+- *(justfile)* Use simpler recipe name for wireguard
+- *(compose)* Update proxy stack haproxy version
+- *(compose)* Update pocketid stack
+- *(compose)* Update traefik stack
+- *(compose)* Update tinyauth for traefik stack
+- *(compose)* Update qui for qbittorrent stack
+- *(compose)* Update seerr stack
+- *(compose)* Update non-breaking stacks
+- *(compose)* Mark qui_oidc_client_secret as a secret
+- *(ansible)* Unify tmpfs directory path usage
+- *(compose)* Disable marking secrets tasks as changed
+- Change ssh directory modes
+
 ## [1.0.0] - 2026-02-10
 
 ### 🚀 Features

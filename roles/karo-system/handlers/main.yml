@@ -8,6 +8,11 @@
   ansible.builtin.systemd_service:
     daemon_reload: true
 
+- name: Restart systemd-modules-load
+  ansible.builtin.systemd_service:
+    name: systemd-modules-load.service
+    state: restarted
+
 - name: Reload sysctl config
   ansible.builtin.command:
     argv:

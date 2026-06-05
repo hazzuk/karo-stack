@@ -30,16 +30,18 @@
         - dir: .ansible/tmp
           mode: "0700"
         - dir: .ssh
-          mode: "0755"
+          mode: "0700"
         - dir: .config/docker
           mode: "0700"
+      loop_control:
+        label: "{{ item.dir }}"
 
     - name: Copy authorized_keys for dockeruser
       ansible.builtin.copy:
         src: /home/karo/.ssh/authorized_keys
         remote_src: true
         dest: /home/dockeruser/.ssh/authorized_keys
-        mode: "0644"
+        mode: "0600"
         owner: dockeruser
         group: dockeruser
 
@@ -83,6 +85,7 @@
         mode: "0644"
         owner: dockeruser
         group: dockeruser
+      notify: Restart rootless docker service
 
 - name: Install rootless docker
   become: true
@@ -95,23 +98,6 @@
       - /usr/bin/dockerd-rootless-setuptool.sh
       - install
     creates: /run/user/1001/docker.sock
-
-- name: Enable rootless docker service
-  become: true
-  become_user: dockeruser
-  ansible.builtin.systemd_service:
-    name: docker.service
-    scope: user
-    enabled: true
-    state: started
-    daemon_reload: true
-
-- name: Allow rootless exposing privileged ports
-  community.general.capabilities:
-    capability: cap_net_bind_service=ep
-    path: /usr/bin/rootlesskit
-    state: present
-  notify: Restart rootless docker
 
 - name: Create docker compose directory
   ansible.builtin.file:
