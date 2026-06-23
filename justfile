@@ -109,13 +109,13 @@ wireguard:
 
 @_stack-remove:
     # remove role defaults
-    find roles/karo-compose/defaults/ -mindepth 1 ! -name "main.yml" -delete
+    find roles/karo-compose/defaults/main/ -mindepth 1 ! -name "main.yml" -delete
     # remove role templates
     find roles/karo-compose/templates/ -mindepth 1 -delete
 
 @_stack-add:
     # symlink custom defaults
-    ln -sr custom/*/defaults/main/*.yml roles/karo-compose/defaults/
+    ln -sr custom/*/defaults/main/*.yml roles/karo-compose/defaults/main/
     # symlink custom templates
     ln -sr custom/*/templates/*/ roles/karo-compose/templates/
 
