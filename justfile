@@ -103,3 +103,22 @@ wireguard:
     pub="$(wg pubkey <<<"$priv")"; \
     printf 'Private key: %s\n' "$priv"; \
     printf 'Public key: %s\n' "$pub"
+
+
+# custom stacks
+
+@_stack-remove:
+    # remove role defaults
+    find roles/karo-compose/defaults/ -mindepth 1 ! -name "main.yml" -delete
+    # remove role templates
+    find roles/karo-compose/templates/ -mindepth 1 -delete
+
+@_stack-add:
+    # symlink custom defaults
+    ln -sr custom/*/defaults/main/*.yml roles/karo-compose/defaults/
+    # symlink custom templates
+    ln -sr custom/*/templates/*/ roles/karo-compose/templates/
+
+@stack:
+    just _stack-remove
+    just _stack-add
