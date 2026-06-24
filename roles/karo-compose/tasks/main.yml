@@ -19,16 +19,17 @@
 
 - name: Define expanded stack list
   ansible.builtin.set_fact:
-    karo_compose_stacks_expanded: >-
-      {{ karo_compose_stacks_expanded | default([]) + [
-        {
-          'group': item.0.key,
-          'name': item.1
-        }
-      ] }}
-  loop: "{{ karo_compose_stacks | dict2items | subelements('value') }}"
-  loop_control:
-    label: "{{ item.0.key }}/{{ item.1 }}"
+    karo_compose_stacks_expanded: |
+      {%- set expanded_stacks = [] -%}
+      {%- for group in karo_compose_stack_groups -%}
+      {%-   for stack in lookup('vars', group) -%}
+      {%-     set _ = expanded_stacks.append({
+                'group': group,
+                'name': stack
+              }) -%}
+      {%-   endfor -%}
+      {%- endfor -%}
+      {{ expanded_stacks }}
 
 - name: Assert stack name
   ansible.builtin.assert:

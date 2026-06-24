@@ -8,9 +8,9 @@ karo_compose_justfile_stack: all
 
 # docker will start stacks in this order
 # docker will stop stacks in reverse order
-# karo_compose_stacks:
-#   core:
-#   extra:
+# karo_compose_stack_groups:
+#   - hazzuk_core
+#   - hazzuk_extra
 
 karo_compose_restart_policy: unless-stopped
 
