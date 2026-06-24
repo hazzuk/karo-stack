@@ -38,7 +38,7 @@
     that: stack_group_dir.path in karo_compose_stack_groups
     fail_msg: "Stack group '{{ stack_group_dir.path }}' missing from 'karo_compose_stack_groups'."
     quiet: true
-  with_community.general.filetree: ../templates/
+  with_community.general.filetree: ../templates/, exclude='^\.gitkeep$'
   loop_control:
     loop_var: stack_group_dir
     label: "templates/{{ stack_group_dir.path }}/"
