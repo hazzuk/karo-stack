@@ -19,6 +19,29 @@
     fail_msg: "Docker directory not present, run `just install` to setup Docker."
     quiet: true
 
+- name: Assert stack group names
+  ansible.builtin.assert:
+    that:
+      - stack_group_lookup is not false
+      - stack_group_lookup | type_debug == "list"
+    fail_msg: "Invalid stack group '{{ stack_group }}' in 'karo_compose_stack_groups'."
+    quiet: true
+  loop: "{{ karo_compose_stack_groups }}"
+  loop_control:
+    loop_var: stack_group
+  vars:
+    stack_group_lookup: "{{ lookup('vars', stack_group, default=false) }}"
+
+- name: Assert imported stack groups
+  ansible.builtin.assert:
+    that: stack_group_dir.path in karo_compose_stack_groups
+    fail_msg: "Stack group '{{ stack_group_dir.path }}' missing from 'karo_compose_stack_groups'."
+    quiet: true
+  with_community.general.filetree: ../templates/
+  loop_control:
+    loop_var: stack_group_dir
+    label: "{{ stack_group_dir.path }}"
+
 - name: Set expanded stack list
   ansible.builtin.set_fact:
     karo_compose_expanded_stacks: |
