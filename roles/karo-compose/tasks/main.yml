@@ -50,8 +50,10 @@
       {%- for group in karo_compose_stack_groups -%}
       {%-   for stack in lookup('vars', group) -%}
       {%-     set _ = expanded_stacks.append({
+                'enabled': lookup('vars', group ~ '_' ~ stack ~ '_enabled'),
                 'group': group,
-                'name': stack
+                'name': stack,
+                'secrets': lookup('vars', group ~ '_' ~ stack ~ '_secrets', default={}) | dict2items
               }) -%}
       {%-   endfor -%}
       {%- endfor -%}
@@ -82,7 +84,7 @@
         stack: "{{ item.name }}"
         group: "{{ item.group }}"
       when:
-        - lookup('vars', group ~ '_' ~ stack ~ '_enabled') | default(false)
+        - item.enabled
         - karo_compose_justfile_stack in [stack, 'all']
 
 - name: Deploy stacks
@@ -99,7 +101,7 @@
         stack: "{{ item.name }}"
         group: "{{ item.group }}"
       when:
-        - lookup('vars', group ~ '_' ~ stack ~ '_enabled') | default(false)
+        - item.enabled
         - karo_compose_justfile_stack in [stack, 'all']
 
 - name: Create stacks
@@ -115,9 +117,9 @@
       vars:
         stack: "{{ item.name }}"
         group: "{{ item.group }}"
-        secrets: "{{ lookup('vars', group ~ '_' ~ stack ~ '_secrets', default={}) | dict2items }}"
+        secrets: "{{ item.secrets }}"
       when:
-        - lookup('vars', group ~ '_' ~ stack ~ '_enabled') | default(false)
+        - item.enabled
         - karo_compose_justfile_stack in [stack, 'all']
 
   always:
