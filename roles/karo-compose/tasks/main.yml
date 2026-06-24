@@ -79,12 +79,13 @@
       ansible.builtin.include_tasks: down.yml
       loop: "{{ karo_compose_expanded_stacks | reverse }}"
       loop_control:
-        label: "{{ item.name }}"
+        loop_var: expanded_stack
+        label: "{{ stack }}"
       vars:
-        stack: "{{ item.name }}"
-        group: "{{ item.group }}"
+        stack: "{{ expanded_stack.name }}"
+        group: "{{ expanded_stack.group }}"
       when:
-        - item.enabled
+        - expanded_stack.enabled
         - karo_compose_justfile_stack in [stack, 'all']
 
 - name: Deploy stacks
@@ -96,12 +97,13 @@
       ansible.builtin.include_tasks: deploy.yml
       loop: "{{ karo_compose_expanded_stacks }}"
       loop_control:
-        label: "{{ item.name }}"
+        loop_var: expanded_stack
+        label: "{{ stack }}"
       vars:
-        stack: "{{ item.name }}"
-        group: "{{ item.group }}"
+        stack: "{{ expanded_stack.name }}"
+        group: "{{ expanded_stack.group }}"
       when:
-        - item.enabled
+        - expanded_stack.enabled
         - karo_compose_justfile_stack in [stack, 'all']
 
 - name: Create stacks
@@ -113,13 +115,14 @@
       ansible.builtin.include_tasks: up.yml
       loop: "{{ karo_compose_expanded_stacks }}"
       loop_control:
-        label: "{{ item.name }}"
+        loop_var: expanded_stack
+        label: "{{ stack }}"
       vars:
-        stack: "{{ item.name }}"
-        group: "{{ item.group }}"
-        secrets: "{{ item.secrets }}"
+        stack: "{{ expanded_stack.name }}"
+        group: "{{ expanded_stack.group }}"
+        secrets: "{{ expanded_stack.secrets }}"
       when:
-        - item.enabled
+        - expanded_stack.enabled
         - karo_compose_justfile_stack in [stack, 'all']
 
   always:
