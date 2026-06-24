@@ -8,7 +8,7 @@
 
 # Setup
 
-- name: Check docker directory status
+- name: Register docker directory status
   ansible.builtin.stat:
     path: /srv/docker
   register: docker_dir
@@ -19,7 +19,7 @@
     fail_msg: "Docker directory not present, run `just install` to setup Docker."
     quiet: true
 
-- name: Define expanded stack list
+- name: Set expanded stack list
   ansible.builtin.set_fact:
     karo_compose_expanded_stacks: |
       {%- set expanded_stacks = [] -%}
@@ -33,7 +33,7 @@
       {%- endfor -%}
       {{ expanded_stacks }}
 
-- name: Assert stack name
+- name: Assert provided stack name
   ansible.builtin.assert:
     that: karo_compose_justfile_stack in (
         karo_compose_expanded_stacks | map(attribute='name') | list
