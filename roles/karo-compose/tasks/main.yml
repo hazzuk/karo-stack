@@ -6,6 +6,8 @@
 
 ---
 
+# Setup
+
 - name: Check docker directory status
   ansible.builtin.stat:
     path: /srv/docker
@@ -19,7 +21,7 @@
 
 - name: Define expanded stack list
   ansible.builtin.set_fact:
-    karo_compose_stacks_expanded: |
+    karo_compose_expanded_stacks: |
       {%- set expanded_stacks = [] -%}
       {%- for group in karo_compose_stack_groups -%}
       {%-   for stack in lookup('vars', group) -%}
@@ -34,11 +36,13 @@
 - name: Assert stack name
   ansible.builtin.assert:
     that: karo_compose_justfile_stack in (
-        karo_compose_stacks_expanded | map(attribute='name') | list
+        karo_compose_expanded_stacks | map(attribute='name') | list
         + ['all']
       )
     fail_msg: "Invalid stack name '{{ karo_compose_justfile_stack }}'."
     quiet: true
+
+# Actions
 
 - name: Down stacks
   become: true
@@ -47,7 +51,7 @@
   block:
     - name: Down docker compose stacks
       ansible.builtin.include_tasks: down.yml
-      loop: "{{ karo_compose_stacks_expanded | reverse }}"
+      loop: "{{ karo_compose_expanded_stacks | reverse }}"
       loop_control:
         label: "{{ item.name }}"
       vars:
@@ -64,7 +68,7 @@
   block:
     - name: Deploy docker compose stacks
       ansible.builtin.include_tasks: deploy.yml
-      loop: "{{ karo_compose_stacks_expanded }}"
+      loop: "{{ karo_compose_expanded_stacks }}"
       loop_control:
         label: "{{ item.name }}"
       vars:
@@ -81,7 +85,7 @@
   block:
     - name: Up docker compose stacks
       ansible.builtin.include_tasks: up.yml
-      loop: "{{ karo_compose_stacks_expanded }}"
+      loop: "{{ karo_compose_expanded_stacks }}"
       loop_control:
         label: "{{ item.name }}"
       vars:
