@@ -82,7 +82,7 @@
         stack: "{{ item.name }}"
         group: "{{ item.group }}"
       when:
-        - lookup('vars', 'karo_compose_' ~ stack ~ '_enabled') | default(false)
+        - lookup('vars', group ~ '_' ~ stack ~ '_enabled') | default(false)
         - karo_compose_justfile_stack in [stack, 'all']
 
 - name: Deploy stacks
@@ -99,7 +99,7 @@
         stack: "{{ item.name }}"
         group: "{{ item.group }}"
       when:
-        - lookup('vars', 'karo_compose_' ~ stack ~ '_enabled') | default(false)
+        - lookup('vars', group ~ '_' ~ stack ~ '_enabled') | default(false)
         - karo_compose_justfile_stack in [stack, 'all']
 
 - name: Create stacks
@@ -115,9 +115,9 @@
       vars:
         stack: "{{ item.name }}"
         group: "{{ item.group }}"
-        secrets: "{{ lookup('vars', 'karo_compose_' ~ stack ~ '_secrets', default={}) | dict2items }}"
+        secrets: "{{ lookup('vars', group ~ '_' ~ stack ~ '_secrets', default={}) | dict2items }}"
       when:
-        - lookup('vars', 'karo_compose_' ~ stack ~ '_enabled') | default(false)
+        - lookup('vars', group ~ '_' ~ stack ~ '_enabled') | default(false)
         - karo_compose_justfile_stack in [stack, 'all']
 
   always:
