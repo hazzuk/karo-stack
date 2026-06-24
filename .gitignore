@@ -1,4 +1,9 @@
+# ansible
+
 /.ansible
-/.dev
 /inventory
+
+# misc
+
+/.dev
 /cspell.json
