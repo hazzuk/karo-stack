@@ -4,6 +4,7 @@
 
 # https://docs.karolabs.dev/stacks/core/traefik
 
+{% set traefik_acme_volume = "traefik_acme_staging" if karo_compose_traefik_acme_staging_enabled else "traefik_acme" %}
 ---
 name: traefik
 services:
@@ -29,7 +30,7 @@ services:
         target: /etc/traefik/traefik.yml
         read_only: true
       - type: volume
-        source: traefik_acme
+        source: {{ traefik_acme_volume }}
         target: /etc/traefik/acme
     labels:
       - traefik.enable=true
@@ -144,8 +145,8 @@ networks:
           gateway: 172.18.0.1
 
 volumes:
-  traefik_acme:
-    name: traefik_acme
+  {{ traefik_acme_volume }}:
+    name: {{ traefik_acme_volume }}
 
 secrets:
   traefik_acme_zone_api_token:

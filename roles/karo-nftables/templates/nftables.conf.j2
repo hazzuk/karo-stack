@@ -37,11 +37,6 @@ table inet filter {
                 udp dport 443 accept
 {% endif %}
 
-{% if karo_compose_jellyfin_enabled | default(false) %}
-
-                # allow jellyfin discovery port
-                udp dport 7359 accept
-{% endif %}
 {% if karo_compose_proxy_client_enabled | default(false) %}
 
                 # allow wireguard proxyserver traffic
