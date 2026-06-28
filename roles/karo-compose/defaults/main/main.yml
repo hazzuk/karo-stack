@@ -18,29 +18,30 @@ karo_compose_timezone: "Europe/London"
 
 karo_compose_root_domain: example.com
 
-karo_compose_auth:
-  provider_name: PocketID
-  admin_group: admin
-  subdomain: auth
+# oidc
 
-karo_compose_oidc:
-  domain: "{{ karo_compose_auth.subdomain }}.{{ karo_compose_root_domain }}" # e.g. auth.example.com
-  url: "https://{{ karo_compose_oidc.domain }}" # e.g. https://auth.example.com
-  authorization:
-    path: "/authorize"
-    url: "{{ karo_compose_oidc.url }}{{ karo_compose_oidc.authorization.path }}"
-  discovery:
-    path: "/.well-known/openid-configuration"
-    url: "{{ karo_compose_oidc.url }}{{ karo_compose_oidc.discovery.path }}"
-  token:
-    path: "/api/oidc/token"
-    url: "{{ karo_compose_oidc.url }}{{ karo_compose_oidc.token.path }}"
-  userinfo:
-    path: "/api/oidc/userinfo"
-    url: "{{ karo_compose_oidc.url }}{{ karo_compose_oidc.userinfo.path }}"
-  logout:
-    path: "/api/oidc/end-session"
-    url: "{{ karo_compose_oidc.url }}{{ karo_compose_oidc.logout.path }}"
-  certificate:
-    path: "/.well-known/jwks.json"
-    url: "{{ karo_compose_oidc.url }}{{ karo_compose_oidc.certificate.path }}"
+karo_compose_oidc_subdomain: auth
+karo_compose_oidc_domain: "{{ karo_compose_oidc_subdomain }}.{{ karo_compose_root_domain }}" # e.g. auth.example.com
+karo_compose_oidc_url: "https://{{ karo_compose_oidc_domain }}" # e.g. https://auth.example.com
+
+karo_compose_oidc_authorization_path: "/authorize"
+karo_compose_oidc_authorization_url: "{{ karo_compose_oidc_url }}{{ karo_compose_oidc_authorization_path }}"
+
+karo_compose_oidc_discovery_path: "/.well-known/openid-configuration"
+karo_compose_oidc_discovery_url: "{{ karo_compose_oidc_url }}{{ karo_compose_oidc_discovery_path }}"
+
+karo_compose_oidc_token_path: "/api/oidc/token"
+karo_compose_oidc_token_url: "{{ karo_compose_oidc_url }}{{ karo_compose_oidc_token_path }}"
+
+karo_compose_oidc_userinfo_path: "/api/oidc/userinfo"
+karo_compose_oidc_userinfo_url: "{{ karo_compose_oidc_url }}{{ karo_compose_oidc_userinfo_path }}"
+
+karo_compose_oidc_logout_path: "/api/oidc/end-session"
+karo_compose_oidc_logout_url: "{{ karo_compose_oidc_url }}{{ karo_compose_oidc_logout_path }}"
+
+karo_compose_oidc_certificate_path: "/.well-known/jwks.json"
+karo_compose_oidc_certificate_url: "{{ karo_compose_oidc_url }}{{ karo_compose_oidc_certificate_path }}"
+
+karo_compose_oidc_provider_name: "PocketID"
+
+karo_compose_oidc_admin_group: "admin"
