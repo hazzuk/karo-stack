@@ -4,7 +4,7 @@
 
 ---
 
-karo_compose_justfile_stack: all
+# stacks
 
 # docker will start stacks in this order
 # docker will stop stacks in reverse order
@@ -12,16 +12,24 @@ karo_compose_justfile_stack: all
 #   - hazzuk_core
 #   - hazzuk_extra
 
+# common
+
 karo_compose_restart_policy: unless-stopped
 
 karo_compose_timezone: "Europe/London"
 
 karo_compose_root_domain: example.com
 
-# oidc
+# auth
+
+karo_compose_oidc_provider_name: PocketID
+
+karo_compose_oidc_admin_group: admin
 
 karo_compose_oidc_subdomain: auth
+
 karo_compose_oidc_domain: "{{ karo_compose_oidc_subdomain }}.{{ karo_compose_root_domain }}" # e.g. auth.example.com
+
 karo_compose_oidc_url: "https://{{ karo_compose_oidc_domain }}" # e.g. https://auth.example.com
 
 karo_compose_oidc_authorization_path: "/authorize"
@@ -42,6 +50,6 @@ karo_compose_oidc_logout_url: "{{ karo_compose_oidc_url }}{{ karo_compose_oidc_l
 karo_compose_oidc_certificate_path: "/.well-known/jwks.json"
 karo_compose_oidc_certificate_url: "{{ karo_compose_oidc_url }}{{ karo_compose_oidc_certificate_path }}"
 
-karo_compose_oidc_provider_name: "PocketID"
+# internal
 
-karo_compose_oidc_admin_group: "admin"
+karo_compose_justfile_stack: all
