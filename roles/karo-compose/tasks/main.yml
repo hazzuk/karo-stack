@@ -46,18 +46,18 @@
 - name: Set expanded stack list
   ansible.builtin.set_fact:
     karo_compose_expanded_stacks: |
-      {%- set expanded_stacks = [] -%}
-      {%- for group in karo_compose_stack_groups -%}
-      {%-   for stack in lookup('vars', group) -%}
-      {%-     set _ = expanded_stacks.append({
+      {% set expanded_stacks = [] %}
+      {% for group in karo_compose_stack_groups %}
+      {%   for stack in lookup('vars', group) %}
+      {%     set _ = expanded_stacks.append({
                 'enabled': lookup('vars', group ~ '_' ~ stack ~ '_enabled'),
                 'group': group,
                 'name': stack,
-              }) -%}
-      {%-   endfor -%}
-      {%- endfor -%}
                 'namespace': group ~ '_' ~ stack,
                 'path': group ~ '/' ~ stack,
+              }) %}
+      {%   endfor %}
+      {% endfor %}
       {{ expanded_stacks }}
 
 - name: Assert provided stack name
