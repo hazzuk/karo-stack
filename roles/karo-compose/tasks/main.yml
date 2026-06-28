@@ -53,7 +53,6 @@
                 'enabled': lookup('vars', group ~ '_' ~ stack ~ '_enabled'),
                 'group': group,
                 'name': stack,
-                'secrets': lookup('vars', group ~ '_' ~ stack ~ '_secrets', default={}) | dict2items
               }) -%}
       {%-   endfor -%}
       {%- endfor -%}
@@ -120,7 +119,7 @@
       vars:
         stack: "{{ expanded_stack.name }}"
         group: "{{ expanded_stack.group }}"
-        secrets: "{{ expanded_stack.secrets }}"
+        secrets: "{{ lookup('vars', group ~ '_' ~ stack ~ '_secrets', default={}) | dict2items }}"
       when:
         - expanded_stack.enabled
         - karo_compose_justfile_stack in [stack, 'all']
