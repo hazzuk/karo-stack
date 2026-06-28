@@ -10,6 +10,10 @@
     mode: "0774"
     state: directory
 
+- name: "Merge compose variables for {{ stack.name }}"
+  ansible.builtin.set_fact:
+    compose: "{{ stack_defaults | combine(stack_vars, recursive=true) }}"
+
 - name: "Deploy compose templates for {{ stack.name }}"
   ansible.builtin.template:
     src: "{{ template.src }}"
