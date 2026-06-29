@@ -6,7 +6,7 @@
 
 - name: Prepare secrets
   when:
-    - secrets | length > 0
+    - stack_secrets | length > 0
     - secrets_dir is undefined
   block:
     - name: Create tmpfs secrets directory
