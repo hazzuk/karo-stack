@@ -9,6 +9,11 @@
 help:
     @{{ just_executable() }} --list --unsorted --list-prefix "  - " --justfile "{{ justfile() }}"
 
+# (Internal use) Reusable confirmation statement
+[confirm("proceed? (y/N)")]  
+_confirm:
+    @echo
+
 
 # preseed
 
@@ -105,20 +110,68 @@ wireguard:
     printf 'Public key: %s\n' "$pub"
 
 
-# custom stacks
+# custom
 
-@_stack-remove:
-    # remove role defaults
+# Manage custom repos
+custom action username:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    case "{{action}}" in
+        add)
+            echo "adding karo-custom {{username}}"
+            just _custom-add {{username}}
+            ;;
+        remove)
+            echo "removing karo-custom {{username}}"
+            just _custom-remove {{username}}
+            ;;
+        *)
+            echo "action must be 'add' or 'remove'" >&2; exit 1;
+            ;;
+    esac
+
+repo_name := "karo-custom"
+
+# (Internal use) Add new karo-custom repo
+@_custom-add username:
+    # clone karo-custom git repo
+    git clone git@github.com:{{username}}/{{repo_name}}.git custom/{{username}}
+    # manage symlinks
+    just _custom-symlinks-clear
+    just _custom-symlinks-create
+    # list stack groups for username
+    echo "Added stack groups:"
+    ls -1 roles/karo-compose/templates | grep {{username}} | awk '{print "- " $0}'
+
+# (Internal use) Remove existing karo-custom repo
+@_custom-remove username:
+    # check username dir exists
+    test -d "custom/{{username}}"
+    # confirm removal
+    just _confirm
+    # remove custom dir
+    rm -rf "custom/{{username}}"
+    # manage symlinks
+    just _custom-symlinks-clear
+    just _custom-symlinks-create
+
+# (Internal use) Clear existing symbolic links for custom files
+@_custom-symlinks-clear:
+    # clear role defaults
     find roles/karo-compose/defaults/main/ -mindepth 1 ! -name "main.yml" -delete
-    # remove role templates
+    # clear role templates
     find roles/karo-compose/templates/ -mindepth 1 ! -name ".gitkeep" -delete
 
-@_stack-add:
-    # symlink custom defaults
-    ln -sr custom/*/defaults/main/*.yml roles/karo-compose/defaults/main/
-    # symlink custom templates
-    ln -sr custom/*/templates/*/ roles/karo-compose/templates/
-
-@stack:
-    just _stack-remove
-    just _stack-add
+# (Internal use) Create new symbolic links for custom files
+_custom-symlinks-create:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    # check custom dir not empty
+    if [ -z "$(find custom -mindepth 1 -maxdepth 1)" ]; then
+        exit 0
+    else
+        # symlink custom defaults
+        ln -sr custom/*/karo-compose/defaults/main/*.yml roles/karo-compose/defaults/main/
+        # symlink custom templates
+        ln -sr custom/*/karo-compose/templates/*/ roles/karo-compose/templates/
+    fi
