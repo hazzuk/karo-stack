@@ -111,7 +111,7 @@ wireguard:
     # remove role defaults
     find roles/karo-compose/defaults/main/ -mindepth 1 ! -name "main.yml" -delete
     # remove role templates
-    find roles/karo-compose/templates/ -mindepth 1 -delete
+    find roles/karo-compose/templates/ -mindepth 1 ! -name ".gitkeep" -delete
 
 @_stack-add:
     # symlink custom defaults
