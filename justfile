@@ -18,6 +18,7 @@ _confirm:
 # preseed
 
 # Host preseed.cfg
+[group('Debian install')]
 @preseed platform='server':
     # check user input for platform
     [ "{{platform}}" = "server" ] || [ "{{platform}}" = "desktop" ] || { echo "platform must be 'server' or 'desktop'" >&2; exit 1; }
@@ -43,6 +44,7 @@ _host-preseed platform:
 # server
 
 # Setup a system
+[group('System setup')]
 @install hostname='': _check-password
     ansible-playbook run.yml --tags install --limit "{{hostname}}"
 
@@ -50,6 +52,7 @@ _host-preseed platform:
 # compose
 
 # Deploy/remove stacks
+[group('System setup')]
 [arg("stack", long, short="s")]
 compose action hostname='' stack='all': _check-password
     #!/bin/bash
@@ -74,6 +77,7 @@ compose action hostname='' stack='all': _check-password
 password := "/run/user/1000/karo/ansible/vault_pass"
 
 # Manage a vault
+[group('Ansible vault')]
 vault hostname:
     #!/bin/bash
     # check password file exists
@@ -96,6 +100,7 @@ _check-password:
     @[ -e "{{password}}" ] || micro -backup false -mkparents true "{{password}}"
 
 # Set password
+[group('Ansible vault')]
 password:
     @micro -backup false -mkparents true "{{password}}"
 
@@ -103,7 +108,7 @@ password:
 # wireguard
 
 # Generate key pair
-wireguard:
+_wireguard:
     @priv="$(wg genkey)"; \
     pub="$(wg pubkey <<<"$priv")"; \
     printf 'Private key: %s\n' "$priv"; \
@@ -113,6 +118,7 @@ wireguard:
 # custom
 
 # Manage custom repos
+[group('Custom repos')]
 custom action username:
     #!/usr/bin/env bash
     set -euo pipefail
