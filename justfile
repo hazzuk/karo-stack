@@ -164,9 +164,9 @@ repo_name := "karo-custom"
 # (Internal use) Clear existing symbolic links for custom files
 @_custom-symlinks-clear:
     # clear role defaults
-    find roles/karo-compose/defaults/main/ -mindepth 1 ! -name "main.yml" -delete
+    find roles/karo-compose/defaults/main/ -mindepth 1 -maxdepth 1 ! -name "main.yml" -delete
     # clear role templates
-    find roles/karo-compose/templates/ -mindepth 1 ! -name ".gitkeep" -delete
+    find roles/karo-compose/templates/ -mindepth 1 -maxdepth 1 ! -name ".gitkeep" -delete
 
 # (Internal use) Create new symbolic links for custom files
 _custom-symlinks-create:
@@ -177,7 +177,7 @@ _custom-symlinks-create:
         exit 0
     else
         # symlink custom defaults
-        ln -sr custom/*/karo-compose/defaults/main/*.yml roles/karo-compose/defaults/main/
+        ln -sr custom/*/karo-compose/defaults/main/*/ roles/karo-compose/defaults/main/
         # symlink custom templates
         ln -sr custom/*/karo-compose/templates/*/ roles/karo-compose/templates/
     fi
