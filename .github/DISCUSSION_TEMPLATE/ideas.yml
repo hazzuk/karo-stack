@@ -1,0 +1,36 @@
+body:
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      description: Take a couple minutes to help the maintainers work faster.
+      options:
+        - label: I have searched existing and closed discussions
+          required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: Provide detailed information on what you'd like to see added, please be sure to include as much detail as possible and any related resources.
+      placeholder: "Describe the proposed feature or enhancement."
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: Describe why this change is needed or would be helpful, and what problems it could solve.
+      placeholder: "Explain the reasons behind the proposal."
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: If applicable, add any additional details or relevant information.
+      placeholder: "Add any extra information."
+    validations:
+      required: false
