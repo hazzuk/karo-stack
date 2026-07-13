@@ -64,6 +64,9 @@ compose action hostname='' stack='all': _check-password
     else
         echo "action must be 'up' or 'down'" >&2; exit 1;
     fi
+    # manage symlinks
+    just _custom-symlinks-clear
+    just _custom-symlinks-create
     # run user action
     ANSIBLE_DISPLAY_SKIPPED_HOSTS=false ansible-playbook run.yml \
         --extra-vars "karo_compose_justfile_stack={{stack}}" \
