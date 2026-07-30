@@ -141,14 +141,21 @@ custom action username:
 repo_name := "karo-custom"
 
 # (Internal use) Add new karo-custom repo
-@_custom-add username:
+_custom-add username:
+    #!/usr/bin/env bash
+    set -euo pipefail
     # clone karo-custom git repo
     git clone git@github.com:{{username}}/{{repo_name}}.git custom/{{username}}
-    # manage symlinks
-    just _custom-symlinks
-    # list stack groups for username
-    echo "Added stack groups:"
-    ls -1 roles/karo-compose/templates | grep {{username}} | awk '{print "- " $0}'
+    # check karo-custom repo dir not empty
+    if [ -z "$(find custom/{{username}}/karo-compose -mindepth 1 -maxdepth 1)" ]; then
+        exit 0
+    else
+        # manage symlinks
+        just _custom-symlinks
+        # list stack groups for username
+        echo "new karo-compose stack groups:"
+        ls -1 roles/karo-compose/templates | grep {{username}} | awk '{print "- " $0}'
+    fi
 
 # (Internal use) Remove existing karo-custom repo
 @_custom-remove username:
