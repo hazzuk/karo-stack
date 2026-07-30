@@ -65,8 +65,7 @@ compose action hostname='' stack='all': _check-password
         echo "action must be 'up' or 'down'" >&2; exit 1;
     fi
     # manage symlinks
-    just _custom-symlinks-clear
-    just _custom-symlinks-create
+    just _custom-symlinks
     # run user action
     ANSIBLE_DISPLAY_SKIPPED_HOSTS=false ansible-playbook run.yml \
         --extra-vars "karo_compose_justfile_stack={{stack}}" \
@@ -146,8 +145,7 @@ repo_name := "karo-custom"
     # clone karo-custom git repo
     git clone git@github.com:{{username}}/{{repo_name}}.git custom/{{username}}
     # manage symlinks
-    just _custom-symlinks-clear
-    just _custom-symlinks-create
+    just _custom-symlinks
     # list stack groups for username
     echo "Added stack groups:"
     ls -1 roles/karo-compose/templates | grep {{username}} | awk '{print "- " $0}'
@@ -161,26 +159,20 @@ repo_name := "karo-custom"
     # remove custom dir
     rm -rf "custom/{{username}}"
     # manage symlinks
-    just _custom-symlinks-clear
-    just _custom-symlinks-create
+    just _custom-symlinks
 
-# (Internal use) Clear existing symbolic links for custom files
-@_custom-symlinks-clear:
-    # clear role defaults
-    find roles/karo-compose/defaults/main/ -mindepth 1 -maxdepth 1 ! -name "main.yml" -delete
-    # clear role templates
-    find roles/karo-compose/templates/ -mindepth 1 -maxdepth 1 ! -name ".gitkeep" -delete
-
-# (Internal use) Create new symbolic links for custom files
-_custom-symlinks-create:
+# (Internal use) Manage symbolic links for custom files
+_custom-symlinks:
     #!/usr/bin/env bash
     set -euo pipefail
+    # clear existing symlinks
+    find roles/karo-compose/defaults/main/ -mindepth 1 -maxdepth 1 ! -name "main.yml" -delete
+    find roles/karo-compose/templates/ -mindepth 1 -maxdepth 1 ! -name ".gitkeep" -delete
     # check custom dir not empty
     if [ -z "$(find custom -mindepth 1 -maxdepth 1)" ]; then
         exit 0
     else
-        # symlink custom defaults
+        # symlink custom files
         ln -sr custom/*/karo-compose/defaults/main/*/ roles/karo-compose/defaults/main/
-        # symlink custom templates
         ln -sr custom/*/karo-compose/templates/*/ roles/karo-compose/templates/
     fi
