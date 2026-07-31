@@ -51,7 +51,7 @@ _host-preseed platform:
 
 # compose
 
-# Deploy/remove stacks
+# Up/down Docker stacks
 [group('System setup')]
 [arg("stack", long, short="s")]
 compose action hostname='' stack='all': _check-password
@@ -60,7 +60,7 @@ compose action hostname='' stack='all': _check-password
     if [ "{{action}}" = "up" ]; then
         skip_tags="down"
     elif [ "{{action}}" = "down" ]; then
-        skip_tags="deploy,up"
+        skip_tags="up"
     else
         echo "action must be 'up' or 'down'" >&2; exit 1;
     fi

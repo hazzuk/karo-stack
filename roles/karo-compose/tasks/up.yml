@@ -4,6 +4,30 @@
 
 ---
 
+# deploy templates
+
+- name: "Create compose stack directory for {{ stack.name }}"
+  ansible.builtin.file:
+    path: "/srv/docker/{{ stack.path }}"
+    mode: "0774"
+    state: directory
+
+- name: "Merge compose variables for {{ stack.name }}"
+  ansible.builtin.set_fact:
+    compose: "{{ stack_defaults | combine(stack_vars, recursive=true) }}"
+
+- name: "Deploy compose templates for {{ stack.name }}"
+  ansible.builtin.template:
+    src: "{{ template.src }}"
+    dest: "/srv/docker/{{ stack.path }}/{{ template.path | splitext | first }}"
+    mode: "0644"
+  loop: "{{ query('filetree', '../templates/' ~ stack.path) }}"
+  loop_control:
+    loop_var: template
+    label: "{{ template.path }}"
+
+# handle secrets
+
 - name: Prepare secrets
   when:
     - stack_secrets | length > 0
@@ -30,6 +54,8 @@
     loop_var: secret
     label: "{{ secret.key }}"
   changed_when: false
+
+# start services
 
 - name: Up compose stack {{ stack.name }}
   community.docker.docker_compose_v2:
