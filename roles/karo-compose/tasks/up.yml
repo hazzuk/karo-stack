@@ -35,7 +35,7 @@
   block:
     - name: Create tmpfs secrets directory
       ansible.builtin.file:
-        path: /run/user/1001/karo/compose
+        path: "{{ karo_compose_secrets_path }}"
         state: directory
         mode: "0700"
       changed_when: false

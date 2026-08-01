@@ -53,3 +53,5 @@ karo_compose_oidc_certificate_url: "{{ karo_compose_oidc_url }}{{ karo_compose_o
 # internal
 
 karo_compose_justfile_stack: all
+
+karo_compose_secrets_path: ""
