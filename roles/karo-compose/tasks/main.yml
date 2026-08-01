@@ -100,7 +100,7 @@
       vars:
         stack_vars: "{{ lookup('vars', stack.namespace ~ '_stack') }}"
         stack_defaults: "{{ lookup('vars', stack.namespace ~ '_stack_defaults') }}"
-        stack_secrets: "{{ lookup('vars', stack.namespace ~ '_secrets', default={}) | dict2items }}"
+        stack_secrets: "{{ query('filetree', '../templates/' ~ stack.path ~ '/secrets') }}"
         karo_compose_secrets_path: "/run/user/1001/karo-compose/{{ stack.path }}"
       when:
         - stack.enabled

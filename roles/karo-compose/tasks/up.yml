@@ -21,7 +21,7 @@
     src: "{{ template.src }}"
     dest: "/srv/docker/{{ stack.path }}/{{ template.path | splitext | first }}"
     mode: "0644"
-  loop: "{{ query('filetree', '../templates/' ~ stack.path) }}"
+  loop: "{{ query('filetree', '../templates/' ~ stack.path, exclude='^secrets$') }}"
   loop_control:
     loop_var: template
     label: "{{ template.path }}"
@@ -44,14 +44,14 @@
       when: secrets_dir is undefined
 
     - name: Create secrets for {{ stack.name }}
-      ansible.builtin.copy:
-        dest: "/run/user/1001/karo/compose/{{ secret.key }}"
-        content: "{{ secret.value }}"
+      ansible.builtin.template:
+        src: "{{ secret.src }}"
+        dest: "{{ karo_compose_secrets_path }}/{{ secret.path | splitext | first }}"
         mode: "0644"
       loop: "{{ stack_secrets }}"
       loop_control:
         loop_var: secret
-        label: "{{ secret.key }}"
+        label: "{{ secret.path | splitext | first }}"
       changed_when: false
 
 # start services
