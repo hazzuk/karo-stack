@@ -29,9 +29,7 @@
 # handle secrets
 
 - name: Prepare secrets
-  when:
-    - stack_secrets | length > 0
-    - secrets_dir is undefined
+  when: stack_secrets | length > 0
   block:
     - name: Create tmpfs secrets directory
       ansible.builtin.file:
@@ -43,17 +41,18 @@
     - name: Mark secrets directory as created
       ansible.builtin.set_fact:
         secrets_dir: true
+      when: secrets_dir is undefined
 
-- name: Create secrets for {{ stack.name }}
-  ansible.builtin.copy:
-    dest: "/run/user/1001/karo/compose/{{ secret.key }}"
-    content: "{{ secret.value }}"
-    mode: "0644"
-  loop: "{{ stack_secrets }}"
-  loop_control:
-    loop_var: secret
-    label: "{{ secret.key }}"
-  changed_when: false
+    - name: Create secrets for {{ stack.name }}
+      ansible.builtin.copy:
+        dest: "/run/user/1001/karo/compose/{{ secret.key }}"
+        content: "{{ secret.value }}"
+        mode: "0644"
+      loop: "{{ stack_secrets }}"
+      loop_control:
+        loop_var: secret
+        label: "{{ secret.key }}"
+      changed_when: false
 
 # start services
 
