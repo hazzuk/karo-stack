@@ -44,8 +44,9 @@
       when: secrets_dir is undefined
 
     - name: Create secrets for {{ stack.name }}
-      ansible.builtin.template:
-        src: "{{ secret.src }}"
+      ansible.builtin.copy:
+        # secrets template, removing end of file newline
+        content: "{{ lookup('template', secret.src) | regex_replace('(\r?\n)$', '') }}"
         dest: "{{ karo_compose_secrets_path }}/{{ secret.path | splitext | first }}"
         mode: "0644"
       loop: "{{ stack_secrets }}"
