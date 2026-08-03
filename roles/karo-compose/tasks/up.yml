@@ -6,17 +6,17 @@
 
 # templates
 
-- name: "Create compose stack directory for {{ stack.name }}"
+- name: "Create directory for {{ stack.name }}"
   ansible.builtin.file:
     path: "/srv/docker/{{ stack.path }}"
     mode: "0774"
     state: directory
 
-- name: "Merge compose variables for {{ stack.name }}"
+- name: "Merge stack variables for {{ stack.name }}"
   ansible.builtin.set_fact:
     stack_vars: "{{ stack_defaults | combine(stack_host_vars, recursive=true) }}"
 
-- name: "Deploy compose templates for {{ stack.name }}"
+- name: "Render templates for {{ stack.name }}"
   ansible.builtin.template:
     src: "{{ template.src }}"
     dest: "/srv/docker/{{ stack.path }}/{{ template.path | splitext | first }}"
@@ -28,7 +28,7 @@
 
 # secrets
 
-- name: Prepare secrets
+- name: Handle secrets
   when: stack_secrets | length > 0
   block:
     - name: Create tmpfs secrets directory
