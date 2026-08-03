@@ -4,7 +4,7 @@
 
 ---
 
-# deploy templates
+# templates
 
 - name: "Create compose stack directory for {{ stack.name }}"
   ansible.builtin.file:
@@ -26,7 +26,7 @@
     loop_var: template
     label: "{{ template.path }}"
 
-# handle secrets
+# secrets
 
 - name: Prepare secrets
   when: stack_secrets | length > 0
@@ -55,7 +55,7 @@
         label: "{{ secret.path | splitext | first }}"
       changed_when: false
 
-# start services
+# services
 
 - name: Up compose stack {{ stack.name }}
   community.docker.docker_compose_v2:

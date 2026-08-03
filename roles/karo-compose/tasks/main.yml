@@ -6,7 +6,7 @@
 
 ---
 
-# Setup
+# setup
 
 - name: Register docker directory status
   ansible.builtin.stat:
@@ -69,7 +69,7 @@
     fail_msg: "Invalid stack name '{{ karo_compose_justfile_stack }}'."
     quiet: true
 
-# Actions
+# actions
 
 - name: Down stacks
   become: true
