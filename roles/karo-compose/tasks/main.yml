@@ -98,7 +98,7 @@
         loop_var: stack
         label: "{{ stack.name }}"
       vars:
-        stack_vars: "{{ lookup('vars', stack.namespace ~ '_stack') }}"
+        stack_host_vars: "{{ lookup('vars', stack.namespace ~ '_stack') }}"
         stack_defaults: "{{ lookup('vars', stack.namespace ~ '_stack_defaults') }}"
         stack_secrets: "{{ query('filetree', '../templates/' ~ stack.path ~ '/secrets') }}"
         karo_compose_secrets_path: "/run/user/1001/karo-compose/{{ stack.path }}"
