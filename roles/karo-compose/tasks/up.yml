@@ -4,13 +4,7 @@
 
 ---
 
-# templates
-
-- name: "Create directory for {{ stack.name }}"
-  ansible.builtin.file:
-    path: "/srv/docker/{{ stack.path }}"
-    mode: "0774"
-    state: directory
+# stack_vars
 
 - name: "Merge stack variables for {{ stack.name }}"
   ansible.builtin.set_fact:
@@ -21,6 +15,14 @@
   ansible.builtin.set_fact:
     stack_vars: "{{ stack_defaults }}"
   when: stack_host_vars | length == 0
+
+# templates
+
+- name: "Create directory for {{ stack.name }}"
+  ansible.builtin.file:
+    path: "/srv/docker/{{ stack.path }}"
+    mode: "0774"
+    state: directory
 
 - name: "Render templates for {{ stack.name }}"
   ansible.builtin.template:
