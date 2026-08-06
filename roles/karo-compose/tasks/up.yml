@@ -39,7 +39,7 @@
 - name: Handle secrets
   when: stack_secrets | length > 0
   block:
-    - name: Create tmpfs secrets directory
+    - name: Create tmpfs secrets directory for {{ stack.name }}
       ansible.builtin.file:
         path: "{{ karo_compose_secrets_path }}"
         state: directory
