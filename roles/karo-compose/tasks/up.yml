@@ -15,6 +15,12 @@
 - name: "Merge stack variables for {{ stack.name }}"
   ansible.builtin.set_fact:
     stack_vars: "{{ stack_defaults | combine(stack_host_vars, recursive=true) }}"
+  when: stack_host_vars | length > 0
+
+- name: "Use default stack variables for {{ stack.name }}"
+  ansible.builtin.set_fact:
+    stack_vars: "{{ stack_defaults }}"
+  when: stack_host_vars | length == 0
 
 - name: "Render templates for {{ stack.name }}"
   ansible.builtin.template:
