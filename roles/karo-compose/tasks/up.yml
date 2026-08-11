@@ -36,16 +36,16 @@
 
 # secrets
 
-- name: Find stack secrets for {{ stack.name }}
+- name: Gather stack secrets for {{ stack.name }}
   ansible.builtin.set_fact:
     stack_secrets: |
       {% set secrets = [] %}
-      {% for service in stack_vars.values() %}
-      {%   if service.secrets is defined %}
-      {%     for secret in service.secrets %}
+      {% for service_name, service_vars in stack_vars.items() %}
+      {%   if service_vars.secrets is defined %}
+      {%     for secret_name, secret_value in service_vars.secrets.items() %}
       {%       set _ = secrets.append({
-                  'name': secret,
-                  'value': service.secrets[secret]
+                  'name': service_name ~ '_' ~ secret_name,
+                  'value': secret_value
                 }) %}
       {%     endfor %}
       {%   endif %}
