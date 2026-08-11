@@ -29,7 +29,7 @@
     src: "{{ template.src }}"
     dest: "/srv/docker/{{ stack.path }}/{{ template.path | splitext | first }}"
     mode: "0644"
-  loop: "{{ query('filetree', '../templates/' ~ stack.path, exclude='^secrets$') }}"
+  loop: "{{ query('filetree', '../templates/' ~ stack.path) }}"
   loop_control:
     loop_var: template
     label: "{{ template.path }}"
@@ -69,14 +69,13 @@
 
     - name: Create secrets for {{ stack.name }}
       ansible.builtin.copy:
-        # secrets template, removing end of file newline
-        content: "{{ lookup('template', secret.src) | regex_replace('(\r?\n)$', '') }}"
-        dest: "{{ karo_compose_secrets_path }}/{{ secret.path | splitext | first }}"
+        content: "{{ secret.value }}"
+        dest: "{{ karo_compose_secrets_path }}/{{ secret.name }}"
         mode: "0644"
       loop: "{{ stack_secrets }}"
       loop_control:
         loop_var: secret
-        label: "{{ secret.path | splitext | first }}"
+        label: "{{ secret.name }}"
       changed_when: false
 
 # services
