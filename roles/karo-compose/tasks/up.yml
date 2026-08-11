@@ -36,6 +36,22 @@
 
 # secrets
 
+- name: Find stack secrets for {{ stack.name }}
+  ansible.builtin.set_fact:
+    stack_secrets: |
+      {% set secrets = [] %}
+      {% for service in stack_vars.values() %}
+      {%   if service.secrets is defined %}
+      {%     for secret in service.secrets %}
+      {%       set _ = secrets.append({
+                  'name': secret,
+                  'value': service.secrets[secret]
+                }) %}
+      {%     endfor %}
+      {%   endif %}
+      {% endfor %}
+      {{ secrets }}
+
 - name: Handle secrets
   when: stack_secrets | length > 0
   block:
