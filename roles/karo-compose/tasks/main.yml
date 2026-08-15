@@ -6,7 +6,7 @@
 
 ---
 
-# Setup
+# setup
 
 - name: Register docker directory status
   ansible.builtin.stat:
@@ -19,7 +19,7 @@
     fail_msg: "Docker directory not present, run `just install` to setup Docker."
     quiet: true
 
-- name: Assert stack group names
+- name: Assert defined stack group names
   ansible.builtin.assert:
     that:
       - stack_group_lookup is not false
@@ -33,7 +33,7 @@
   vars:
     stack_group_lookup: "{{ lookup('vars', stack_group, default=false) }}"
 
-- name: Assert imported stack groups
+- name: Assert symlinked stack groups declared
   ansible.builtin.assert:
     that: stack_group_dir.path in karo_compose_stack_groups
     fail_msg: "Stack group '{{ stack_group_dir.path }}' missing from 'karo_compose_stack_groups'."
@@ -60,7 +60,7 @@
       {% endfor %}
       {{ expanded_stacks }}
 
-- name: Assert provided stack name
+- name: Assert supplied stack name
   ansible.builtin.assert:
     that: karo_compose_justfile_stack in (
         karo_compose_expanded_stacks | map(attribute='name') | list
@@ -69,14 +69,14 @@
     fail_msg: "Invalid stack name '{{ karo_compose_justfile_stack }}'."
     quiet: true
 
-# Actions
+# actions
 
 - name: Down stacks
   become: true
   become_user: dockeruser
   tags: down
   block:
-    - name: Down docker compose stacks
+    - name: Down compose stacks
       ansible.builtin.include_tasks: down.yml
       loop: "{{ karo_compose_expanded_stacks | reverse }}"
       loop_control:
@@ -91,14 +91,14 @@
   become_user: dockeruser
   tags: up
   block:
-    - name: Up docker compose stacks
+    - name: Up compose stacks
       ansible.builtin.include_tasks: up.yml
       loop: "{{ karo_compose_expanded_stacks }}"
       loop_control:
         loop_var: stack
         label: "{{ stack.name }}"
       vars:
-        stack_vars: "{{ lookup('vars', stack.namespace ~ '_stack') }}"
+        stack_host_vars: "{{ lookup('vars', stack.namespace ~ '_stack') }}"
         stack_defaults: "{{ lookup('vars', stack.namespace ~ '_stack_defaults') }}"
         stack_secrets: "{{ query('filetree', '../templates/' ~ stack.path ~ '/secrets') }}"
         karo_compose_secrets_path: "/run/user/1001/karo-compose/{{ stack.path }}"
