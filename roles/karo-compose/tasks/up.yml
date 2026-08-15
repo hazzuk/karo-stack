@@ -6,7 +6,7 @@
 
 - name: Prepare secrets
   when:
-    - secrets | length > 0
+    - stack_secrets | length > 0
     - secrets_dir is undefined
   block:
     - name: Create tmpfs secrets directory
@@ -20,19 +20,19 @@
       ansible.builtin.set_fact:
         secrets_dir: true
 
-- name: Create secrets for {{ stack }}
+- name: Create secrets for {{ stack.name }}
   ansible.builtin.copy:
     dest: "/run/user/1001/karo/compose/{{ secret.key }}"
     content: "{{ secret.value }}"
     mode: "0644"
-  loop: "{{ secrets }}"
+  loop: "{{ stack_secrets }}"
   loop_control:
     loop_var: secret
     label: "{{ secret.key }}"
   changed_when: false
 
-- name: Up compose stack {{ stack }}
+- name: Up compose stack {{ stack.name }}
   community.docker.docker_compose_v2:
     docker_host: unix:///run/user/1001/docker.sock
-    project_src: "/srv/docker/{{ group }}/{{ stack }}"
+    project_src: "/srv/docker/{{ stack.path }}"
     state: present # docker compose up

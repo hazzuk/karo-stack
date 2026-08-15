@@ -4,8 +4,8 @@
 
 ---
 
-- name: Down compose stack {{ stack }}
+- name: Down compose stack {{ stack.name }}
   community.docker.docker_compose_v2:
     docker_host: unix:///run/user/1001/docker.sock
-    project_src: "/srv/docker/{{ group }}/{{ stack }}"
+    project_src: "/srv/docker/{{ stack.path }}"
     state: absent # docker compose down
