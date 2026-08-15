@@ -86,25 +86,7 @@
         - stack.enabled
         - karo_compose_justfile_stack in [stack.name, 'all']
 
-- name: Deploy stacks
-  become: true
-  become_user: dockeruser
-  tags: deploy
-  block:
-    - name: Deploy docker compose stacks
-      ansible.builtin.include_tasks: deploy.yml
-      loop: "{{ karo_compose_expanded_stacks }}"
-      loop_control:
-        loop_var: stack
-        label: "{{ stack.name }}"
-      vars:
-        stack_vars: "{{ lookup('vars', stack.namespace ~ '_stack') }}"
-        stack_defaults: "{{ lookup('vars', stack.namespace ~ '_stack_defaults') }}"
-      when:
-        - stack.enabled
-        - karo_compose_justfile_stack in [stack.name, 'all']
-
-- name: Create stacks
+- name: Up stacks
   become: true
   become_user: dockeruser
   tags: up
@@ -116,7 +98,10 @@
         loop_var: stack
         label: "{{ stack.name }}"
       vars:
-        stack_secrets: "{{ lookup('vars', stack.namespace ~ '_secrets', default={}) | dict2items }}"
+        stack_vars: "{{ lookup('vars', stack.namespace ~ '_stack') }}"
+        stack_defaults: "{{ lookup('vars', stack.namespace ~ '_stack_defaults') }}"
+        stack_secrets: "{{ query('filetree', '../templates/' ~ stack.path ~ '/secrets') }}"
+        karo_compose_secrets_path: "/run/user/1001/karo-compose/{{ stack.path }}"
       when:
         - stack.enabled
         - karo_compose_justfile_stack in [stack.name, 'all']
@@ -124,7 +109,7 @@
   always:
     - name: Discard tmpfs secrets directory
       ansible.builtin.file:
-        path: "/run/user/1001/karo/compose"
+        path: "/run/user/1001/karo-compose"
         state: absent
       when: secrets_dir | default(false)
       changed_when: false

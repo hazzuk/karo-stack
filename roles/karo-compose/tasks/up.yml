@@ -4,14 +4,36 @@
 
 ---
 
+# deploy templates
+
+- name: "Create compose stack directory for {{ stack.name }}"
+  ansible.builtin.file:
+    path: "/srv/docker/{{ stack.path }}"
+    mode: "0774"
+    state: directory
+
+- name: "Merge compose variables for {{ stack.name }}"
+  ansible.builtin.set_fact:
+    compose: "{{ stack_defaults | combine(stack_vars, recursive=true) }}"
+
+- name: "Deploy compose templates for {{ stack.name }}"
+  ansible.builtin.template:
+    src: "{{ template.src }}"
+    dest: "/srv/docker/{{ stack.path }}/{{ template.path | splitext | first }}"
+    mode: "0644"
+  loop: "{{ query('filetree', '../templates/' ~ stack.path, exclude='^secrets$') }}"
+  loop_control:
+    loop_var: template
+    label: "{{ template.path }}"
+
+# handle secrets
+
 - name: Prepare secrets
-  when:
-    - stack_secrets | length > 0
-    - secrets_dir is undefined
+  when: stack_secrets | length > 0
   block:
     - name: Create tmpfs secrets directory
       ansible.builtin.file:
-        path: /run/user/1001/karo/compose
+        path: "{{ karo_compose_secrets_path }}"
         state: directory
         mode: "0700"
       changed_when: false
@@ -19,17 +41,21 @@
     - name: Mark secrets directory as created
       ansible.builtin.set_fact:
         secrets_dir: true
+      when: secrets_dir is undefined
 
-- name: Create secrets for {{ stack.name }}
-  ansible.builtin.copy:
-    dest: "/run/user/1001/karo/compose/{{ secret.key }}"
-    content: "{{ secret.value }}"
-    mode: "0644"
-  loop: "{{ stack_secrets }}"
-  loop_control:
-    loop_var: secret
-    label: "{{ secret.key }}"
-  changed_when: false
+    - name: Create secrets for {{ stack.name }}
+      ansible.builtin.copy:
+        # secrets template, removing end of file newline
+        content: "{{ lookup('template', secret.src) | regex_replace('(\r?\n)$', '') }}"
+        dest: "{{ karo_compose_secrets_path }}/{{ secret.path | splitext | first }}"
+        mode: "0644"
+      loop: "{{ stack_secrets }}"
+      loop_control:
+        loop_var: secret
+        label: "{{ secret.path | splitext | first }}"
+      changed_when: false
+
+# start services
 
 - name: Up compose stack {{ stack.name }}
   community.docker.docker_compose_v2:
