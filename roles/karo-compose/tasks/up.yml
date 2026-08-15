@@ -4,6 +4,18 @@
 
 ---
 
+# stack_vars
+
+- name: "Merge stack variables for {{ stack.name }}"
+  ansible.builtin.set_fact:
+    stack_vars: "{{ stack_defaults | combine(stack_host_vars, recursive=true) }}"
+  when: stack_host_vars | length > 0
+
+- name: "Use default stack variables for {{ stack.name }}"
+  ansible.builtin.set_fact:
+    stack_vars: "{{ stack_defaults }}"
+  when: stack_host_vars | length == 0
+
 # templates
 
 - name: "Create directory for {{ stack.name }}"
@@ -11,10 +23,6 @@
     path: "/srv/docker/{{ stack.path }}"
     mode: "0774"
     state: directory
-
-- name: "Merge stack variables for {{ stack.name }}"
-  ansible.builtin.set_fact:
-    stack_vars: "{{ stack_defaults | combine(stack_host_vars, recursive=true) }}"
 
 - name: "Render templates for {{ stack.name }}"
   ansible.builtin.template:
@@ -31,7 +39,7 @@
 - name: Handle secrets
   when: stack_secrets | length > 0
   block:
-    - name: Create tmpfs secrets directory
+    - name: Create tmpfs secrets directory for {{ stack.name }}
       ansible.builtin.file:
         path: "{{ karo_compose_secrets_path }}"
         state: directory

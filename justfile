@@ -65,7 +65,7 @@ compose action hostname='' stack='all': _check-password
         echo "action must be 'up' or 'down'" >&2; exit 1;
     fi
     # manage symlinks
-    just _custom-symlinks
+    just _custom-symlink
     # run user action
     ANSIBLE_DISPLAY_SKIPPED_HOSTS=false ansible-playbook run.yml \
         --extra-vars "karo_compose_justfile_stack={{stack}}" \
@@ -151,7 +151,7 @@ _custom-add username:
         exit 0
     else
         # manage symlinks
-        just _custom-symlinks
+        just _custom-symlink
         # list stack groups for username
         echo "new karo-compose stack groups:"
         ls -1 roles/karo-compose/templates | grep {{username}} | awk '{print "- " $0}'
@@ -166,10 +166,10 @@ _custom-add username:
     # remove custom dir
     rm -rf "custom/{{username}}"
     # manage symlinks
-    just _custom-symlinks
+    just _custom-symlink
 
 # (Internal use) Manage symbolic links for custom files
-_custom-symlinks:
+_custom-symlink:
     #!/usr/bin/env bash
     set -euo pipefail
     # clear existing symlinks
