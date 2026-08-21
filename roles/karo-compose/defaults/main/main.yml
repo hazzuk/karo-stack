@@ -6,11 +6,10 @@
 
 # stacks
 
-# docker will start stacks in this order
-# docker will stop stacks in reverse order
+# docker will start stack groups in this order
+# docker will stop stack groups in reverse order
 # karo_compose_stack_groups:
-#   - hazzuk_core
-#   - hazzuk_extra
+#   - example_group
 
 # common
 

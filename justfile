@@ -101,7 +101,7 @@ vault hostname:
 _check-password:
     @[ -e "{{password}}" ] || micro -backup false -mkparents true "{{password}}"
 
-# Set password
+# Set password file
 [group('Ansible vault')]
 password:
     @micro -backup false -mkparents true "{{password}}"
@@ -119,29 +119,29 @@ _wireguard:
 
 # custom
 
-# Manage custom repos
+# Get/remove custom repos
 [group('Custom repos')]
 custom action username:
     #!/usr/bin/env bash
     set -euo pipefail
     case "{{action}}" in
-        add)
-            echo "adding karo-custom {{username}}"
-            just _custom-add {{username}}
+        get)
+            echo "Getting repo {{lowercase(username)}}/karo-custom"
+            just _custom-get {{lowercase(username)}}
             ;;
         remove)
-            echo "removing karo-custom {{username}}"
-            just _custom-remove {{username}}
+            echo "removing custom/{{lowercase(username)}}"
+            just _custom-remove {{lowercase(username)}}
             ;;
         *)
-            echo "action must be 'add' or 'remove'" >&2; exit 1;
+            echo "action must be 'get' or 'remove'" >&2; exit 1;
             ;;
     esac
 
 repo_name := "karo-custom"
 
-# (Internal use) Add new karo-custom repo
-_custom-add username:
+# (Internal use) Get remote karo-custom repo
+_custom-get username:
     #!/usr/bin/env bash
     set -euo pipefail
     # clone karo-custom git repo
@@ -157,7 +157,7 @@ _custom-add username:
         ls -1 roles/karo-compose/templates | grep {{username}} | awk '{print "- " $0}'
     fi
 
-# (Internal use) Remove existing karo-custom repo
+# (Internal use) Remove a karo-custom repo
 @_custom-remove username:
     # check username dir exists
     test -d "custom/{{username}}"
