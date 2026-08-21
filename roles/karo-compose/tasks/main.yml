@@ -22,8 +22,8 @@
 - name: Assert defined stack group names
   ansible.builtin.assert:
     that:
-      - stack_group_lookup is not false
-      - stack_group_lookup | type_debug == "list"
+      - stacks_list is not false
+      - stacks_list | type_debug == "list"
     fail_msg: "Invalid stack group '{{ stack_group }}' in 'karo_compose_stack_groups'."
     quiet: true
   loop: "{{ karo_compose_stack_groups }}"
@@ -31,7 +31,7 @@
     loop_var: stack_group
     label: "karo_compose_stack_groups -> {{ stack_group }}"
   vars:
-    stack_group_lookup: "{{ lookup('vars', stack_group ~ '_stacks', default=false) }}"
+    stacks_list: "{{ lookup('vars', stack_group ~ '_stacks', default=false) }}"
 
 - name: Assert symlinked stack groups declared
   ansible.builtin.assert:
