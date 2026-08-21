@@ -101,7 +101,7 @@ vault hostname:
 _check-password:
     @[ -e "{{password}}" ] || micro -backup false -mkparents true "{{password}}"
 
-# Set password
+# Set password file
 [group('Ansible vault')]
 password:
     @micro -backup false -mkparents true "{{password}}"
