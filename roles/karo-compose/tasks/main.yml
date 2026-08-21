@@ -31,7 +31,7 @@
     loop_var: stack_group
     label: "karo_compose_stack_groups -> {{ stack_group }}"
   vars:
-    stack_group_lookup: "{{ lookup('vars', stack_group, default=false) }}"
+    stack_group_lookup: "{{ lookup('vars', stack_group ~ '_stacks', default=false) }}"
 
 - name: Assert symlinked stack groups declared
   ansible.builtin.assert:
@@ -48,7 +48,7 @@
     karo_compose_expanded_stacks: |
       {% set expanded_stacks = [] %}
       {% for group in karo_compose_stack_groups %}
-      {%   for stack in lookup('vars', group) %}
+      {%   for stack in lookup('vars', group ~ '_stacks') %}
       {%     set _ = expanded_stacks.append({
                 'enabled': lookup('vars', group ~ '_' ~ stack ~ '_enabled'),
                 'group': group,
