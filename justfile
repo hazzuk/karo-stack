@@ -126,12 +126,12 @@ custom action username:
     set -euo pipefail
     case "{{action}}" in
         add)
-            echo "adding karo-custom {{username}}"
-            just _custom-add {{username}}
+            echo "adding karo-custom {{lowercase(username)}}"
+            just _custom-add {{lowercase(username)}}
             ;;
         remove)
-            echo "removing karo-custom {{username}}"
-            just _custom-remove {{username}}
+            echo "removing karo-custom {{lowercase(username)}}"
+            just _custom-remove {{lowercase(username)}}
             ;;
         *)
             echo "action must be 'add' or 'remove'" >&2; exit 1;
