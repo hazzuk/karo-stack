@@ -1,0 +1,10 @@
+blank_issues_enabled: false
+
+contact_links:
+  - name: Suggest a feature
+    url: https://github.com/hazzuk/karo-stack/discussions/new?category=ideas
+    about: Propose an improvement, request a change, or discuss an idea
+
+  - name: Ask a question
+    url: https://github.com/hazzuk/karo-stack/discussions/new?category=q-a
+    about: Get help, seek clarification, or ask about the project

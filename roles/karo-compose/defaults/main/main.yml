@@ -1,0 +1,56 @@
+# SPDX-FileCopyrightText: 2025 - 2026 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+---
+
+# stacks
+
+# docker will start stack groups in this order
+# docker will stop stack groups in reverse order
+# karo_compose_stack_groups:
+#   - example_group
+
+# common
+
+karo_compose_restart_policy: unless-stopped
+
+karo_compose_timezone: "Europe/London"
+
+karo_compose_root_domain: example.com
+
+# auth
+
+karo_compose_oidc_provider_name: PocketID
+
+karo_compose_oidc_admin_group: admin
+
+karo_compose_oidc_subdomain: auth
+
+karo_compose_oidc_domain: "{{ karo_compose_oidc_subdomain }}.{{ karo_compose_root_domain }}" # e.g. auth.example.com
+
+karo_compose_oidc_url: "https://{{ karo_compose_oidc_domain }}" # e.g. https://auth.example.com
+
+karo_compose_oidc_authorization_path: "/authorize"
+karo_compose_oidc_authorization_url: "{{ karo_compose_oidc_url }}{{ karo_compose_oidc_authorization_path }}"
+
+karo_compose_oidc_discovery_path: "/.well-known/openid-configuration"
+karo_compose_oidc_discovery_url: "{{ karo_compose_oidc_url }}{{ karo_compose_oidc_discovery_path }}"
+
+karo_compose_oidc_token_path: "/api/oidc/token"
+karo_compose_oidc_token_url: "{{ karo_compose_oidc_url }}{{ karo_compose_oidc_token_path }}"
+
+karo_compose_oidc_userinfo_path: "/api/oidc/userinfo"
+karo_compose_oidc_userinfo_url: "{{ karo_compose_oidc_url }}{{ karo_compose_oidc_userinfo_path }}"
+
+karo_compose_oidc_logout_path: "/api/oidc/end-session"
+karo_compose_oidc_logout_url: "{{ karo_compose_oidc_url }}{{ karo_compose_oidc_logout_path }}"
+
+karo_compose_oidc_certificate_path: "/.well-known/jwks.json"
+karo_compose_oidc_certificate_url: "{{ karo_compose_oidc_url }}{{ karo_compose_oidc_certificate_path }}"
+
+# internal
+
+karo_compose_justfile_stack: all
+
+karo_compose_secrets_path: ""

@@ -4,14 +4,60 @@
 
 ---
 
-- name: Prepare secrets
-  when:
-    - secrets | length > 0
-    - secrets_dir is undefined
+# stack_vars
+
+- name: "Merge stack variables for {{ stack.name }}"
+  ansible.builtin.set_fact:
+    stack_vars: "{{ stack_defaults | combine(stack_host_vars, recursive=true) }}"
+  when: stack_host_vars | length > 0
+
+- name: "Use default stack variables for {{ stack.name }}"
+  ansible.builtin.set_fact:
+    stack_vars: "{{ stack_defaults }}"
+  when: stack_host_vars | length == 0
+
+# templates
+
+- name: "Create directory for {{ stack.name }}"
+  ansible.builtin.file:
+    path: "/srv/docker/{{ stack.path }}"
+    mode: "0774"
+    state: directory
+
+- name: "Render templates for {{ stack.name }}"
+  ansible.builtin.template:
+    src: "{{ template.src }}"
+    dest: "/srv/docker/{{ stack.path }}/{{ template.path | splitext | first }}"
+    mode: "0644"
+  loop: "{{ query('filetree', '../templates/' ~ stack.path) }}"
+  loop_control:
+    loop_var: template
+    label: "{{ template.path }}"
+
+# secrets
+
+- name: Gather stack secrets for {{ stack.name }}
+  ansible.builtin.set_fact:
+    stack_secrets: |
+      {% set secrets = [] %}
+      {% for service_name, service_vars in stack_vars.items() %}
+      {%   if service_vars.secrets is defined %}
+      {%     for secret_name, secret_value in service_vars.secrets.items() %}
+      {%       set _ = secrets.append({
+                  'name': service_name ~ '_' ~ secret_name,
+                  'value': secret_value
+                }) %}
+      {%     endfor %}
+      {%   endif %}
+      {% endfor %}
+      {{ secrets }}
+
+- name: Handle secrets
+  when: stack_secrets | length > 0
   block:
-    - name: Create tmpfs secrets directory
+    - name: Create tmpfs secrets directory for {{ stack.name }}
       ansible.builtin.file:
-        path: /run/user/1001/karo/compose
+        path: "{{ karo_compose_secrets_path }}"
         state: directory
         mode: "0700"
       changed_when: false
@@ -19,20 +65,23 @@
     - name: Mark secrets directory as created
       ansible.builtin.set_fact:
         secrets_dir: true
+      when: secrets_dir is undefined
 
-- name: Create secrets for {{ stack }}
-  ansible.builtin.copy:
-    dest: "/run/user/1001/karo/compose/{{ secret.key }}"
-    content: "{{ secret.value }}"
-    mode: "0644"
-  loop: "{{ secrets }}"
-  loop_control:
-    loop_var: secret
-    label: "{{ secret.key }}"
-  changed_when: false
+    - name: Create secrets for {{ stack.name }}
+      ansible.builtin.copy:
+        content: "{{ secret.value }}"
+        dest: "{{ karo_compose_secrets_path }}/{{ secret.name }}"
+        mode: "0644"
+      loop: "{{ stack_secrets }}"
+      loop_control:
+        loop_var: secret
+        label: "{{ secret.name }}"
+      changed_when: false
 
-- name: Up compose stack {{ stack }}
+# services
+
+- name: Up compose stack {{ stack.name }}
   community.docker.docker_compose_v2:
     docker_host: unix:///run/user/1001/docker.sock
-    project_src: "/srv/docker/{{ group }}/{{ stack }}"
+    project_src: "/srv/docker/{{ stack.path }}"
     state: present # docker compose up
