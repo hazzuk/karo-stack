@@ -8,7 +8,7 @@
 
 
 # avoid flushing docker rules
-# flush ruleset 
+# flush ruleset
 
 table inet filter {
         chain input {
@@ -66,7 +66,7 @@ table inet filter {
 {% endif %}
 
 {% if karo_nftables_log_enabled %}
-                # debug denied traffic 
+                # debug denied traffic
                 log prefix "nftables: input denied: " counter drop
 {% endif %}
         }
