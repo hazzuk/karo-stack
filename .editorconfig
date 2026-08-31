@@ -50,4 +50,5 @@ indent_size = 2
 
 # Project Files
 
-n/a
+[haproxy.cfg.j2]
+indent_size = 2
