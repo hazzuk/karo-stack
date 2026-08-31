@@ -11,3 +11,4 @@ roles/karo-compose/templates/*
 
 # misc
 .dev/
+notes.md
