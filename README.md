@@ -10,7 +10,9 @@
 
 [![Developed by Humans, Not by AI](https://hazzuk.github.io/assets/not-by-ai/dev.svg)](https://notbyai.fyi/)
 
-![karo-stack](https://hazzuk.github.io/assets/karo-stack/header.png)
+<picture>
+    <img src="https://hazzuk.github.io/assets/karo-stack/header.png" alt="Connecting to a karo-stack homeserver using SSH">
+</picture>
 
 </div>
 
