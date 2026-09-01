@@ -7,7 +7,7 @@
 [![License](https://img.shields.io/badge/license-AGPL--3.0-orange)](https://github.com/hazzuk/karo-stack/blob/main/LICENSE)
 [![GitHub repo size](https://img.shields.io/github/repo-size/hazzuk/karo-stack?cacheSeconds=604800)](https://github.com/hazzuk/karo-stack)
 
-[![Developed by Humans, Not by AI](not-by-ai.png)](https://notbyai.fyi/)
+[![Developed by Humans, Not by AI](https://hazzuk.github.io/assets/not-by-ai/dev.svg)](https://notbyai.fyi/)
 
 Learn more about the project and how to use it at [docs.karolabs.dev](https://docs.karolabs.dev/).
 
