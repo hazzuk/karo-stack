@@ -9,9 +9,6 @@
 
 [![Developed by Humans, Not by AI](not-by-ai.png)](https://notbyai.fyi/)
 
-> [!WARNING]  
-> This project is still in early development.
-
 Learn more about the project and how to use it at [docs.karolabs.dev](https://docs.karolabs.dev/).
 
 ## Copyright & License
