@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: © 2026 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+# Configuration file for `typos`, a source code spell checker.
+# See https://github.com/crate-ci/typos for more information.
+
+# map typos to corrections
+[default.extend-words]
+chage = "chage"
+iif = "iif"
