@@ -12,7 +12,7 @@
 
 </div>
 
-Learn more about the project and how to use it at [docs.karolabs.dev](https://docs.karolabs.dev/).
+Learn more about the project at [docs.karolabs.dev](https://docs.karolabs.dev/).
 
 ## Copyright & License
 
