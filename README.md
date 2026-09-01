@@ -1,3 +1,4 @@
+<div align="center">
 
 # karo-stack
 
@@ -8,6 +9,8 @@
 [![GitHub repo size](https://img.shields.io/github/repo-size/hazzuk/karo-stack?cacheSeconds=604800)](https://github.com/hazzuk/karo-stack)
 
 [![Developed by Humans, Not by AI](https://hazzuk.github.io/assets/not-by-ai/dev.svg)](https://notbyai.fyi/)
+
+</div>
 
 Learn more about the project and how to use it at [docs.karolabs.dev](https://docs.karolabs.dev/).
 
