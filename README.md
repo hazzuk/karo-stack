@@ -10,7 +10,11 @@
 
 [![Developed by Humans, Not by AI](https://hazzuk.github.io/assets/not-by-ai/dev.svg)](https://notbyai.fyi/)
 
+![karo-stack](https://hazzuk.github.io/assets/karo-stack/header.png)
+
 </div>
+
+## Documentation
 
 Learn more about the project at [docs.karolabs.dev](https://docs.karolabs.dev/).
 
