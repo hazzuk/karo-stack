@@ -16,6 +16,29 @@
 
 </div>
 
+## About
+
+The karo-stack enables users to quickly and reliably deploy a personalised,
+self-hosted homeserver.
+
+It is a smaller, more efficient alternative to an all-encompassing,
+abstracted solution like Proxmox, Unraid or TrueNAS.
+It assists with installing a lightweight Debian Linux operating system.
+Then further configuration is all performed declaratively, using Ansible and Git.
+This includes creating a secure 'rootless' Docker environment.
+
+Knowledge of these different underlying technologies is not required,
+as the project is accompanied by both an in-depth documentation site,
+and a set of project-specific commands.
+
+It also provides an extensible system for community-maintained,
+'write once, run anywhere'-style Docker Compose stacks.
+
+This project is the result of nearly a decade of self-hosting experience.
+It is free and open-source software,
+written with careful consideration, attention to detail, readability,
+and long-term stability in mind.
+
 ## Documentation
 
 Learn more about the project at [docs.karolabs.dev](https://docs.karolabs.dev/).
