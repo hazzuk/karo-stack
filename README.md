@@ -34,6 +34,8 @@ and a simplified set of project-specific commands.
 
 It also provides an extensible system for community-maintained,
 'write once, run anywhere'-style Docker Compose stacks.
+Meaning users can easily deploy a large number of pre-made
+custom stacks to their own karo-stack homeserver straight away.
 
 This project is the result of nearly a decade of self-hosting experience.
 It is free and open-source under the AGPL-v3 license.
