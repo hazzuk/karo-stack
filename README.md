@@ -20,6 +20,16 @@
 
 Learn more about the project at [docs.karolabs.dev](https://docs.karolabs.dev/).
 
+## Repositories
+
+- **karo-stack** - Core server configuration (Debian preseed and Ansible playbook)
+
+- [karo-custom](https://github.com/hazzuk/karo-custom) - Official custom files (Docker Compose stacks)
+
+- [karo-docs](https://github.com/hazzuk/karo-docs) - The project's documentation site
+
+- [karo-cli](https://github.com/hazzuk/karo-cli) - Tool for generating and linting karo-custom setups
+
 ## Copyright & License
 
 Copyright © hazzuk. Licensed AGPL-3.0-only.
