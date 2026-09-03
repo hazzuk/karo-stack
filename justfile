@@ -5,11 +5,13 @@
 # justfile, for running project-specific commands.
 # See https://just.systems/man/en for more information.
 
+set default-list := true
+
 # help
 
-# Print help
+# List recipes
 help:
-    @{{ just_executable() }} --list --unsorted --list-prefix "  - " --justfile "{{ justfile() }}"
+    @{{ just_executable() }}
 
 # (Internal use) Reusable confirmation statement
 [confirm("proceed? (y/N)")]
