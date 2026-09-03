@@ -12,7 +12,8 @@ set default-list := true
 help:
     @{{ just_executable() }}
 
-# (Internal use) Reusable confirmation statement
+# Reusable confirmation statement
+[private]
 [confirm("proceed? (y/N)")]
 _confirm:
     @echo
@@ -34,11 +35,13 @@ _confirm:
     -# revert change to preseed file
     -just _insert-preseed-key "<key>" {{platform}}
 
-# (Internal use) Write the authorized SSH key to the Debian preseed file
+# Write the authorized SSH key to the Debian preseed file
+[private]
 _insert-preseed-key value platform:
     @sed -i "s|echo '.*'|echo '{{value}}'|" debian/{{platform}}/d-i/trixie/preseed.cfg
 
-# (Internal use) Run a Python HTTP server to host the preseed file
+# Run a Python HTTP server to host the preseed file
+[private]
 _host-preseed platform:
     @echo "press 'Ctrl + C' to exit"
     -python3 -m http.server 8000 --bind 0.0.0.0 --directory ./debian/{{platform}}
@@ -97,7 +100,8 @@ vault hostname:
         echo "{{password}} not found, run 'just password'." >&2; exit 1;
     fi
 
-# (Internal use) Create the Ansible vault password file when missing
+# Create the Ansible vault password file when missing
+[private]
 _check-password:
     @[ -e "{{password}}" ] || micro -backup false -mkparents true "{{password}}"
 
@@ -140,7 +144,8 @@ custom action username:
 
 repo_name := "karo-custom"
 
-# (Internal use) Get remote karo-custom repo
+# Get remote karo-custom repo
+[private]
 _custom-get username:
     #!/usr/bin/env bash
     set -euo pipefail
@@ -157,7 +162,8 @@ _custom-get username:
         ls -1 roles/karo-compose/templates | grep {{username}} | awk '{print "- " $0}'
     fi
 
-# (Internal use) Remove a karo-custom repo
+# Remove a karo-custom repo
+[private]
 @_custom-remove username:
     # check username dir exists
     test -d "custom/{{username}}"
@@ -168,7 +174,8 @@ _custom-get username:
     # manage symlinks
     just _custom-symlink
 
-# (Internal use) Manage symbolic links for custom files
+# Manage symbolic links for custom files
+[private]
 _custom-symlink:
     #!/usr/bin/env bash
     set -euo pipefail
