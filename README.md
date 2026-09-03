@@ -21,26 +21,24 @@
 The karo-stack enables users to reliably and efficiently deploy a personalised,
 self-hosted homeserver.
 
-It's a smaller, comprehensible alternative to an all-encompassing,
+It's a smaller, more comprehensible alternative to an all-encompassing,
 abstracted solution like Proxmox, Unraid or TrueNAS.
-It assists with installing a lightweight Debian Linux operating system.
+It assists with the installation of a lightweight Debian Linux operating system.
 Then further configuration is all performed declaratively,
-using Ansible and Git.
-This includes creating a secure 'rootless' Docker environment.
+using Ansible and Git. This includes creating a dedicated
+'rootless' Docker environment to run services more securely.
 
-Knowledge of these different underlying technologies is not required,
-as the project is accompanied by both in-depth documentation,
-and a simplified set of project-specific commands.
+Prior knowledge of these underlying technologies isn't required,
+as the project is accompanied by both in-depth documentation
+and a set of simplified, project-specific commands.
 
 It also provides an extensible system for community-maintained,
 'write once, run anywhere'-style Docker Compose stacks.
-Meaning users can easily deploy a large number of pre-made
-custom stacks to their own karo-stack homeserver straight away.
+This means users can easily deploy numerous templated stacks,
+designed to work smoothly together on a karo-stack homeserver.
 
-This project is the result of nearly a decade of self-hosting experience.
-It is free and open-source under the AGPL-v3 license.
-Written with careful consideration, attention to detail, readability,
-and long-term stability in mind.
+The project is completely free and open-source software,
+written with careful consideration and long-term stability in mind.
 It is a deliberately minimal and opinionated toolkit,
 built to provide a focused set of practical features.
 It takes care of the fundamentals needed for a well-optimised homeserver,
