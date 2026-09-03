@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-only
 
+# justfile, for running project-specific commands.
+# See https://just.systems/man/en for more information.
 
 # help
 
