@@ -114,7 +114,8 @@ password:
 # ---
 
 # Generate key pair
-_wireguard:
+[private]
+wireguard:
     @priv="$(wg genkey)"; \
     pub="$(wg pubkey <<<"$priv")"; \
     printf 'Private key: %s\n' "$priv"; \
