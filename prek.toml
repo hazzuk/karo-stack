@@ -33,7 +33,7 @@ hooks = [
 
 [[repos]]
 repo = "https://github.com/editorconfig-checker/editorconfig-checker"
-rev = "v3.11.3"
+rev = "8a26413036dd53b97b31405067212fca42b57393"  # v4.0.0
 hooks = [
   {
     id = "editorconfig-checker",
@@ -43,7 +43,7 @@ hooks = [
 
 [[repos]]
 repo = "https://github.com/crate-ci/typos"
-rev = "v1.50.1"
+rev = "d43b6c087ac471e2ea7b8af622ff15f05c0c365b"  # v1.50.1
 hooks = [
   {
     id = "typos",
