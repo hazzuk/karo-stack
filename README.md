@@ -41,6 +41,10 @@ This project is the result of nearly a decade of self-hosting experience.
 It is free and open-source under the AGPL-v3 license.
 Written with careful consideration, attention to detail, readability,
 and long-term stability in mind.
+It is a deliberately minimal and opinionated toolkit,
+built to provide a focused set of practical features.
+It takes care of the fundamentals needed for a well-optimised homeserver,
+while preserving the user's sovereignty over their system.
 
 ## Documentation
 
