@@ -8,8 +8,6 @@
 set minimum-version := '1.55.0'
 set default-list := true
 
-# help
-
 # List recipes
 help:
     @{{ just_executable() }}
@@ -19,8 +17,8 @@ help:
 _confirm:
     @echo
 
-
-# preseed
+# Debian install
+# ---
 
 # Host preseed.cfg
 [group('Debian install')]
@@ -45,16 +43,13 @@ _host-preseed platform:
     @echo "press 'Ctrl + C' to exit"
     -python3 -m http.server 8000 --bind 0.0.0.0 --directory ./debian/{{platform}}
 
-
-# server
+# System setup
+# ---
 
 # Setup a system
 [group('System setup')]
 @install hostname='': _check-password
     ansible-playbook run.yml --tags install --limit "{{hostname}}"
-
-
-# compose
 
 # Up/down Docker stacks
 [group('System setup')]
@@ -78,8 +73,8 @@ compose action hostname='' stack='all': _check-password
         --skip-tags "$skip_tags" \
         --limit "{{hostname}}"
 
-
-# vault
+# Ansible vault
+# ---
 
 password := "/run/user/1000/karo/ansible/vault_pass"
 
@@ -111,8 +106,8 @@ _check-password:
 password:
     @micro -backup false -mkparents true "{{password}}"
 
-
-# wireguard
+# Wireguard
+# ---
 
 # Generate key pair
 _wireguard:
@@ -121,8 +116,8 @@ _wireguard:
     printf 'Private key: %s\n' "$priv"; \
     printf 'Public key: %s\n' "$pub"
 
-
-# custom
+# Custom repos
+# ---
 
 # Get/remove custom repos
 [group('Custom repos')]
