@@ -15,7 +15,7 @@ help:
 # Reusable confirmation statement
 [private]
 [confirm("proceed? (y/N)")]
-_confirm:
+confirm:
     @echo
 
 # Debian install
@@ -29,20 +29,20 @@ _confirm:
     # check user key file exists
     [ -e "inventory/key.txt" ] || { echo "inventory/key.txt not found" >&2; exit 1; }
     # insert public ssh key into preseed file
-    just _insert-preseed-key "$(cat inventory/key.txt)" {{platform}}
+    just insert-preseed-key "$(cat inventory/key.txt)" {{platform}}
     # run webserver
-    -just _host-preseed {{platform}}
+    -just host-preseed {{platform}}
     -# revert change to preseed file
-    -just _insert-preseed-key "<key>" {{platform}}
+    -just insert-preseed-key "<key>" {{platform}}
 
 # Write the authorized SSH key to the Debian preseed file
 [private]
-_insert-preseed-key value platform:
+insert-preseed-key value platform:
     @sed -i "s|echo '.*'|echo '{{value}}'|" debian/{{platform}}/d-i/trixie/preseed.cfg
 
 # Run a Python HTTP server to host the preseed file
 [private]
-_host-preseed platform:
+host-preseed platform:
     @echo "press 'Ctrl + C' to exit"
     -python3 -m http.server 8000 --bind 0.0.0.0 --directory ./debian/{{platform}}
 
@@ -51,13 +51,13 @@ _host-preseed platform:
 
 # Setup a system
 [group('System setup')]
-@install hostname='': _check-password
+@install hostname='': check-password
     ansible-playbook run.yml --tags install --limit "{{hostname}}"
 
 # Up/down Docker stacks
 [group('System setup')]
 [arg("stack", long, short="s")]
-compose action hostname='' stack='all': _check-password
+compose action hostname='' stack='all': check-password
     #!/bin/bash
     # check user input for action
     if [ "{{action}}" = "up" ]; then
@@ -68,7 +68,7 @@ compose action hostname='' stack='all': _check-password
         echo "action must be 'up' or 'down'" >&2; exit 1;
     fi
     # manage symlinks
-    just _custom-symlink
+    just custom-symlink
     # run user action
     ANSIBLE_DISPLAY_SKIPPED_HOSTS=false ansible-playbook run.yml \
         --extra-vars "karo_compose_justfile_stack={{stack}}" \
@@ -102,7 +102,7 @@ vault hostname:
 
 # Create the Ansible vault password file when missing
 [private]
-_check-password:
+check-password:
     @[ -e "{{password}}" ] || micro -backup false -mkparents true "{{password}}"
 
 # Set password file
@@ -131,11 +131,11 @@ custom action username:
     case "{{action}}" in
         get)
             echo "Getting repo {{lowercase(username)}}/karo-custom"
-            just _custom-get {{lowercase(username)}}
+            just custom-get {{lowercase(username)}}
             ;;
         remove)
             echo "removing custom/{{lowercase(username)}}"
-            just _custom-remove {{lowercase(username)}}
+            just custom-remove {{lowercase(username)}}
             ;;
         *)
             echo "action must be 'get' or 'remove'" >&2; exit 1;
@@ -146,7 +146,7 @@ repo_name := "karo-custom"
 
 # Get remote karo-custom repo
 [private]
-_custom-get username:
+custom-get username:
     #!/usr/bin/env bash
     set -euo pipefail
     # clone karo-custom git repo
@@ -156,7 +156,7 @@ _custom-get username:
         exit 0
     else
         # manage symlinks
-        just _custom-symlink
+        just custom-symlink
         # list stack groups for username
         echo "new karo-compose stack groups:"
         ls -1 roles/karo-compose/templates | grep {{username}} | awk '{print "- " $0}'
@@ -164,19 +164,19 @@ _custom-get username:
 
 # Remove a karo-custom repo
 [private]
-@_custom-remove username:
+@custom-remove username:
     # check username dir exists
     test -d "custom/{{username}}"
     # confirm removal
-    just _confirm
+    just confirm
     # remove custom dir
     rm -rf "custom/{{username}}"
     # manage symlinks
-    just _custom-symlink
+    just custom-symlink
 
 # Manage symbolic links for custom files
 [private]
-_custom-symlink:
+custom-symlink:
     #!/usr/bin/env bash
     set -euo pipefail
     # clear existing symlinks
