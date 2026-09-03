@@ -5,6 +5,7 @@
 # justfile, for running project-specific commands.
 # See https://just.systems/man/en for more information.
 
+set minimum-version := '1.55.0'
 set default-list := true
 
 # help
