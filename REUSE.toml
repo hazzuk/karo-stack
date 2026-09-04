@@ -4,6 +4,7 @@
 
 # Configuration file for `reuse`, a compliance tool for the REUSE spec.
 # See https://reuse.readthedocs.io/ for more information.
+#:schema https://reuse.software/reuse-toml-v1.schema.json
 
 # Commands:
 # - `reuse download --all`  Download all missing licenses
