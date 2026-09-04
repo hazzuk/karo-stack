@@ -1,19 +1,64 @@
+<div align="center">
 
 # karo-stack
 
-**An open-source toolkit for creating a declarative Linux homeserver**
+**A minimal toolkit for building a declarative Linux homeserver**
 
-[![GitHub Release](https://img.shields.io/github/v/release/hazzuk/karo-stack?display_name=tag&cacheSeconds=7200)](https://github.com/hazzuk/karo-stack/releases)
-[![License](https://img.shields.io/badge/license-AGPL--3.0-orange)](https://github.com/hazzuk/karo-stack/blob/main/LICENSE)
-[![GitHub repo size](https://img.shields.io/github/repo-size/hazzuk/karo-stack?cacheSeconds=604800)](https://github.com/hazzuk/karo-stack)
+[![Latest release](https://img.shields.io/github/v/release/hazzuk/karo-stack?display_name=tag&cacheSeconds=7200&label=latest)](https://github.com/hazzuk/karo-stack/releases)
+[![License](https://img.shields.io/badge/license-AGPL--3.0-B461B3)](https://github.com/hazzuk/karo-stack/blob/main/LICENSE)
+[![REUSE status](https://api.reuse.software/badge/github.com/hazzuk/karo-stack)](https://api.reuse.software/info/github.com/hazzuk/karo-stack)
+[![Hits-of-Code](https://hitsofcode.com/github/hazzuk/karo-stack)](https://hitsofcode.com/github/hazzuk/karo-stack/view)
 
-[![Developed by Humans, Not by AI](not-by-ai.png)](https://notbyai.fyi/)
+[![Developed by Humans, Not by AI](https://hazzuk.github.io/assets/not-by-ai/dev.svg)](https://notbyai.fyi/)
 
-> [!WARNING]  
-> This project is still in early development.
+<picture>
+    <img src="https://hazzuk.github.io/assets/karo-stack/header.png" alt="Connecting to a karo-stack homeserver using SSH">
+</picture>
 
-Learn more about the project and how to use it at [docs.karolabs.dev](https://docs.karolabs.dev/).
+</div>
+
+## About
+
+The karo-stack enables users to reliably and efficiently deploy a personalised,
+self-hosted homeserver.
+
+It's a smaller, more comprehensible alternative to an all-encompassing,
+abstracted solution like Proxmox, Unraid or TrueNAS.
+It assists with the installation of a lightweight Debian Linux operating system.
+Then further configuration is all performed declaratively,
+using Ansible and Git. This includes creating a dedicated
+'rootless' Docker environment to run services more securely.
+
+Prior knowledge of these underlying technologies isn't required,
+as the project is accompanied by both in-depth documentation
+and a set of simplified, project-specific commands.
+
+It also provides an extensible system for community-maintained,
+'write once, run anywhere'-style Docker Compose stacks.
+This means users can easily deploy numerous templated stacks,
+designed to work smoothly together on any karo-stack homeserver.
+
+The project is completely free and open-source software,
+written with careful consideration and long-term stability in mind.
+It is a deliberately minimal and opinionated toolkit,
+built to provide a focused set of practical features.
+It takes care of the fundamentals needed for a well-optimised homeserver,
+while preserving a user's sovereignty over their system.
+
+## Documentation
+
+Learn more about the project at [docs.karolabs.dev](https://docs.karolabs.dev/).
+
+## Repositories
+
+- **karo-stack** - Core server configuration (Debian preseed and Ansible playbook)
+
+- [karo-custom](https://github.com/hazzuk/karo-custom) - Official custom files (Docker Compose stacks)
+
+- [karo-docs](https://github.com/hazzuk/karo-docs) - The project's documentation site
+
+- [karo-cli](https://github.com/hazzuk/karo-cli) - Tool for generating and linting karo-custom setups
 
 ## Copyright & License
 
-The [karo-stack](https://github.com/hazzuk/karo-stack) project is copyright © [hazzuk](https://github.com/hazzuk) and is licensed [AGPL-3.0-only](https://github.com/hazzuk/karo-stack/blob/main/LICENSE).
+Copyright © hazzuk. Licensed AGPL-3.0-only.
