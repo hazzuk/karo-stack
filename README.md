@@ -35,14 +35,14 @@ and a set of simplified, project-specific commands.
 It also provides an extensible system for community-maintained,
 'write once, run anywhere'-style Docker Compose stacks.
 This means users can easily deploy numerous templated stacks,
-designed to work smoothly together on a karo-stack homeserver.
+designed to work smoothly together on any karo-stack homeserver.
 
 The project is completely free and open-source software,
 written with careful consideration and long-term stability in mind.
 It is a deliberately minimal and opinionated toolkit,
 built to provide a focused set of practical features.
 It takes care of the fundamentals needed for a well-optimised homeserver,
-while preserving the user's sovereignty over their system.
+while preserving a user's sovereignty over their system.
 
 ## Documentation
 
