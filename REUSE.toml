@@ -9,6 +9,8 @@
 # Commands:
 # - `reuse download --all`  Download all missing licenses
 # - `reuse lint`            Lint the directory for REUSE compliance
+# - `reuse annotate --copyright-prefix=spdx-symbol -c "..." -l "..." -r <path>`
+#                           Add copyright and license headers to files.
 
 version = 1
 
