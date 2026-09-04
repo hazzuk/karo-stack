@@ -1,0 +1,54 @@
+# SPDX-FileCopyrightText: © 2026 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+# EditorConfig file, for maintaining consistent code styles across editors.
+# See https://editorconfig.org for more information.
+
+root = true
+
+# Common Files
+
+# default
+[*]
+indent_style = space
+indent_size = 4
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+# [justfile]
+# indent_size = 4
+
+# [*.md]
+# indent_size = 4
+
+# bash
+[*.sh]
+indent_style = tab
+
+# go
+[*.go]
+indent_style = tab
+
+# json
+[*.{json,jsonc,json5}]
+indent_size = 2
+
+# toml
+[*.toml]
+indent_size = 2
+
+# web
+[*.{html,css,js}]
+indent_size = 2
+
+# yaml
+[*.{yml,yaml}]
+indent_size = 2
+
+# Project Files
+
+[haproxy.cfg.j2]
+indent_size = 2
