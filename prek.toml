@@ -42,6 +42,16 @@ hooks = [
 ]
 
 [[repos]]
+repo = "https://codeberg.org/fsfe/reuse-tool"
+rev = "a1bb792acda6fd0724936b4ebbdbc8eceb9c0459"  # v6.2.0
+hooks = [
+  {
+    id = "reuse-lint-file",
+    name = "reuse: lint files",
+  }
+]
+
+[[repos]]
 repo = "https://github.com/crate-ci/typos"
 rev = "d43b6c087ac471e2ea7b8af622ff15f05c0c365b"  # v1.50.1
 hooks = [
