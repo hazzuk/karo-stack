@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: © 1995-2011 Software in the Public Interest
+#
+# SPDX-License-Identifier: GPL-2.0-or-later
+
 # ~/.profile: executed by the command interpreter for login shells.
 # This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
 # exists.
@@ -26,6 +30,10 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
+# SPDX-SnippetBegin
+# SPDX-FileCopyrightText: © 2025 hazzuk
+# SPDX-License-Identifier: AGPL-3.0-only
+
 # karo-stack dockeruser
 
 # set initial working directory
@@ -33,3 +41,5 @@ cd /srv/docker || return
 
 # set DOCKER_HOST for rootless docker
 export DOCKER_HOST="unix://$XDG_RUNTIME_DIR/docker.sock"
+
+# SPDX-SnippetEnd
