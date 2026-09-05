@@ -1,6 +1,6 @@
 # ansible
 .ansible/
-inventory/
+inventory
 
 # karo-custom
 custom/
