@@ -33,10 +33,13 @@ Prior knowledge of these underlying technologies isn't required,
 as the project is accompanied by both in-depth documentation
 and a set of simplified, project-specific commands.
 
-It also provides an extensible system for community-maintained,
-'write once, run anywhere'-style Docker Compose stacks.
-This means users can easily deploy numerous templated stacks,
-designed to work smoothly together on any karo-stack homeserver.
+It also provides an extensible system for community-maintained
+Docker Compose stacks. Each one is built around a standardised environment
+and robust set of guidelines. These are used to promote compatibility
+between stacks and across different karo-stack homeservers.
+For users, this means they can easily deploy numerous templated stacks,
+configurable to an individual's needs,
+without having to directly modify Compose files.
 
 The project is completely free and open-source software,
 written with careful consideration and long-term stability in mind.
