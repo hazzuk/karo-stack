@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: © 2025 hazzuk
+
+SPDX-License-Identifier: AGPL-3.0-only
+-->
+
 <div align="center">
 
 # karo-stack

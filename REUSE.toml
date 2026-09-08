@@ -1,0 +1,24 @@
+# SPDX-FileCopyrightText: © 2026 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+# Configuration file for `reuse`, a compliance tool for the REUSE spec.
+# See https://reuse.readthedocs.io/ for more information.
+#:schema https://reuse.software/reuse-toml-v1.schema.json
+
+# Commands:
+# - `reuse download --all`  Download all missing licenses
+# - `reuse lint`            Lint the directory for REUSE compliance
+# - `reuse annotate --copyright-prefix=spdx-symbol -c "..." -l "..." -r <path>`
+#                           Add copyright and license headers to files.
+
+version = 1
+
+# uncopyrightable files
+[[annotations]]
+path = [
+  ".gitattributes",
+  ".gitignore",
+]
+SPDX-FileCopyrightText = "NONE"
+SPDX-License-Identifier = "CC0-1.0"

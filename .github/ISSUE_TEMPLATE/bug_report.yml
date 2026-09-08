@@ -1,3 +1,9 @@
+# SPDX-FileCopyrightText: © 2026 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+---
+
 name: Report a bug
 description: Describe a bug or issue you have identified
 labels: ["Kind/Bug"]
