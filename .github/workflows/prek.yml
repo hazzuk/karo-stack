@@ -1,0 +1,26 @@
+# SPDX-FileCopyrightText: © 2026 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+---
+
+name: Prek checks
+
+on:
+  pull_request:
+  # targeting
+    branches:
+      - '*'
+  push:
+  # made to
+    branches:
+      - main
+
+jobs:
+  prek:
+    runs-on: ubuntu-latest
+    steps:
+      # repo https://github.com/actions/checkout
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      # repo https://github.com/j178/prek-action
+      - uses: j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece # v3.0.0
