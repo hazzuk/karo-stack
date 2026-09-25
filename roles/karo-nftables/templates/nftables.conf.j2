@@ -36,10 +36,10 @@ table inet filter {
         tcp dport { 80, 443 } accept
         udp dport 443 accept
 {% endif %}
-{% if karo_compose_proxy_server_enabled | default(false) %}
+{% if karo_wireguard_server_enabled | default(false) %}
 
         # allow wireguard listen port
-        udp dport {{ karo_compose_proxy_server_wireguard_port | default('52525') }} accept
+        udp dport {{ karo_wireguard_listen_port | default('52525') }} accept
 {% endif %}
 {% if karo_nftables_accepted_tcp_ports %}
 
