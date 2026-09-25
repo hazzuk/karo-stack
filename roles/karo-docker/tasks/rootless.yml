@@ -106,3 +106,12 @@
     owner: dockeruser
     group: dockeruser
     state: directory
+
+- name: Log into docker registry
+  become: true
+  become_user: dockeruser
+  community.docker.docker_login:
+    docker_host: unix:///run/user/1001/docker.sock
+    username: "{{ karo_docker_login_username }}"
+    password: "{{ karo_docker_login_pat }}"
+  when: karo_docker_login_enabled
