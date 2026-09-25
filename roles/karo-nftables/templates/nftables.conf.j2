@@ -36,7 +36,6 @@ table inet filter {
         tcp dport { 80, 443 } accept
         udp dport 443 accept
 {% endif %}
-
 {% if karo_compose_proxy_client_enabled | default(false) %}
 
         # allow wireguard proxyserver traffic
@@ -53,7 +52,6 @@ table inet filter {
         # allow homeserver pings
         ip protocol icmp ip saddr {{ karo_compose_proxy_client_wireguard_ipv4 | default('10.25.0.2') }} accept
 {% endif %}
-
 {% if karo_nftables_accepted_tcp_ports %}
 
         # allow user defined tcp connections
@@ -64,8 +62,8 @@ table inet filter {
         # allow user defined udp connections
         udp dport { {{ karo_nftables_accepted_udp_ports }} } accept
 {% endif %}
-
 {% if karo_nftables_log_enabled %}
+
         # debug denied traffic
         log prefix "nftables: input denied: " counter drop
 {% endif %}
