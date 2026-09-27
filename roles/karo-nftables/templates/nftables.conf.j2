@@ -8,72 +8,72 @@
 
 
 # avoid flushing docker rules
-# flush ruleset 
+# flush ruleset
 
 table inet filter {
-        chain input {
-                # by default, drop incoming traffic unless it meets a filter
-                # criteria specified by the rules that follow below
-                type filter hook input priority filter; policy drop;
+    chain input {
+        # by default, drop incoming traffic unless it meets a filter
+        # criteria specified by the rules that follow below
+        type filter hook input priority filter; policy drop;
 
-                # allow localhost loopback traffic
-                iif lo accept
+        # allow localhost loopback traffic
+        iif lo accept
 
-                # allow traffic from established and related packets, drop invalid
-                ct state established,related accept
-                ct state invalid drop
+        # allow traffic from established and related packets, drop invalid
+        ct state established,related accept
+        ct state invalid drop
 {% if karo_nftables_icmp_enabled %}
 
-                # allow icmp traffic
-                ip protocol icmp accept
+        # allow icmp traffic
+        ip protocol icmp accept
 {% endif %}
 
-                # allow new ssh connections
-                tcp dport {{ karo_ssh_port | default(22) }} accept
+        # allow new ssh connections
+        tcp dport {{ karo_ssh_port | default(22) }} accept
 {% if 'server' in group_names %}
 
-                # allow new http/https/http3 connections
-                tcp dport { 80, 443 } accept
-                udp dport 443 accept
+        # allow new http/https/http3 connections
+        tcp dport { 80, 443 } accept
+        udp dport 443 accept
 {% endif %}
 
 {% if karo_compose_proxy_client_enabled | default(false) %}
 
-                # allow wireguard proxyserver traffic
-                ip saddr {{ karo_compose_proxy_server_wireguard_ipv4 | default('10.25.0.1') }} tcp dport { 80, 443 } accept
+        # allow wireguard proxyserver traffic
+        ip saddr {{ karo_compose_proxy_server_wireguard_ipv4 | default('10.25.0.1') }} tcp dport { 80, 443 } accept
 
-                # allow proxyserver pings
-                ip protocol icmp ip saddr {{ karo_compose_proxy_server_wireguard_ipv4 | default('10.25.0.1') }} accept
+        # allow proxyserver pings
+        ip protocol icmp ip saddr {{ karo_compose_proxy_server_wireguard_ipv4 | default('10.25.0.1') }} accept
 {% endif %}
 {% if karo_compose_proxy_server_enabled | default(false) %}
 
-                # allow wireguard listen port
-                udp dport {{ karo_compose_proxy_server_wireguard_port | default('52525') }} accept
+        # allow wireguard listen port
+        udp dport {{ karo_compose_proxy_server_wireguard_port | default('52525') }} accept
 
-                # allow homeserver pings
-                ip protocol icmp ip saddr {{ karo_compose_proxy_client_wireguard_ipv4 | default('10.25.0.2') }} accept
+        # allow homeserver pings
+        ip protocol icmp ip saddr {{ karo_compose_proxy_client_wireguard_ipv4 | default('10.25.0.2') }} accept
 {% endif %}
 
 {% if karo_nftables_accepted_tcp_ports %}
 
-                # allow user defined tcp connections
-                tcp dport { {{ karo_nftables_accepted_tcp_ports }} } accept
+        # allow user defined tcp connections
+        tcp dport { {{ karo_nftables_accepted_tcp_ports }} } accept
 {% endif %}
 {% if karo_nftables_accepted_udp_ports %}
 
-                # allow user defined udp connections
-                udp dport { {{ karo_nftables_accepted_udp_ports }} } accept
+        # allow user defined udp connections
+        udp dport { {{ karo_nftables_accepted_udp_ports }} } accept
 {% endif %}
 
 {% if karo_nftables_log_enabled %}
-                # debug denied traffic 
-                log prefix "nftables: input denied: " counter drop
+        # debug denied traffic
+        log prefix "nftables: input denied: " counter drop
 {% endif %}
-        }
-        chain forward {
-                type filter hook forward priority filter; policy drop;
-        }
-        chain output {
-                type filter hook output priority filter; policy accept;
-        }
+    }
+    chain forward {
+        type filter hook forward priority filter; policy drop;
+    }
+    chain output {
+        type filter hook output priority filter; policy accept;
+    }
 }

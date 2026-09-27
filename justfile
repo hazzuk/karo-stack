@@ -10,7 +10,7 @@ help:
     @{{ just_executable() }} --list --unsorted --list-prefix "  - " --justfile "{{ justfile() }}"
 
 # (Internal use) Reusable confirmation statement
-[confirm("proceed? (y/N)")]  
+[confirm("proceed? (y/N)")]
 _confirm:
     @echo
 
