@@ -114,7 +114,7 @@
     docker_host: unix:///run/user/1001/docker.sock
     registry_url: "{{ item }}"
     username: "{{ karo_docker_login_username }}"
-    password: "{{ karo_docker_login_pat }}"
+    password: "{{ karo_docker_login_token }}"
   loop:
     - docker.io
     - dhi.io
