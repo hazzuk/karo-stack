@@ -1,0 +1,54 @@
+# SPDX-FileCopyrightText: © 2026 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+# Configuration file for `prek`, a git hook framework written in Rust.
+# See https://prek.j178.dev for more information.
+#:schema https://www.schemastore.org/prek.json
+
+# Commands:
+# - `prek install`  Install prek Git hook shims
+# - `prek -a`       Run hooks on all tracked files
+
+exclude = { glob = ["LICENSE", "LICENSES/*"] }
+
+default_stages = ["pre-commit"]
+default_install_hook_types = [
+  "pre-commit",
+  "commit-msg",
+]
+
+[[repos]]
+repo = "builtin"
+hooks = [
+  { id = "trailing-whitespace" },
+  { id = "check-added-large-files" },
+  { id = "end-of-file-fixer" },
+  { id = "check-json" },
+  { id = "check-json5" },
+  { id = "check-toml" },
+  { id = "check-yaml" },
+  { id = "mixed-line-ending", args = ["--fix=lf"] },
+]
+
+[[repos]]
+repo = "https://github.com/editorconfig-checker/editorconfig-checker"
+rev = "e98e4ec6d3bb64b4b62ec4f0ce6cacdfba12f9a0"  # v4.0.1
+hooks = [
+  {
+    id = "editorconfig-checker",
+    name = "editorconfig: lint files",
+  }
+]
+
+[[repos]]
+repo = "https://github.com/crate-ci/typos"
+rev = "d43b6c087ac471e2ea7b8af622ff15f05c0c365b"  # v1.50.1
+hooks = [
+  {
+    id = "typos",
+    name = "typos: lint files",
+    args = ["--force-exclude"],
+    stages = ["pre-commit", "commit-msg"],
+  }
+]
