@@ -4,6 +4,7 @@
 
 # Configuration file for `typos`, a source code spell checker.
 # See https://github.com/crate-ci/typos for more information.
+#:schema https://raw.githubusercontent.com/crate-ci/typos/master/config.schema.json
 
 # map typos to corrections
 [default.extend-words]
