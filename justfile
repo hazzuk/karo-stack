@@ -2,20 +2,24 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-only
 
+# justfile, for running project-specific commands.
+# See https://just.systems/man/en for more information.
 
-# help
+set minimum-version := '1.55.0'
+set default-list := true
 
-# Print help
+# List recipes
 help:
-    @{{ just_executable() }} --list --unsorted --list-prefix "  - " --justfile "{{ justfile() }}"
+    @{{ just_executable() }}
 
-# (Internal use) Reusable confirmation statement
+# Reusable confirmation statement
+[private]
 [confirm("proceed? (y/N)")]
-_confirm:
+confirm:
     @echo
 
-
-# preseed
+# Debian install
+# ---
 
 # Host preseed.cfg
 [group('Debian install')]
@@ -25,36 +29,35 @@ _confirm:
     # check user key file exists
     [ -e "inventory/key.txt" ] || { echo "inventory/key.txt not found" >&2; exit 1; }
     # insert public ssh key into preseed file
-    just _insert-preseed-key "$(cat inventory/key.txt)" {{platform}}
+    just insert-preseed-key "$(cat inventory/key.txt)" {{platform}}
     # run webserver
-    -just _host-preseed {{platform}}
+    -just host-preseed {{platform}}
     -# revert change to preseed file
-    -just _insert-preseed-key "<key>" {{platform}}
+    -just insert-preseed-key "<key>" {{platform}}
 
-# (Internal use) Write the authorized SSH key to the Debian preseed file
-_insert-preseed-key value platform:
+# Write the authorized SSH key to the Debian preseed file
+[private]
+insert-preseed-key value platform:
     @sed -i "s|echo '.*'|echo '{{value}}'|" debian/{{platform}}/d-i/trixie/preseed.cfg
 
-# (Internal use) Run a Python HTTP server to host the preseed file
-_host-preseed platform:
+# Run a Python HTTP server to host the preseed file
+[private]
+host-preseed platform:
     @echo "press 'Ctrl + C' to exit"
     -python3 -m http.server 8000 --bind 0.0.0.0 --directory ./debian/{{platform}}
 
-
-# server
+# System setup
+# ---
 
 # Setup a system
 [group('System setup')]
-@install hostname='': _check-password
+@install hostname='': check-password
     ansible-playbook run.yml --tags install --limit "{{hostname}}"
-
-
-# compose
 
 # Up/down Docker stacks
 [group('System setup')]
 [arg("stack", long, short="s")]
-compose action hostname='' stack='all': _check-password
+compose action hostname='' stack='all': check-password
     #!/bin/bash
     # check user input for action
     if [ "{{action}}" = "up" ]; then
@@ -65,7 +68,7 @@ compose action hostname='' stack='all': _check-password
         echo "action must be 'up' or 'down'" >&2; exit 1;
     fi
     # manage symlinks
-    just _custom-symlink
+    just custom-symlink
     # run user action
     ANSIBLE_DISPLAY_SKIPPED_HOSTS=false ansible-playbook run.yml \
         --extra-vars "karo_compose_justfile_stack={{stack}}" \
@@ -73,8 +76,8 @@ compose action hostname='' stack='all': _check-password
         --skip-tags "$skip_tags" \
         --limit "{{hostname}}"
 
-
-# vault
+# Ansible vault
+# ---
 
 password := "/run/user/1000/karo/ansible/vault_pass"
 
@@ -97,8 +100,9 @@ vault hostname:
         echo "{{password}} not found, run 'just password'." >&2; exit 1;
     fi
 
-# (Internal use) Create the Ansible vault password file when missing
-_check-password:
+# Create the Ansible vault password file when missing
+[private]
+check-password:
     @[ -e "{{password}}" ] || micro -backup false -mkparents true "{{password}}"
 
 # Set password file
@@ -106,18 +110,19 @@ _check-password:
 password:
     @micro -backup false -mkparents true "{{password}}"
 
-
-# wireguard
+# Wireguard
+# ---
 
 # Generate key pair
-_wireguard:
+[private]
+wireguard:
     @priv="$(wg genkey)"; \
     pub="$(wg pubkey <<<"$priv")"; \
     printf 'Private key: %s\n' "$priv"; \
     printf 'Public key: %s\n' "$pub"
 
-
-# custom
+# Custom repos
+# ---
 
 # Get/remove custom repos
 [group('Custom repos')]
@@ -127,11 +132,11 @@ custom action username:
     case "{{action}}" in
         get)
             echo "Getting repo {{lowercase(username)}}/karo-custom"
-            just _custom-get {{lowercase(username)}}
+            just custom-get {{lowercase(username)}}
             ;;
         remove)
             echo "removing custom/{{lowercase(username)}}"
-            just _custom-remove {{lowercase(username)}}
+            just custom-remove {{lowercase(username)}}
             ;;
         *)
             echo "action must be 'get' or 'remove'" >&2; exit 1;
@@ -140,8 +145,9 @@ custom action username:
 
 repo_name := "karo-custom"
 
-# (Internal use) Get remote karo-custom repo
-_custom-get username:
+# Get remote karo-custom repo
+[private]
+custom-get username:
     #!/usr/bin/env bash
     set -euo pipefail
     # clone karo-custom git repo
@@ -151,25 +157,27 @@ _custom-get username:
         exit 0
     else
         # manage symlinks
-        just _custom-symlink
+        just custom-symlink
         # list stack groups for username
         echo "new karo-compose stack groups:"
         ls -1 roles/karo-compose/templates | grep {{username}} | awk '{print "- " $0}'
     fi
 
-# (Internal use) Remove a karo-custom repo
-@_custom-remove username:
+# Remove a karo-custom repo
+[private]
+@custom-remove username:
     # check username dir exists
     test -d "custom/{{username}}"
     # confirm removal
-    just _confirm
+    just confirm
     # remove custom dir
     rm -rf "custom/{{username}}"
     # manage symlinks
-    just _custom-symlink
+    just custom-symlink
 
-# (Internal use) Manage symbolic links for custom files
-_custom-symlink:
+# Manage symbolic links for custom files
+[private]
+custom-symlink:
     #!/usr/bin/env bash
     set -euo pipefail
     # clear existing symlinks
