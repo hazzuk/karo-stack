@@ -191,3 +191,9 @@ custom-symlink:
         ln -sr custom/*/karo-compose/defaults/main/*/ roles/karo-compose/defaults/main/
         ln -sr custom/*/karo-compose/templates/*/ roles/karo-compose/templates/
     fi
+    # check inventory for custom dir
+    if [ -d inventory/karo-compose ]; then
+        # symlink custom files from inventory
+        ln -sr inventory/karo-compose/defaults/main/*/ roles/karo-compose/defaults/main/
+        ln -sr inventory/karo-compose/templates/*/ roles/karo-compose/templates/
+    fi
