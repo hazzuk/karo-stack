@@ -1,0 +1,213 @@
+# SPDX-FileCopyrightText: © 2026 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+# Configuration file for `zensical`, a modern static site generator.
+# See https://zensical.org/docs for more information.
+
+[project]
+site_name = "karo-stack docs"
+site_description = "The karo-stack documentation."
+site_author = "hazzuk"
+site_url = "https://docs.karolabs.dev/"
+
+copyright = "© 2026 hazzuk"
+
+repo_name = "hazzuk/karo-stack"
+repo_url = "https://github.com/hazzuk/karo-stack"
+
+edit_uri = "https://github.com/hazzuk/karo-docs/tree/main/docs"
+
+nav = [
+  { "Home" = [
+    "index.md",
+  ] },
+  { "Setup" = [
+    "setup/requirements.md",
+    "setup/intro.md",
+    { "Preparation" = [
+      "setup/prepare/dns.md",
+      "setup/prepare/ssh.md",
+      "setup/prepare/accounts.md",
+    ] },
+    { "Installation" = [
+      "setup/debian/preseed.md",
+      "setup/debian/install.md",
+    ] },
+    { "Configuration" = [
+      "setup/configure/packages.md",
+      "setup/configure/repos.md",
+      "setup/configure/inventory.md",
+      "setup/configure/vault.md",
+    ] },
+    { "Implementation" = [
+      "setup/implement/ansible.md",
+    ] },
+  ] },
+  { "Custom" = [
+    { "karo-custom" = [
+      "custom/index.md",
+    ] },
+    { "Deploy" = [
+      "custom/deploy/stacks.md",
+    ] },
+    { "Create" = [
+      "custom/create/methods.md",
+      "custom/create/structure.md",
+      "custom/create/services.md",
+    ] },
+    { "Compose" = [
+      "custom/compose/defaults.md",
+      "custom/compose/templates.md",
+      "custom/compose/secrets.md",
+    ] },
+    { "Maintain" = [
+      "custom/maintain/image.md",
+      "custom/maintain/upgrades.md",
+    ] },
+  ] },
+  { "Advanced" = [
+    "advanced/access.md",
+    "advanced/proxy.md",
+    "advanced/storage.md",
+    "advanced/docker.md",
+    "advanced/restore.md",
+  ] },
+  { "Usage" = [
+    "usage/just.md",
+    "usage/linux.md",
+    "usage/git.md",
+    "usage/updates.md",
+  ] },
+  { "About" = [
+    { "About" = [
+      "about/index.md",
+    ] },
+    "about/contributing.md",
+    "about/documentation.md",
+  ] },
+]
+
+extra_css = ["assets/stylesheets/extra.css"]
+
+[project.theme]
+custom_dir = "docs/assets/overrides"
+favicon = "assets/images/favicon.ico"
+language = "en"
+
+features = [
+  "announce.dismiss",
+  # "content.action.edit",
+  "content.action.view",
+  "content.code.annotate",
+  "content.code.copy",
+  # "content.code.select",
+  "content.footnote.tooltips",
+  "content.tabs.link",
+  "content.tooltips",
+  # "header.autohide",
+  "navigation.expand",
+  "navigation.footer",
+  "navigation.indexes",
+  "navigation.instant",
+  "navigation.instant.prefetch",
+  # "navigation.instant.progress",
+  "navigation.path",
+  # "navigation.prune",
+  "navigation.sections",
+  "navigation.tabs",
+  # "navigation.tabs.sticky",
+  "navigation.top",
+  "navigation.tracking",
+  "search.highlight",
+  # "toc.follow",
+  # "toc.integrate",
+]
+
+[project.theme.icon]
+logo = "karo"
+repo = "fontawesome/brands/github"
+
+[[project.theme.palette]]
+scheme = "slate"
+
+# extensions
+# https://zensical.org/docs/authoring/markdown
+
+# add html/css to markdown lines
+[project.markdown_extensions.attr_list]
+
+# write markdown inbetween html
+[project.markdown_extensions.md_in_html]
+
+# add captions markdown blocks
+[project.markdown_extensions.pymdownx.blocks.caption]
+
+# improved call-outs
+[project.markdown_extensions.pymdownx.details]
+
+# syntax highlighting
+[project.markdown_extensions.pymdownx.highlight]
+anchor_linenums = true
+line_spans = "__span"
+pygments_lang_class = true
+
+# in-line syntax highlighting
+[project.markdown_extensions.pymdownx.inlinehilite]
+
+# embed external files
+[project.markdown_extensions.pymdownx.snippets]
+auto_append = ["docs/abbreviations.md"]
+
+# nest code/content blocks
+[project.markdown_extensions.pymdownx.superfences]
+custom_fences = [{ name = "mermaid", class = "mermaid", format = "pymdownx.superfences.fence_code_format" }]
+
+# content tabs
+[project.markdown_extensions.pymdownx.tabbed]
+alternate_style = true
+
+# anchor links
+[project.markdown_extensions.pymdownx.tabbed.slugify]
+object = "pymdownx.slugs.slugify"
+kwds = { case = "lower" }
+
+# formatting text
+[project.markdown_extensions.pymdownx.caret]
+
+[project.markdown_extensions.pymdownx.mark]
+
+[project.markdown_extensions.pymdownx.tilde]
+
+# render keyboard keys
+[project.markdown_extensions.pymdownx.keys]
+
+# improved bold/italic handling
+[project.markdown_extensions.pymdownx.betterem]
+
+# icons and emoji
+[project.markdown_extensions.pymdownx.emoji]
+emoji_index = "zensical.extensions.emoji.twemoji"
+emoji_generator = "zensical.extensions.emoji.to_svg"
+options.custom_icons = ["docs/assets/overrides/.icons"]
+
+# lists
+[project.markdown_extensions.pymdownx.tasklist]
+custom_checkbox = true
+clickable_checkbox = true
+
+# call-outs
+[project.markdown_extensions.admonition]
+
+# table of contents
+[project.markdown_extensions.toc]
+permalink = true
+
+# data tables
+[project.markdown_extensions.tables]
+
+# footnotes
+[project.markdown_extensions.footnotes]
+
+# tooltip abbreviations
+[project.markdown_extensions.abbr]

@@ -1,0 +1,13 @@
+/*
+ * SPDX-FileCopyrightText: © 2026 hazzuk
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+/* darken 'example' admonitions */
+.md-typeset .admonition.example {
+  background-color: #4d2ab11a;
+}
+.md-typeset .admonition.example, .md-typeset details.example {
+  background-color: #4d2ab11a;
+}
