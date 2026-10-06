@@ -1,18 +1,18 @@
 # ansible
-.ansible/
-inventory
+/.ansible/
+/inventory
 
 # karo-custom
-custom/
-roles/karo-compose/defaults/main/*
-roles/karo-compose/templates/*
-!roles/karo-compose/defaults/main/main.yml
-!roles/karo-compose/templates/.gitkeep
+/custom/
+/roles/karo-compose/defaults/main/*
+/roles/karo-compose/templates/*
+!/roles/karo-compose/defaults/main/main.yml
+!/roles/karo-compose/templates/.gitkeep
 
 # docs
-.cache/
-site/
+/.cache/
+/site/
 
 # misc
-.dev/
-notes.md
+/.dev/
+/notes.md
