@@ -47,7 +47,7 @@ Suggested (but not required) to have a basic understanding or awareness of the f
     While there is no reason an `ARM64`/`AArch64` processor won't work, it's not an architecture that is tested with.
     So your mileage may vary.
     If you encounter any issues, please don't hesitate to raise a
-    [GitHub issue](https://github.com/hazzuk/karo-stack/issues/new/choose).
+    [GitHub issue](https://github.com/karolabs/karo-stack/issues/new/choose).
 
 ??? warning "Ryzen 3000 CPU's (or older)"
 

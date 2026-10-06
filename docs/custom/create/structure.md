@@ -49,7 +49,7 @@ icon: lucide/folder-tree
 
     To help you quickly generate the required structure,
     and lint your custom repo.
-    You can use the [karo-cli](https://github.com/hazzuk/karo-cli) tool.
+    You can use the [karo-cli](https://github.com/karolabs/karo-cli) tool.
 
 ## Example layout
 
@@ -83,7 +83,7 @@ Because of this, custom stacks must follow a very specific structure.
 
         - Do **not** use any of the following words for the scope name:
 
-            - [Ansible role names](https://github.com/hazzuk/karo-stack/tree/main/roles) (e.g. `compose` or `system`)
+            - [Ansible role names](https://github.com/karolabs/karo-stack/tree/main/roles) (e.g. `compose` or `system`)
             - `stack` or `stacks`
             - `custom`
             - `karo`
@@ -110,7 +110,7 @@ Because of this, custom stacks must follow a very specific structure.
 
                 ``` toml { .no-copy }
                 templates/
-                └── hazzuk_extra/
+                └── karolabs_ops/
                     └── godns/
                         ├── compose.yml.j2
                         └── config.json.j2
@@ -121,7 +121,7 @@ Because of this, custom stacks must follow a very specific structure.
                 ``` toml { .no-copy }
                 /srv/
                 └── docker/
-                    └── hazzuk_extra/
+                    └── karolabs_ops/
                         └── godns/
                             ├── compose.yml.j2
                             └── config.json.j2

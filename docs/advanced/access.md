@@ -50,7 +50,7 @@ By default, you can only access your services from the same home network as your
 
 This can sometimes be problematic (and is just generally inefficient). So instead, it's recommended to setup an internal DNS server inside your home network. Which will then override the DNS records you've set publicly.
 
-The easiest method is doing this with your router (if it supports configuring custom DNS records). Alternatively, you can run your own DNS server (which in future will be provided as an extra [stack](https://github.com/hazzuk/karo-stack/issues/30)).
+The easiest method is doing this with your router (if it supports configuring custom DNS records). Alternatively, you might want to run your own DNS server.
 
 You'll then simply need to set the following custom DNS record:
 

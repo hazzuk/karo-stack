@@ -10,10 +10,10 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 **A minimal toolkit for building a declarative Linux homeserver**
 
-[![Latest release](https://img.shields.io/github/v/release/hazzuk/karo-stack?display_name=tag&cacheSeconds=7200&label=latest)](https://github.com/hazzuk/karo-stack/releases)
-[![License](https://img.shields.io/badge/license-AGPL--3.0-B461B3)](https://github.com/hazzuk/karo-stack/blob/main/LICENSE)
-[![REUSE status](https://api.reuse.software/badge/github.com/hazzuk/karo-stack)](https://api.reuse.software/info/github.com/hazzuk/karo-stack)
-[![Hits-of-Code](https://hitsofcode.com/github/hazzuk/karo-stack)](https://hitsofcode.com/github/hazzuk/karo-stack/view)
+[![Latest release](https://img.shields.io/github/v/release/karolabs/karo-stack?display_name=tag&cacheSeconds=7200&label=latest)](https://github.com/karolabs/karo-stack/releases)
+[![License](https://img.shields.io/badge/license-AGPL--3.0-B461B3)](https://github.com/karolabs/karo-stack/blob/main/LICENSE)
+[![REUSE status](https://api.reuse.software/badge/github.com/karolabs/karo-stack)](https://api.reuse.software/info/github.com/karolabs/karo-stack)
+[![Hits-of-Code](https://hitsofcode.com/github/karolabs/karo-stack)](https://hitsofcode.com/github/karolabs/karo-stack/view)
 
 [![Developed by Humans, Not by AI](https://hazzuk.github.io/assets/not-by-ai/dev.svg)](https://notbyai.fyi/)
 
@@ -66,11 +66,9 @@ Learn more about the project at [docs.karolabs.dev](https://docs.karolabs.dev/).
 
 - **karo-stack** - Core server configuration (Debian preseed and Ansible playbook)
 
-- [karo-custom](https://github.com/hazzuk/karo-custom) - Official custom files (Docker Compose stacks)
+- [karo-custom](https://github.com/karolabs/karo-custom) - Official custom stacks (Docker Compose stacks)
 
-- [karo-docs](https://github.com/hazzuk/karo-docs) - The project's documentation site
-
-- [karo-cli](https://github.com/hazzuk/karo-cli) - Tool for generating and linting karo-custom setups
+- [karo-cli](https://github.com/karolabs/karo-cli) - Tool for generating and linting karo-custom setups
 
 ## Copyright & License
 

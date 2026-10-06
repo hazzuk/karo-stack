@@ -23,7 +23,7 @@ GIT_USERNAME=<username>
 
 ```sh
 # clone the karo-stack
-git clone -b main git@github.com:hazzuk/karo-stack.git /srv/karo
+git clone -b main git@github.com:karolabs/karo-stack.git /srv/karo
 ```
 
 ```sh
@@ -63,11 +63,11 @@ just password
 --8<-- [start:custom_compose_filetree]
 karo-compose/
 ├── defaults/main/
-│   └── hazzuk_media/
+│   └── karolabs_media/
 │       ├── main.yml
 │       └── jellyfin.yml
 └── templates/
-    └── hazzuk_media/
+    └── karolabs_media/
         └── jellyfin/
             └── compose.yml.j2
 --8<-- [end:custom_compose_filetree]

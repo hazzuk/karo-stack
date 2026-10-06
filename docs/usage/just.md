@@ -107,12 +107,12 @@ Get or remove karo-custom repositories.
 
     ``` sh { .no-copy }
     # get karo-custom repo from github
-    just custom get hazzuk
+    just custom get karolabs
     ```
 
     ``` sh { .no-copy }
     # remove existing karo-custom repo
-    just custom remove hazzuk
+    just custom remove karolabs
     ```
 
 ## Debian install

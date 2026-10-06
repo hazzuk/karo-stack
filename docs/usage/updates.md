@@ -19,7 +19,7 @@ Unless you have a specific need to maintain a fork, it is strongly recommended t
     ``` sh
     cd /srv/karo
     git remote remove origin
-    git remote add origin git@github.com:hazzuk/karo-stack.git
+    git remote add origin git@github.com:karolabs/karo-stack.git
     ```
 
 2.  Delete your karo-stack fork on github
@@ -39,16 +39,16 @@ Because of this, you'll need to setup the official `karo-custom` repo.
 
 2.  [Upgrade the karo-stack](git.md#upgrade-your-karo-stack)
 
-3.  [Add the official karo-custom repo](https://hazzuk.github.io/karo-custom/)
+3.  [Add the official karo-custom repo](https://custom.karolabs.dev/)
 
     !!! warning
 
-        Make sure to check the [release notes](https://github.com/hazzuk/karo-custom/releases)
-        for the hazzuk/karo-custom repo.
+        Make sure to check the [release notes](https://github.com/karolabs/karo-custom/releases)
+        for the karolabs/karo-custom repo.
 
-        - hazzuk/karo-custom v1 is compatible with the original stacks (variable name changes only).
+        - karolabs/karo-custom v1 is compatible with the original stacks (variable name changes only).
 
-        - hazzuk/karo-custom v2 and onwards will have major breaking changes!
+        - karolabs/karo-custom v2 and onwards has major breaking changes!
 
 4.  Manually modify existing stack variables to match the new naming scheme
     ``` sh

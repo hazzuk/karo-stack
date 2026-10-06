@@ -39,7 +39,7 @@ The following commands assume you've only made changes to files inside your
 !!! warning
 
     Make sure to read the karo-stack's
-    [release notes](https://github.com/hazzuk/karo-stack/releases)
+    [release notes](https://github.com/karolabs/karo-stack/releases)
     first. And check for any breaking changes before upgrading.
 
     It's also recommended to stop any stack's you're currently running with
