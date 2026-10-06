@@ -68,8 +68,6 @@ Learn more about the project at [docs.karolabs.dev](https://docs.karolabs.dev/).
 
 - [karo-custom](https://github.com/hazzuk/karo-custom) - Official custom files (Docker Compose stacks)
 
-- [karo-docs](https://github.com/hazzuk/karo-docs) - The project's documentation site
-
 - [karo-cli](https://github.com/karolabs/karo-cli) - Tool for generating and linting karo-custom setups
 
 ## Copyright & License

@@ -16,7 +16,7 @@ The best ways to help the project include the following:
 
 - :lucide-bug: [Reporting bugs](https://github.com/karolabs/karo-stack/issues)
 
-- :lucide-file-plus: [Improving the docs](https://github.com/hazzuk/karo-docs/)
+- :lucide-file-plus: [Improving the docs](https://github.com/karolabs/karo-stack/tree/main/docs)
 
 - :lucide-bolt: [Creating a karo-custom repo](../custom/index.md)
 

@@ -16,7 +16,7 @@ copyright = "© 2026 hazzuk"
 repo_name = "karolabs/karo-stack"
 repo_url = "https://github.com/karolabs/karo-stack"
 
-edit_uri = "https://github.com/hazzuk/karo-docs/tree/main/docs"
+edit_uri = "https://github.com/karolabs/karo-stack/tree/main/docs"
 
 nav = [
   { "Home" = [
