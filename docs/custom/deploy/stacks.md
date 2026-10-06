@@ -64,8 +64,8 @@ icon: simple/docker
             ``` yaml
             karo_compose_stack_groups:
               - karolabs_core
-              - karolabs_ops
               - karolabs_media
+              - karolabs_ops
             ```
 
         - Add desired stack variables _(truncated example)_
