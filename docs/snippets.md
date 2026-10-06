@@ -23,7 +23,7 @@ GIT_USERNAME=<username>
 
 ```sh
 # clone the karo-stack
-git clone -b main git@github.com:hazzuk/karo-stack.git /srv/karo
+git clone -b main git@github.com:karolabs/karo-stack.git /srv/karo
 ```
 
 ```sh

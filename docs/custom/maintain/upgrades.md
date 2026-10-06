@@ -36,5 +36,3 @@ For each container...
     ```
 
 5.  Make any additional changes required to the compose file or configs, then test again.
-
-See [this Pull Request](https://github.com/hazzuk/karo-stack/pull/64/commits) for an example of the changes that might be required when updating stacks.

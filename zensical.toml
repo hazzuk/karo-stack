@@ -13,8 +13,8 @@ site_url = "https://docs.karolabs.dev/"
 
 copyright = "© 2026 hazzuk"
 
-repo_name = "hazzuk/karo-stack"
-repo_url = "https://github.com/hazzuk/karo-stack"
+repo_name = "karolabs/karo-stack"
+repo_url = "https://github.com/karolabs/karo-stack"
 
 edit_uri = "https://github.com/hazzuk/karo-docs/tree/main/docs"
 

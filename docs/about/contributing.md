@@ -12,9 +12,9 @@ Thank you for your interest in contributing to the karo-stack.
 
 The best ways to help the project include the following:
 
-- :lucide-message-square-more: [Providing feedback](https://github.com/hazzuk/karo-stack/discussions/new/choose)
+- :lucide-message-square-more: [Providing feedback](https://github.com/karolabs/karo-stack/discussions/new/choose)
 
-- :lucide-bug: [Reporting bugs](https://github.com/hazzuk/karo-stack/issues)
+- :lucide-bug: [Reporting bugs](https://github.com/karolabs/karo-stack/issues)
 
 - :lucide-file-plus: [Improving the docs](https://github.com/hazzuk/karo-docs/)
 

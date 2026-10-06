@@ -83,7 +83,7 @@ Because of this, custom stacks must follow a very specific structure.
 
         - Do **not** use any of the following words for the scope name:
 
-            - [Ansible role names](https://github.com/hazzuk/karo-stack/tree/main/roles) (e.g. `compose` or `system`)
+            - [Ansible role names](https://github.com/karolabs/karo-stack/tree/main/roles) (e.g. `compose` or `system`)
             - `stack` or `stacks`
             - `custom`
             - `karo`

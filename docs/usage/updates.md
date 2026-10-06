@@ -19,7 +19,7 @@ Unless you have a specific need to maintain a fork, it is strongly recommended t
     ``` sh
     cd /srv/karo
     git remote remove origin
-    git remote add origin git@github.com:hazzuk/karo-stack.git
+    git remote add origin git@github.com:karolabs/karo-stack.git
     ```
 
 2.  Delete your karo-stack fork on github

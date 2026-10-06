@@ -8,7 +8,7 @@ icon: lucide/sprout
 
 # Debian preseed
 
-The [preseed file](https://github.com/hazzuk/karo-stack/blob/main/debian/server/d-i/trixie/preseed.cfg)
+The [preseed file](https://github.com/karolabs/karo-stack/blob/main/debian/server/d-i/trixie/preseed.cfg)
 is a list of answers to questions,
 which a user would normally be prompted to complete by the Debian installer.
 This automates the majority of the OS's installation.
@@ -35,7 +35,7 @@ Making first time authentication over SSH straightforward.
 === "Normal setup"
 
     1. Download the
-        [latest preseed file](https://github.com/hazzuk/karo-stack/blob/main/debian/server/d-i/trixie/preseed.cfg)
+        [latest preseed file](https://github.com/karolabs/karo-stack/blob/main/debian/server/d-i/trixie/preseed.cfg)
         from the karo-stack GitHub repo
 
     1. Find and replace `<key>` with your public SSH authentication key
