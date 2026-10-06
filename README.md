@@ -70,7 +70,7 @@ Learn more about the project at [docs.karolabs.dev](https://docs.karolabs.dev/).
 
 - [karo-docs](https://github.com/hazzuk/karo-docs) - The project's documentation site
 
-- [karo-cli](https://github.com/hazzuk/karo-cli) - Tool for generating and linting karo-custom setups
+- [karo-cli](https://github.com/karolabs/karo-cli) - Tool for generating and linting karo-custom setups
 
 ## Copyright & License
 

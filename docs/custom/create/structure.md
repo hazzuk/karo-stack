@@ -49,7 +49,7 @@ icon: lucide/folder-tree
 
     To help you quickly generate the required structure,
     and lint your custom repo.
-    You can use the [karo-cli](https://github.com/hazzuk/karo-cli) tool.
+    You can use the [karo-cli](https://github.com/karolabs/karo-cli) tool.
 
 ## Example layout
 
