@@ -1,0 +1,53 @@
+# SPDX-FileCopyrightText: © 2026 hazzuk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+# Configuration file for `zensical-studio`, a Zensical formatter and linter.
+# See https://zensical.org/studio for more information.
+
+version = 1
+
+[lint.rules.abbreviation]
+duplicate-definition = "warning"
+unused-definition = "off"
+
+[lint.rules.attribute]
+duplicate-name = "warning"
+rewritten-name = "warning"
+
+[lint.rules.code]
+indented = "warning"
+
+[lint.rules.container]
+empty-body = "warning"
+
+[lint.rules.document]
+first-heading-h1 = "warning"
+
+[lint.rules.fence]
+highlight-range = "warning"
+missing-language = "warning"
+
+[lint.rules.footnote]
+empty-definition = "warning"
+
+[lint.rules.heading]
+level-skip = "warning"
+multiple-h1 = "warning"
+
+[lint.rules.html]
+disallowed = "off"
+invalid-markdown-mode = "warning"
+
+[lint.rules.image]
+missing-alt = "warning"
+
+[lint.rules.link]
+empty-destination = "warning"
+
+[lint.rules.section]
+empty = "warning"
+
+[lint.rules.tab]
+duplicate-title = "warning"
+empty-title = "error"

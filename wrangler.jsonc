@@ -1,0 +1,25 @@
+// SPDX-FileCopyrightText: © 2026 hazzuk
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+{
+  // Configuration file for `wrangler`, a Cloudflare Workers management tool.
+  // See https://developers.cloudflare.com/workers/wrangler for more info.
+  "$schema": "https://unpkg.com/wrangler/config-schema.json",
+  "name": "karo-docs",
+  "compatibility_date": "2026-08-30",
+  "send_metrics": false,
+  // build zensical site
+  "build": {
+    "command": "pip install zensical && zensical build --clean"
+  },
+  // publish generated directory
+  "assets": {
+    "directory": "./site"
+  },
+  "routes": [
+    {
+      "pattern": "docs.karolabs.dev",
+      "custom_domain": true
+    }
+  ]
+}
