@@ -11,7 +11,7 @@ icon: simple/docker
 !!! tip "Use the official karo-custom repo"
 
     The project maintains its own karo-custom repo:
-    [hazzuk/karo-custom](https://hazzuk.github.io/karo-custom/){:target='_blank'}
+    [karolabs/karo-custom](https://custom.karolabs.dev/){:target='_blank'}
 
     It provides essential core stacks
     (a reverse proxy and OIDC provider).
@@ -63,17 +63,17 @@ icon: simple/docker
 
             ``` yaml
             karo_compose_stack_groups:
-              - hazzuk_core
-              - hazzuk_extra
-              - hazzuk_media
+              - karolabs_core
+              - karolabs_ops
+              - karolabs_media
             ```
 
         - Add desired stack variables _(truncated example)_
 
             ``` yaml
-            hazzuk_media_qbittorrent_enabled: true
+            karolabs_media_qbittorrent_enabled: true
 
-            hazzuk_media_qbittorrent_stack:
+            karolabs_media_qbittorrent_stack:
               qbittorrent:
                 webui_enabled: false
               qui:

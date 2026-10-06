@@ -110,7 +110,7 @@ Because of this, custom stacks must follow a very specific structure.
 
                 ``` toml { .no-copy }
                 templates/
-                └── hazzuk_extra/
+                └── karolabs_ops/
                     └── godns/
                         ├── compose.yml.j2
                         └── config.json.j2
@@ -121,7 +121,7 @@ Because of this, custom stacks must follow a very specific structure.
                 ``` toml { .no-copy }
                 /srv/
                 └── docker/
-                    └── hazzuk_extra/
+                    └── karolabs_ops/
                         └── godns/
                             ├── compose.yml.j2
                             └── config.json.j2

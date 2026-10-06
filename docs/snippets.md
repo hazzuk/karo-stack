@@ -63,11 +63,11 @@ just password
 --8<-- [start:custom_compose_filetree]
 karo-compose/
 ├── defaults/main/
-│   └── hazzuk_media/
+│   └── karolabs_media/
 │       ├── main.yml
 │       └── jellyfin.yml
 └── templates/
-    └── hazzuk_media/
+    └── karolabs_media/
         └── jellyfin/
             └── compose.yml.j2
 --8<-- [end:custom_compose_filetree]

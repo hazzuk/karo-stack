@@ -187,9 +187,9 @@ karo_compose_timezone: "Europe/London" # utctime.info/timezone
 ## docker will start stack groups in this order
 ## docker will stop stack groups in reverse order
 karo_compose_stack_groups:
-  - hazzuk_core
-  - hazzuk_extra
-  - hazzuk_media
+  - karolabs_core
+  - karolabs_media
+  - karolabs_ops
 
 # [custom]
 ```
@@ -236,7 +236,7 @@ git push
 
 ## Stack setup
 
-After having successfully setup your VPS, you're now ready to run the proxy stack. You can read all the necessary details about the stack's configuration on its [dedicated page](https://hazzuk.github.io/karo-custom/compose/hazzuk_extra/proxy/).
+After having successfully setup your VPS, you're now ready to run the proxy stack. You can read all the necessary details about the stack's configuration on its [dedicated page](https://custom.karolabs.dev/karolabs_ops/proxy/).
 
 !!! tip "Running the stack"
 
