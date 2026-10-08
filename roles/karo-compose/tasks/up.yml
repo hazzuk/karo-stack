@@ -84,4 +84,5 @@
   community.docker.docker_compose_v2:
     docker_host: unix:///run/user/1001/docker.sock
     project_src: "/srv/docker/{{ stack.path }}"
+    recreate: "{{ 'always' if karo_compose_recreate_enabled else omit }}"
     state: present # docker compose up

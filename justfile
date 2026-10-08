@@ -54,25 +54,29 @@ host-preseed platform:
 @install hostname='': check-password
     ansible-playbook run.yml --tags install --limit "{{hostname}}"
 
-# Up/down Docker stacks
+# Up/down/recreate Docker stacks
 [group('System setup')]
 [arg("stack", long, short="s")]
 compose action hostname='' stack='all': check-password
     #!/usr/bin/env bash
     set -euo pipefail
+    recreate=false
     # check user input for action
     if [ "{{action}}" = "up" ]; then
         skip_tags="down"
     elif [ "{{action}}" = "down" ]; then
         skip_tags="up"
+    elif [ "{{action}}" = "recreate" ]; then
+        skip_tags="down"
+        recreate=true
     else
-        echo "action must be 'up' or 'down'" >&2; exit 1;
+        echo "action must be 'up', 'down' or 'recreate'" >&2; exit 1;
     fi
     # manage symlinks
     just custom-symlink
     # run user action
     ANSIBLE_DISPLAY_SKIPPED_HOSTS=false ansible-playbook run.yml \
-        --extra-vars "karo_compose_justfile_stack={{stack}}" \
+        --extra-vars "{\"karo_compose_justfile_stack\":\"{{stack}}\", \"karo_compose_recreate_enabled\":${recreate}}" \
         --tags compose \
         --skip-tags "$skip_tags" \
         --limit "{{hostname}}"
