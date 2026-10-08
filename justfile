@@ -58,7 +58,8 @@ host-preseed platform:
 [group('System setup')]
 [arg("stack", long, short="s")]
 compose action hostname='' stack='all': check-password
-    #!/bin/bash
+    #!/usr/bin/env bash
+    set -euo pipefail
     # check user input for action
     if [ "{{action}}" = "up" ]; then
         skip_tags="down"
@@ -84,7 +85,8 @@ password := "/run/user/1000/karo/ansible/vault_pass"
 # Manage a vault
 [group('Ansible vault')]
 vault hostname:
-    #!/bin/bash
+    #!/usr/bin/env bash
+    set -euo pipefail
     # check password file exists
     if [ -e "{{password}}" ]; then
         # check vault file exists
