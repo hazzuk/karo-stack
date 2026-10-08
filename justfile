@@ -62,16 +62,22 @@ compose action hostname='' stack='all': check-password
     set -euo pipefail
     recreate=false
     # check user input for action
-    if [ "{{action}}" = "up" ]; then
-        skip_tags="down"
-    elif [ "{{action}}" = "down" ]; then
-        skip_tags="up"
-    elif [ "{{action}}" = "recreate" ]; then
-        skip_tags="down"
-        recreate=true
-    else
-        echo "action must be 'up', 'down' or 'recreate'" >&2; exit 1;
-    fi
+    case "{{action}}" in
+        up)
+            skip_tags="down"
+            ;;
+        down)
+            skip_tags="up"
+            ;;
+        recreate)
+            skip_tags="down"
+            recreate=true
+            ;;
+        *)
+            printf "action must be 'up', 'down' or 'recreate'\n" >&2
+            exit 2
+            ;;
+    esac
     # manage symlinks
     just custom-symlink
     # run user action
