@@ -73,6 +73,11 @@ Run Ansible to deploy or remove custom Docker Compose stacks.
 
         Using `just compose down` is the same as `docker compose down`, meaning stack data will persist.
 
+    ``` sh { .no-copy }
+    # force recreate 'pocketid' stack
+    just compose recreate homeserver -s pocketid
+    ```
+
 ## Ansible vault
 
 ### :lucide-file-lock: `vault`
