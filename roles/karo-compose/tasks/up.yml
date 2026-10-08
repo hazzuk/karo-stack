@@ -80,7 +80,8 @@
 
 # services
 
-- name: Up compose stack {{ stack.name }}
+# Up/Recreate compose stack {{ stack.name }}
+- name: "{{ 'Recreate' if karo_compose_recreate_enabled else 'Up' }} compose stack {{ stack.name }}" # noqa name[template]
   community.docker.docker_compose_v2:
     docker_host: unix:///run/user/1001/docker.sock
     project_src: "/srv/docker/{{ stack.path }}"
